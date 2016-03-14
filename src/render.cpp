@@ -1,6 +1,16 @@
 #include "../inc/render.h"
 #include <SDL/SDL.h>
 
+//-----------------------------------------------
+//----------------- CONSTRUCTORS ----------------
+//-----------------------------------------------
+Render* Render::render_ptr = 0;
+
+Render::Render() { }
+
+//----------------------------------------------
+//----------------- OTHER STUFF ----------------
+//----------------------------------------------
 bool Render::handle_input()
 {
 	SDL_Event event;
@@ -33,15 +43,15 @@ void Render::run()
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_WM_SetCaption("My Renderer", "My Renderer");
 
-	SDL_Surface* window = SDL_SetVideoMode(800, 600, SDL_HWSURFACE | SDL_DOUBLEBUF );
+	SDL_Surface* window = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
 	while(true)
 	{
 		//Clean screen
-		SDL_FillRect(window, 0, SDL_MapRGB(window->surface->format, 0, 0, 0) );
+		SDL_FillRect(window, 0, SDL_MapRGB(window->format, 0, 0, 0) );
 
 		//get events, skip if user quitted
-		if( !this->handle_input() ) break;
+		if( this->handle_input() ) break;
 
 		//show screen
 		SDL_Flip(window);

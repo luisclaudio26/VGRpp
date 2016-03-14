@@ -28,6 +28,4 @@ public:
 	}
 };
 
-Render* Render::render_ptr = 0;
-
 #endif
