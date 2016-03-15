@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -O0
+CFLAGS = -g -O0 -std=c++11
 CLIBS = -lSDL -lm
 EXEC = render
 
