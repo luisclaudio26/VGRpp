@@ -3,6 +3,12 @@
 
 #include <math.h>
 
+class Vec2
+{
+private:
+public:
+};
+
 typedef struct {
 	float x, y;
 } vec_2d;
@@ -56,7 +62,7 @@ vec_2d v2_unit(vec_2d v) {
 
 double v2_angle(vec_2d a, vec_2d b) {
 	//(!!!) Watch out for divisions!
-	return acos( v2_scale( v2_dot(a,b), v2_norm(a) * v2_norm(b) );
+	return acos( v2_dot(a,b) / v2_norm(a) * v2_norm(b) );
 }
 
 #endif

@@ -1,6 +1,10 @@
 #include "../inc/render.h"
 #include <SDL/SDL.h>
 
+//-------------------------------------------
+//----------------- INTERNAL ----------------
+//-------------------------------------------
+
 //-----------------------------------------------
 //----------------- CONSTRUCTORS ----------------
 //-----------------------------------------------
@@ -8,9 +12,9 @@ Render* Render::render_ptr = 0;
 
 Render::Render() { }
 
-//----------------------------------------------
-//----------------- OTHER STUFF ----------------
-//----------------------------------------------
+//------------------------------------------------
+//----------------- FROM RENDER.H ----------------
+//------------------------------------------------
 bool Render::handle_input()
 {
 	SDL_Event event;
@@ -19,12 +23,12 @@ bool Render::handle_input()
 	if (SDL_PollEvent(&event))
 		switch (event.type)
 		{
-			/* close button clicked */ 
+			//close button clicked
 			case SDL_QUIT: 
 				quit = true; 
 				break; 
 
-			/* handle the keyboard */ 
+			//handle the keyboard 
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) 
 				{

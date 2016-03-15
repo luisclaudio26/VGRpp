@@ -1,6 +1,10 @@
 #ifndef _RENDER_H_
 #define _RENDER_H_
 
+#include <vector>
+#include "RawElement/RawElement.h"
+#include "vector/rect.h"
+
 class Render
 {
 private:
@@ -17,6 +21,9 @@ public:
 	//1) Push object to the drawing pool
 	//2) Draw all objects in the pool
 	
+	//take raw objects, preprocess and store in pool
+	int preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewport);
+
 	//creates window, draw everything inside pool until we quit
 	void run();
 
