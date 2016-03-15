@@ -3,6 +3,7 @@
 #include <string>
 #include "inc/render.h"
 #include "inc/parser/parser.h"
+#include "inc/vector/rect.h"
 
 int main(int argc, char** args)
 {

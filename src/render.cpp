@@ -42,6 +42,11 @@ bool Render::handle_input()
 	return quit;	
 }
 
+int Render::preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewport)
+{
+	return 0;
+}
+
 void Render::run()
 {
 	SDL_Init(SDL_INIT_VIDEO);

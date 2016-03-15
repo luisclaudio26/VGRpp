@@ -11,7 +11,7 @@ public:
 
 	Rect();
 	Rect(Vec2& left_bottom, Vec2& up_right);
-	Rect(double x0, double y0, double x1, double y1);	
+	Rect(double x0, double y0, double x1, double y1);
 };
 
 #endif
