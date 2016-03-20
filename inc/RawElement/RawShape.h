@@ -3,8 +3,7 @@
 
 class RawShape
 {
-private:
-public:	
+public:
 };
 
 #endif
