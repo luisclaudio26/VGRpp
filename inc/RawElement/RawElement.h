@@ -10,7 +10,7 @@ class RawElement
 private:
 public:
 	void setShape(RawShape* s, Matrix3& t);
-	void setPaint(RawPaint& p, Matrix3& t);
+	void setPaint(RawPaint* p, Matrix3& t);
 };
 
 #endif

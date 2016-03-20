@@ -52,7 +52,7 @@ static void parse_element(std::fstream& f, std::vector<RawElement>& rawVector)
 	std::string paint_type, paint_data;
 	f>>paint_type; std::getline(f, paint_data);
 
-	RawPaint paint = ParseElement::instance()->parsePaintByType(paint_type, paint_data);
+	RawPaint* paint = ParseElement::instance()->parsePaintByType(paint_type, paint_data);
 
 	//Parse paint transformation
 	f>>aux; 						//TODO: Check for errors here

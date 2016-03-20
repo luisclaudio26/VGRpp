@@ -7,6 +7,7 @@
 
 class ParseElement;
 typedef RawShape* (ParseElement::*shapeFunc)(std::string);
+typedef RawPaint* (ParseElement::*paintFunc)(std::string);
 
 //----------------------------------
 //----------- SHAPE TAGS -----------
@@ -14,7 +15,11 @@ typedef RawShape* (ParseElement::*shapeFunc)(std::string);
 //These are the tags as they appear in .2d files
 const std::string TRIANGLE("TRIANGLE");
 
-
+//----------------------------------
+//----------- PAINT TAGS -----------
+//----------------------------------
+//These are the tags as they appear in .2d files
+const std::string SOLID("SOLID");
 
 class ParseElement
 {
@@ -24,6 +29,7 @@ private:
 	ParseElement();
 
 	std::map<std::string, shapeFunc> type2shape;
+	std::map<std::string, paintFunc> type2paint;
 
 	//-------------------------------------
 	//----------- PARSE SHAPES ------------
@@ -33,7 +39,13 @@ private:
 	//dynamic type is of the desired shape
 	RawShape* parseTriangle(std::string);
 
-
+	//-------------------------------------
+	//----------- PARSE PAINTS ------------
+	//-------------------------------------
+	//All these functions, of type paintFunc, 
+	//return a pointer to the parent class whose 
+	//dynamic type is of the desired paint
+	RawPaint* parseSolid(std::string);
 
 public:
 
@@ -44,7 +56,7 @@ public:
 	}
 
 	RawShape* parseShapeByType(std::string type, std::string data);
-	RawPaint parsePaintByType(std::string type, std::string data);
+	RawPaint* parsePaintByType(std::string type, std::string data);
 };
 
 #endif
