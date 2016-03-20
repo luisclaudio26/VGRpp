@@ -3,9 +3,12 @@ CFLAGS = -g -O0 -std=c++11
 CLIBS = -lSDL -lm
 EXEC = render
 
-all: render.o parser.o rect.o vector2.o RawElement.o
-	$(CC) $(CFLAGS) $(CLIBS) render.o parser.o rect.o vector2.o RawElement.o -o $(EXEC) main.cpp
+all: render.o parser.o rect.o vector2.o RawElement.o matrix3.o
+	$(CC) $(CFLAGS) $(CLIBS) render.o parser.o rect.o vector2.o RawElement.o matrix3.o -o $(EXEC) main.cpp
 	make clean
+
+matrix3.o: src/vector/matrix3.cpp
+	$(CC) $(CFLAGS) $(CLIBS) -c src/vector/matrix3.cpp
 
 RawElement.o: src/RawElement/RawElement.cpp
 	$(CC) $(CFLAGS) $(CLIBS) -c src/RawElement/RawElement.cpp

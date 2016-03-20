@@ -13,7 +13,9 @@ Parser* Parser::parser_ptr = 0;
 //------------------------------------------------
 static void parse_matrix3(std::fstream& f, Matrix3& m)
 {
-
+	double e[9];
+	for(int i = 0; i < 9; i++) f>>e[i];
+	m.set(e);
 }
 
 static void parse_rect(std::fstream& f, Rect& w)
