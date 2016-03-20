@@ -103,7 +103,6 @@ int Parser::loadScene(std::string filepath, std::vector<RawElement>& raw, Rect& 
 	for(int i = 0; i < nElem; i++)
 		parse_element(file, raw);
 
-
 	file.close();
 
 	return 0;
