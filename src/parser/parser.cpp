@@ -1,8 +1,9 @@
 #include "../../inc/parser/parser.h"
+#include "../../inc/parser/parseElements.h"
+#include "../../inc/vector/matrix3.h"
 
 #include <fstream>
 #include <iostream>
-using namespace std;
 
 //Initialize Parser object as NULL
 Parser* Parser::parser_ptr = 0;
@@ -10,7 +11,12 @@ Parser* Parser::parser_ptr = 0;
 //------------------------------------------------
 //------------------- INTERNAL -------------------
 //------------------------------------------------
-static void load_rect(fstream& f, Rect& w)
+static void parse_matrix3(std::fstream& f, Matrix3& m)
+{
+
+}
+
+static void parse_rect(std::fstream& f, Rect& w)
 {
 	double x, y;
 	Vec2 v;
@@ -22,6 +28,42 @@ static void load_rect(fstream& f, Rect& w)
 	w.setRightTop( v );
 }
 
+static void parse_element(std::fstream& f, std::vector<RawElement>& rawVector)
+{
+	std::string aux;
+	RawElement raw;
+
+	//Parse shape
+	std::string shape_type, shape_data;
+	f>>shape_type; std::getline(f, shape_data);
+
+	RawShape shape = ParseElement::parseShapeByType(shape_type, shape_data);
+
+	//Parse shape transformation
+	std::string shape_transf;
+	f>>aux; 						//TODO: Check for errors here
+
+	Matrix3 trans_shape;
+	parse_matrix3(f, trans_shape);
+
+	//Parse paint
+	std::string paint_type, paint_data;
+	f>>paint_type; std::getline(f, paint_data);
+
+	RawPaint paint = ParseElement::parsePaintByType(paint_type, paint_data);
+
+	//Parse paint transformation
+	f>>aux; 						//TODO: Check for errors here
+
+	Matrix3 trans_paint;
+	parse_matrix3(f, trans_paint);
+
+	//push final object
+	raw.setShape(shape, trans_shape);
+	raw.setPaint(paint, trans_paint);
+
+	rawVector.push_back( raw );
+}
 
 //-----------------------------------------------------
 //------------------- FROM PARSER.H -------------------
@@ -33,21 +75,32 @@ Parser::Parser()
 
 int Parser::loadScene(std::string filepath, std::vector<RawElement>& raw, Rect& window, Rect& viewport)
 {
-	string buffer;
-	fstream file;
-	file.open(filepath.c_str(), ios_base::in);
+	std::string buffer;
+	std::fstream file;
+	int nElem;
+
+	file.open(filepath.c_str(), std::ios_base::in);
 
 	if( !file.is_open() ) return -1;
 
 	//window data
 	file>>buffer;
 	if( buffer.compare("WINDOW") ) return -1;
-	load_rect(file, window);
+	parse_rect(file, window);
 
 	//viewport data
 	file>>buffer;
 	if( buffer.compare("VIEWPORT") ) return -1;
-	load_rect(file, viewport);
+	parse_rect(file, viewport);
+
+	//starting reading elements
+	file>>buffer;
+	if( buffer.compare("ELEMENTCOUNT") ) return -1;
+	file>>nElem;
+
+	for(int i = 0; i < nElem; i++)
+		parse_element(file, raw);
+
 
 	file.close();
 
