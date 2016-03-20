@@ -18,6 +18,7 @@ public:
 	void operator=(Vec2 lhs);
 	void setX(double x) { this->_x = x; }
 	void setY(double y) { this->_y = y; }
+	void set(double x, double y) { this->_x = x; this->_y = y; }
 
 	//-------- Operations --------
 	Vec2 add(Vec2 lhs);

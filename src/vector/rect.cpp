@@ -1,15 +1,25 @@
 #include "../../inc/vector/rect.h"
 
-Rect::Rect(Vec2& left_bottom, Vec2& up_right)
+void Rect::setLeftBottom(Vec2& v)
+{
+	left_bottom = v;
+}
+
+void Rect::setRightTop(Vec2& v)
+{
+	top_right = v;
+}
+
+Rect::Rect(Vec2& left_bottom, Vec2& top_right)
 {
 	this->left_bottom = left_bottom;
-	this->up_right = up_right;
+	this->top_right = top_right;
 }
 
 Rect::Rect(double x0, double y0, double x1, double y1)
 {
 	left_bottom.setX(x0); left_bottom.setY(y0);
-	up_right.setX(x1); up_right.setY(y1);
+	top_right.setX(x1); top_right.setY(y1);
 }
 
 Rect::Rect()
