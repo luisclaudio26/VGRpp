@@ -39,7 +39,7 @@ static void parse_element(std::fstream& f, std::vector<RawElement>& rawVector)
 	std::string shape_type, shape_data;
 	f>>shape_type; std::getline(f, shape_data);
 
-	RawShape shape = ParseElement::parseShapeByType(shape_type, shape_data);
+	RawShape* shape = ParseElement::instance()->parseShapeByType(shape_type, shape_data);
 
 	//Parse shape transformation
 	std::string shape_transf;
@@ -52,7 +52,7 @@ static void parse_element(std::fstream& f, std::vector<RawElement>& rawVector)
 	std::string paint_type, paint_data;
 	f>>paint_type; std::getline(f, paint_data);
 
-	RawPaint paint = ParseElement::parsePaintByType(paint_type, paint_data);
+	RawPaint paint = ParseElement::instance()->parsePaintByType(paint_type, paint_data);
 
 	//Parse paint transformation
 	f>>aux; 						//TODO: Check for errors here

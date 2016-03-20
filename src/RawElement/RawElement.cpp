@@ -1,6 +1,6 @@
 #include "../../inc/RawElement/RawElement.h"
 
-void RawElement::setShape(RawShape& s, Matrix3& t)
+void RawElement::setShape(RawShape* s, Matrix3& t)
 {
 	
 }
