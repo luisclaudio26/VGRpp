@@ -57,3 +57,18 @@ double Vec2::angle(Vec2 lhs) {
 	//(!!!) Watch out for divisions!
 	return acos( dot(lhs) / norm() * lhs.norm() );
 }
+
+Vec2 Vec2::prod(Vec2 rhs)
+{
+	return Vec2( _x * rhs.x(), _y * rhs.y() );
+}
+
+Vec2 Vec2::operator-()
+{
+	return this->scale(-1.0);
+}
+
+Vec2 Vec2::operator-(Vec2 rhs)
+{
+	return this->sub(rhs);
+}

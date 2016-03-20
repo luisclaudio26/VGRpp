@@ -29,9 +29,12 @@ public:
 	double distTo(Vec2 lhs);
 	Vec2 unit();
 	double angle(Vec2 lhs);
+	Vec2 prod(Vec2 rhs); //Element-wise product
+	Vec2 operator-();
+	Vec2 operator-(Vec2 rhs);
 
 	//-------- other stuff -------
-	static Vec2 zero();
+	static Vec2 zero() { return Vec2(0.0, 0.0); }
 };
 
 #endif

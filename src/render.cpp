@@ -1,9 +1,23 @@
 #include "../inc/render.h"
+#include "../inc/vector/matrix3.h"
 #include <SDL/SDL.h>
 
 //-------------------------------------------
 //----------------- INTERNAL ----------------
 //-------------------------------------------
+Matrix3 viewport_transformation(Rect& window, Rect& viewport)
+{
+	double x0w = window.getLeftBottom().x(), y0w = window.getLeftBottom().y();
+	double x1w = window.getRightTop().x(), y1w = window.getRightTop().y();
+	double x0v = viewport.getLeftBottom().x(), y0v = viewport.getLeftBottom().x();
+	double x1v = viewport.getRightTop().x(), y1v = viewport.getRightTop().x();
+
+	Matrix3 t1 = Matrix3::translate( -window.getLeftBottom() );
+	Matrix3	scl = Matrix3::scale( (x1v - x0v)/(x1w - x0w) , (y1v - y0v) / (y1w - y0w) );
+	Matrix3 t3 = Matrix3::translate( viewport.getLeftBottom() );
+
+	return t3 * scl * t1;
+}
 
 //-----------------------------------------------
 //----------------- CONSTRUCTORS ----------------
@@ -44,6 +58,10 @@ bool Render::handle_input()
 
 int Render::preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewport)
 {
+
+
+
+
 	return 0;
 }
 
