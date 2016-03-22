@@ -25,3 +25,8 @@ void RawElement::setPaint(RawPaint* p, Matrix3& t)
 	this->paint = p;
 	this->paintxf = t;
 }
+
+Element* RawElement::preprocess()
+{
+	return NULL;
+}

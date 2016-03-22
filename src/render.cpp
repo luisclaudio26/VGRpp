@@ -7,10 +7,10 @@
 //-------------------------------------------
 Matrix3 viewport_transformation(Rect& window, Rect& viewport)
 {
-	double x0w = window.getLeftBottom().x(), y0w = window.getLeftBottom().y();
-	double x1w = window.getRightTop().x(), y1w = window.getRightTop().y();
-	double x0v = viewport.getLeftBottom().x(), y0v = viewport.getLeftBottom().x();
-	double x1v = viewport.getRightTop().x(), y1v = viewport.getRightTop().x();
+	double x0w = window.getLeftBottom().x(), 	y0w = window.getLeftBottom().y();
+	double x1w = window.getRightTop().x(), 		y1w = window.getRightTop().y();
+	double x0v = viewport.getLeftBottom().x(), 	y0v = viewport.getLeftBottom().x();
+	double x1v = viewport.getRightTop().x(), 	y1v = viewport.getRightTop().x();
 
 	Matrix3 t1 = Matrix3::translate( -window.getLeftBottom() );
 	Matrix3	scl = Matrix3::scale( (x1v - x0v)/(x1w - x0w) , (y1v - y0v) / (y1w - y0w) );
@@ -58,11 +58,14 @@ bool Render::handle_input()
 
 int Render::preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewport)
 {
+	//Compute window-viewport transformation
+	this->t_viewport = viewport_transformation(window, viewport);
 
+	//preprocess all raw elements and store in render pool
+	for(int i = 0; i < raw.size(); i++)
+		render_pool.push_back( raw[i].preprocess() );
 
-
-
-	return 0;
+	return 1;
 }
 
 void Render::run()

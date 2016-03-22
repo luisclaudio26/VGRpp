@@ -4,11 +4,17 @@
 #include <vector>
 #include "RawElement/RawElement.h"
 #include "vector/rect.h"
+#include "vector/matrix3.h"
+#include "element/element.h"
 
 class Render
 {
 private:
-	//1) container of drawable objects
+	//render pool: contains all objects which must be rendered, in order
+	std::vector<Element*> render_pool;
+
+	//viewport transformation for this window
+	Matrix3 t_viewport;
 
 	//handle window and keyboard input. Return TRUE if we must quit.
 	bool handle_input();

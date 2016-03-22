@@ -33,7 +33,7 @@ double* Matrix3::data()
 	return this->e_;
 }
 
-void Matrix3::operator=(Matrix3& lhs)
+void Matrix3::operator=(Matrix3 lhs)
 {
 	memcpy(this->e_, lhs.data(), SIZE_MAT_3);
 }

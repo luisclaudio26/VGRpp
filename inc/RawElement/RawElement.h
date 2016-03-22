@@ -4,6 +4,7 @@
 #include "RawShape.h"
 #include "RawPaint.h"
 #include "../vector/matrix3.h"
+#include "../element/element.h"
 
 class RawElement
 {
@@ -19,6 +20,8 @@ public:
 
 	void setShape(RawShape* s, Matrix3& t);
 	void setPaint(RawPaint* p, Matrix3& t);
+
+	Element* preprocess();
 };
 
 #endif
