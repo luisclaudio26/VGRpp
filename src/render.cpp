@@ -63,7 +63,7 @@ int Render::preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewpor
 
 	//preprocess all raw elements and store in render pool
 	for(int i = 0; i < raw.size(); i++)
-		render_pool.push_back( raw[i].preprocess() );
+		raw[i].preprocess( this->render_pool );
 
 	return 1;
 }

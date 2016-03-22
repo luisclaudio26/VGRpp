@@ -8,3 +8,8 @@ RawTriangle::RawTriangle(Vec2& p0, Vec2& p1, Vec2& p2)
 	this->p1_ = p1;
 	this->p2_ = p2;
 }
+
+Shape* RawTriangle::preprocess()
+{
+	return 0;
+}

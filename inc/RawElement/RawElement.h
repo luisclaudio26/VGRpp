@@ -5,6 +5,7 @@
 #include "RawPaint.h"
 #include "../vector/matrix3.h"
 #include "../element/element.h"
+#include <vector>
 
 class RawElement
 {
@@ -21,7 +22,7 @@ public:
 	void setShape(RawShape* s, Matrix3& t);
 	void setPaint(RawPaint* p, Matrix3& t);
 
-	Element* preprocess();
+	void preprocess(std::vector<Element>& pool);
 };
 
 #endif

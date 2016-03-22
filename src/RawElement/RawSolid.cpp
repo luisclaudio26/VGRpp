@@ -12,3 +12,8 @@ RawSolid::RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A)
 	this->B_ = B;
 	this->A_ = A;
 }
+
+Paint* RawSolid::preprocess()
+{
+	return 0;
+}

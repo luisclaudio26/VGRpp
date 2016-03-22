@@ -12,6 +12,9 @@ private:
 public:
 	RawTriangle();
 	RawTriangle(Vec2& p0, Vec2& p1, Vec2& p2);
+
+	//----- From RawShape ------
+	Shape* preprocess();
 };
 
 #endif

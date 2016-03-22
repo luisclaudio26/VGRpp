@@ -11,7 +11,7 @@ class Render
 {
 private:
 	//render pool: contains all objects which must be rendered, in order
-	std::vector<Element*> render_pool;
+	std::vector<Element> render_pool;
 
 	//viewport transformation for this window
 	Matrix3 t_viewport;

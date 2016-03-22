@@ -11,7 +11,10 @@ private:
 
 public:
 	RawSolid();
-	RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A);	
+	RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A);
+
+	//------ From RawPaint -------
+	Paint* preprocess();
 };
 
 #endif
