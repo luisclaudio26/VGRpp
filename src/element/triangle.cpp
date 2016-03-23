@@ -27,6 +27,8 @@ Triangle::Triangle(Vec2& p0, Vec2& p1, Vec2& p2)
 	this->p1 = p1;
 	this->p2 = p2;
 
+	//TODO: Apply shapexf to the vertice here!
+
 	//Compute implicit equation for each edge
 	edge0 = new double[3]; compute_implicit_line(p0, p1, edge0);
 	edge1 = new double[3]; compute_implicit_line(p1, p2, edge1);
@@ -42,5 +44,12 @@ Triangle::~Triangle()
 
 bool Triangle::is_inside(double x, double y)
 {
+	//TODO: shall we transform the vertices or transform the pixel???
+	//Must create a convention!!!
+
+	//Probably, the best convention is: transformations inside .2d file
+	//take from the paint/shape space to the scene space. Then, in the case
+	//of a simple triangle we apply the transformation to the vertice
+
 	return false;
 }
