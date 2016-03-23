@@ -2,6 +2,7 @@
 #define _MATRIX3_H_
 
 #include "vector2.h"
+#include "vector3.h"
 
 class Matrix3
 {
@@ -17,8 +18,15 @@ public:
 	double at(unsigned int i, unsigned int j);
 	double* data();
 
+	//---------------------------------
+	//---------- Operations -----------
+	//---------------------------------
 	Matrix3 operator*(Matrix3& rhs);
+	Vec3 apply(Vec3 v);
 
+	//---------------------------------------------
+	//----------- Matrix constructors -------------
+	//---------------------------------------------
 	static Matrix3 scale(double sx, double sy)
 	{
 		double s[] = {sx, 0, 0,

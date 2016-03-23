@@ -1,5 +1,6 @@
 #include <math.h>
 #include "../../inc/vector/vector2.h"
+#include "../../inc/vector/vector3.h"
 
 //---------------------------------
 //------------- CTORS -------------
@@ -71,4 +72,9 @@ Vec2 Vec2::operator-()
 Vec2 Vec2::operator-(Vec2 rhs)
 {
 	return this->sub(rhs);
+}
+
+Vec3 Vec2::homogeneous()
+{
+	return Vec3(_x, _y, 1.0);
 }

@@ -1,6 +1,8 @@
 #ifndef _VEC_2D_
 #define _VEC_2D_
 
+class Vec3;
+
 class Vec2
 {
 private:
@@ -32,6 +34,7 @@ public:
 	Vec2 prod(Vec2 rhs); //Element-wise product
 	Vec2 operator-();
 	Vec2 operator-(Vec2 rhs);
+	Vec3 homogeneous();
 
 	//-------- other stuff -------
 	static Vec2 zero() { return Vec2(0.0, 0.0); }

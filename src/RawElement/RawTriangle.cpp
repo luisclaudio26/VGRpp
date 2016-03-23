@@ -14,5 +14,5 @@ Shape* RawTriangle::preprocess(Matrix3& xf)
 {
 	Triangle* t = new Triangle(p0_, p1_, p2_);
 	t->setxf(xf);
-	return new Triangle(p0_, p1_, p2_);
+	return t;
 }

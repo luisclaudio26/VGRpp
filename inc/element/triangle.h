@@ -5,14 +5,18 @@
 #include "../vector/matrix3.h"
 #include "../RawElement/RawTriangle.h"
 
+//TODO: NO BOUNDING BOX TEST YET!!!
+
 class Triangle : public Shape
 {
 private:
 	Vec2 p0, p1, p2;
 	Matrix3 xf;
 
-	//Implicit equation coef for each edge
-	double *edge0, *edge1, *edge2;
+	//Implicit equation coef for each edge. A 3x3 matrix
+	//stored in a 9-element vector
+	double *edge;
+	void implicitize();
 
 public:
 	Triangle();
@@ -22,7 +26,7 @@ public:
 	//--------------------------
 	//--------- Access ---------
 	//--------------------------
-	void setxf(Matrix3& xf) { this->xf = xf; }
+	void setxf(Matrix3& xf);
 
 	//--------------------------------
 	//------- From RawTriangle -------
