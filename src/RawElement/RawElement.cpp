@@ -1,7 +1,5 @@
 #include "../../inc/RawElement/RawElement.h"
 
-#define NULL 0
-
 RawElement::RawElement()
 {
 	shape = NULL;
@@ -26,8 +24,8 @@ void RawElement::setPaint(RawPaint* p, Matrix3& t)
 	this->paintxf = t;
 }
 
-void RawElement::preprocess(std::vector<Element>& pool)
+void RawElement::preprocess(std::vector<Element*>& pool)
 {
-	Element e( shape->preprocess(shapexf), paint->preprocess(paintxf) );
+	Element* e = new Element( shape->preprocess(shapexf), paint->preprocess(paintxf) );
 	pool.push_back(e);
 }

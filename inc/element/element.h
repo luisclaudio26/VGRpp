@@ -6,7 +6,9 @@
 #include "paint.h"
 #include "../vector/matrix3.h"
 
-#define FULL_TRANSPARENT 0xFFFFFFFF
+#include <iostream>
+
+#define FULL_TRANSPARENT 0x000000
 
 class Element
 {
@@ -29,8 +31,8 @@ public:
 	}
 
 	~Element() {
-		delete _shape;
-		delete _paint;
+		delete _shape; _shape = NULL;
+		delete _paint; _paint = NULL;
 	}
 
 	//------------------------------------
@@ -43,11 +45,12 @@ public:
 	//---------- SAMPLE ----------
 	//----------------------------
 	//TODO: Maybe we could just return a full transparent color
-	//so to avoid this return value
-	Color sample(double x, double y)
+	//so to avoid this return value. This needs alpha blending to
+	//be fully functional!!!
+	void sample(double x, double y, Color& out)
 	{
-		if( _shape->is_inside(x,y) ) return _paint->sample(x, y);
-		else return FULL_TRANSPARENT;
+		if( _shape->is_inside(x,y) )
+			out = _paint->sample(x, y);
 	}
 };
 

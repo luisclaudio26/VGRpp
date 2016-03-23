@@ -2,6 +2,8 @@
 #include "../inc/vector/matrix3.h"
 #include <SDL/SDL.h>
 
+#include <iostream>
+
 //-------------------------------------------
 //----------------- INTERNAL ----------------
 //-------------------------------------------
@@ -19,12 +21,38 @@ Matrix3 viewport_transformation(Rect& window, Rect& viewport)
 	return t3 * scl * t1;
 }
 
+void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
+{
+	//TODO: ALPHA BLENDING
+	Uint32 *pixels = (Uint32*)surf->pixels;
+
+	for(int i = 0; i < surf->h; i++)
+		for(int j = 0; j < surf->w; j++)
+		{
+			Uint32 out = bg;
+
+			for(int k = 0; k < pool.size(); k++)
+				pool[k]->sample( j + 0.5, i + 0.5, out);
+
+			pixels[i*surf->w + j] = out;
+		}
+}
+
 //-----------------------------------------------
 //----------------- CONSTRUCTORS ----------------
 //-----------------------------------------------
 Render* Render::render_ptr = 0;
 
-Render::Render() { }
+Render::Render() 
+{
+	this->bg_color = 0x000000;
+}
+
+Render::~Render()
+{
+	for(int i = 0; i < render_pool.size(); i++)
+		delete render_pool[i];
+}
 
 //------------------------------------------------
 //----------------- FROM RENDER.H ----------------
@@ -73,12 +101,14 @@ void Render::run()
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_WM_SetCaption("My Renderer", "My Renderer");
 
-	SDL_Surface* window = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF );
+	//(!!!) Is it really necessary to use alpha channel handling from SDL? Can't we do everything
+	//inside our code and then send just a normal 24-bit color?
+	SDL_Surface* window = SDL_SetVideoMode(800, 600, 24, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
 	while(true)
 	{
-		//Clean screen
-		SDL_FillRect(window, 0, SDL_MapRGB(window->format, 0, 0, 0) );
+		//draw everything inside pool
+		draw_all( this->render_pool, window, this->bg_color );
 
 		//get events, skip if user quitted
 		if( this->handle_input() ) break;

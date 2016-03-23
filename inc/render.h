@@ -6,15 +6,19 @@
 #include "vector/rect.h"
 #include "vector/matrix3.h"
 #include "element/element.h"
+#include "types.h"
 
 class Render
 {
 private:
 	//render pool: contains all objects which must be rendered, in order
-	std::vector<Element> render_pool;
+	std::vector<Element*> render_pool;
 
 	//viewport transformation for this window
 	Matrix3 t_viewport;
+
+	//Background color (define this after inside .2d file)
+	Color bg_color;
 
 	//handle window and keyboard input. Return TRUE if we must quit.
 	bool handle_input();
@@ -24,9 +28,8 @@ private:
 	Render();
 
 public:
-	//1) Push object to the drawing pool
-	//2) Draw all objects in the pool
-	
+	~Render();
+
 	//take raw objects, preprocess and store in pool
 	int preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewport);
 
