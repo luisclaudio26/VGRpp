@@ -50,8 +50,11 @@ RawPaint* ParseElement::parseSolid(std::string data)
 {
 	std::stringstream ss(data);
 
-	ColorChnl R, G, B, A;
-	ss>>R>>G>>B>>A;
+	unsigned int R, G, B, A;
+	ss>>R;
+	ss>>G;
+	ss>>B;
+	ss>>A;
 
-	return new RawSolid(R, G, B, A);
+	return new RawSolid( (ColorChnl)R, (ColorChnl)G, (ColorChnl)B, (ColorChnl)A);
 }

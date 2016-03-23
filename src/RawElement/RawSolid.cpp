@@ -1,4 +1,7 @@
 #include "../../inc/RawElement/RawSolid.h"
+#include "../../inc/element/solid.h"
+
+#include <iostream>
 
 RawSolid::RawSolid()
 {
@@ -15,5 +18,5 @@ RawSolid::RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A)
 
 Paint* RawSolid::preprocess()
 {
-	return 0;
+	return new Solid(R_, G_, B_, A_);
 }
