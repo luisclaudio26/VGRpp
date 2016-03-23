@@ -28,6 +28,6 @@ void RawElement::setPaint(RawPaint* p, Matrix3& t)
 
 void RawElement::preprocess(std::vector<Element>& pool)
 {
-	Element e( shape->preprocess(), paint->preprocess() );
+	Element e( shape->preprocess(shapexf), paint->preprocess(paintxf) );
 	pool.push_back(e);
 }

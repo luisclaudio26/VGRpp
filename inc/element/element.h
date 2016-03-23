@@ -4,6 +4,7 @@
 #include "../types.h"
 #include "shape.h"
 #include "paint.h"
+#include "../vector/matrix3.h"
 
 #define FULL_TRANSPARENT 0xFFFFFFFF
 

@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "RawPaint.h"
+#include "../vector/matrix3.h"
 
 class RawSolid : public RawPaint
 {
@@ -14,7 +15,7 @@ public:
 	RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A);
 
 	//------ From RawPaint -------
-	Paint* preprocess();
+	Paint* preprocess(Matrix3& xf);
 };
 
 #endif

@@ -2,12 +2,13 @@
 #define _SOLID_H_
 
 #include "../types.h"
-#include <iostream>
+#include "../vector/matrix3.h"
 
 class Solid : public Paint
 {
 private:
 	Color _color;
+
 public:
 	Solid() { 
 		this->_color = 0; 
@@ -25,7 +26,13 @@ public:
 		_color += (Color)a;
 	}
 
+	//--------------------------
+	//--------- Access ---------
+	//--------------------------
+
+	//-----------------------------
 	//-------- From Paint ---------
+	//-----------------------------
 	Color sample(double x, double y) override
 	{
 		return _color;
