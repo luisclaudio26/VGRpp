@@ -30,7 +30,6 @@ void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
 		for(int j = 0; j < surf->w; j++)
 		{
 			Uint32 out = bg;
-
 			for(int k = 0; k < pool.size(); k++)
 				pool[k]->sample( j + 0.5, i + 0.5, out);
 
@@ -100,10 +99,8 @@ void Render::run()
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_WM_SetCaption("My Renderer", "My Renderer");
-
-	//(!!!) Is it really necessary to use alpha channel handling from SDL? Can't we do everything
-	//inside our code and then send just a normal 24-bit color?
-	SDL_Surface* window = SDL_SetVideoMode(800, 600, 24, SDL_HWSURFACE | SDL_DOUBLEBUF );
+	
+	SDL_Surface* window = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
 	while(true)
 	{
