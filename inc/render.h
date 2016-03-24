@@ -16,6 +16,7 @@ private:
 
 	//viewport transformation for this window
 	Matrix3 t_viewport;
+	Vec2 viewport_size;
 
 	//Background color (define this after inside .2d file)
 	Color bg_color;

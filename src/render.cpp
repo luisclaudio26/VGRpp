@@ -33,7 +33,10 @@ void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
 			for(int k = 0; k < pool.size(); k++)
 				pool[k]->sample( j + 0.5, i + 0.5, out);
 
-			pixels[i*surf->w + j] = out;
+			//Invert y axis
+			int inv_i = surf->h - i - 1;
+			
+			pixels[inv_i*surf->w + j] = out;
 		}
 }
 
@@ -87,6 +90,7 @@ int Render::preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewpor
 {
 	//Compute window-viewport transformation
 	this->t_viewport = viewport_transformation(window, viewport);
+	this->viewport_size = viewport.getRightTop();
 
 	//preprocess all raw elements and store in render pool
 	for(int i = 0; i < raw.size(); i++)
@@ -99,8 +103,8 @@ void Render::run()
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_WM_SetCaption("My Renderer", "My Renderer");
-	
-	SDL_Surface* window = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF );
+
+	SDL_Surface* window = SDL_SetVideoMode(viewport_size.x(), viewport_size.y(), 32, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
 	while(true)
 	{
