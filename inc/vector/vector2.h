@@ -15,26 +15,28 @@ public:
 	Vec2(double x, double y);
 
 	//-------- Access/modif --------
-	double x() { return this->_x; }
-	double y() { return this->_y; }
-	void operator=(Vec2 lhs);
+	double x() const { return this->_x; }
+	double y() const { return this->_y; }
 	void setX(double x) { this->_x = x; }
 	void setY(double y) { this->_y = y; }
 	void set(double x, double y) { this->_x = x; this->_y = y; }
 
+	//This simply copies (x,y) attributes, no reference involved!!!
+	void operator=(const Vec2& rhs);
+
 	//-------- Operations --------
-	Vec2 add(Vec2 lhs);
-	Vec2 scale(double s);
-	double dot(Vec2 lhs);
-	Vec2 sub(Vec2 lhs);
-	double norm();
-	double distTo(Vec2 lhs);
-	Vec2 unit();
-	double angle(Vec2 lhs);
-	Vec2 prod(Vec2 rhs); //Element-wise product
-	Vec2 operator-();
-	Vec2 operator-(Vec2 rhs);
-	Vec3 homogeneous();
+	Vec2 add(const Vec2& lhs) const;
+	Vec2 scale(double s) const;
+	double dot(const Vec2& lhs) const;
+	Vec2 sub(const Vec2& lhs) const;
+	double norm() const;
+	double distTo(const Vec2& lhs) const;
+	Vec2 unit() const;
+	double angle(const Vec2& lhs) const;
+	Vec2 prod(const Vec2& rhs) const; //Element-wise product
+	Vec3 homogeneous() const;
+	Vec2 operator-(const Vec2& rhs) const;
+	Vec2 operator-() const;
 
 	//-------- other stuff -------
 	static Vec2 zero() { return Vec2(0.0, 0.0); }

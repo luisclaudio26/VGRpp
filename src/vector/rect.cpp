@@ -1,16 +1,16 @@
 #include "../../inc/vector/rect.h"
 
-void Rect::setLeftBottom(Vec2& v)
+void Rect::setLeftBottom(const Vec2& v)
 {
 	left_bottom = v;
 }
 
-void Rect::setRightTop(Vec2& v)
+void Rect::setRightTop(const Vec2& v)
 {
 	top_right = v;
 }
 
-Rect::Rect(Vec2& left_bottom, Vec2& top_right)
+Rect::Rect(const Vec2& left_bottom, const Vec2& top_right)
 {
 	this->left_bottom = left_bottom;
 	this->top_right = top_right;

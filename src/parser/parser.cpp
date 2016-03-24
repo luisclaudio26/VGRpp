@@ -67,6 +67,15 @@ static void parse_element(std::fstream& f, std::vector<RawElement>& rawVector)
 	rawVector.push_back( raw );
 }
 
+static void parse_viewport(std::fstream& f, Rect& v)
+{
+	int w, h;
+	f>>w; f>>h;
+
+	v.setLeftBottom( Vec2::zero() );
+	v.setRightTop( Vec2(w,h) );
+}
+
 //-----------------------------------------------------
 //------------------- FROM PARSER.H -------------------
 //-----------------------------------------------------
@@ -93,8 +102,8 @@ int Parser::loadScene(std::string filepath, std::vector<RawElement>& raw, Rect& 
 	//viewport data
 	file>>buffer;
 	if( buffer.compare("VIEWPORT") ) return -1;
-	parse_rect(file, viewport);
-
+	parse_viewport(file, viewport);
+	
 	//starting reading elements
 	file>>buffer;
 	if( buffer.compare("ELEMENTCOUNT") ) return -1;

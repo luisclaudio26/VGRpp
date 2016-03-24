@@ -22,32 +22,32 @@ void Matrix3::set(double e[])
 	memcpy(this->e_, e, SIZE_MAT_3 );
 }
 
-double Matrix3::at(unsigned int i, unsigned int j)
+double Matrix3::at(unsigned int i, unsigned int j) const
 {
 	//(!!!) Watch out for i and j out of bounds!
 	return this->e_[ AT(i,j) ];
 }
 
-double* Matrix3::data()
+double Matrix3::at(unsigned int i) const
 {
-	return this->e_;
+	return this->e_[i];
 }
 
-void Matrix3::operator=(Matrix3 lhs)
+void Matrix3::operator=(const Matrix3& lhs)
 {
-	memcpy(this->e_, lhs.data(), SIZE_MAT_3);
+	for(int i = 0; i < 9; i++)
+		this->e_[i] = lhs.at(i);
 }
 
-Matrix3 Matrix3::operator*(Matrix3& rhs)
+Matrix3 Matrix3::operator*(const Matrix3& rhs) const
 {
-	double* d = rhs.data();
-	double out[] = { e_[0]*d[0] + e_[1]*d[3] + e_[2]*d[6], e_[0]*d[1] + e_[1]*d[4] + e_[2]*d[7], e_[0]*d[2] + e_[1]*d[5] + e_[2]*d[8],
-					e_[3]*d[0] + e_[4]*d[3] + e_[5]*d[6], e_[3]*d[1] + e_[4]*d[4] + e_[5]*d[7], e_[3]*d[2] + e_[4]*d[5] + e_[5]*d[8],
-					e_[6]*d[0] + e_[7]*d[3] + e_[8]*d[6], e_[6]*d[1] + e_[7]*d[4] + e_[8]*d[7], e_[6]*d[2] + e_[7]*d[5] + e_[8]*d[8] };
+	double out[] = { e_[0]*rhs.at(0) + e_[1]*rhs.at(3) + e_[2]*rhs.at(6), e_[0]*rhs.at(1) + e_[1]*rhs.at(4) + e_[2]*rhs.at(7), e_[0]*rhs.at(2) + e_[1]*rhs.at(5) + e_[2]*rhs.at(8),
+					e_[3]*rhs.at(0) + e_[4]*rhs.at(3) + e_[5]*rhs.at(6), e_[3]*rhs.at(1) + e_[4]*rhs.at(4) + e_[5]*rhs.at(7), e_[3]*rhs.at(2) + e_[4]*rhs.at(5) + e_[5]*rhs.at(8),
+					e_[6]*rhs.at(0) + e_[7]*rhs.at(3) + e_[8]*rhs.at(6), e_[6]*rhs.at(1) + e_[7]*rhs.at(4) + e_[8]*rhs.at(7), e_[6]*rhs.at(2) + e_[7]*rhs.at(5) + e_[8]*rhs.at(8) };
 	return Matrix3(out);
 }
 
-Vec3 Matrix3::apply(Vec3 v)
+Vec3 Matrix3::apply(const Vec3& v) const
 {
 	Vec3 out;
 	out.setX( e_[0] * v.x() + e_[1] * v.y() + e_[2] * v.w() );

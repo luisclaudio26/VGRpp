@@ -13,16 +13,17 @@ public:
 	Matrix3();
 	Matrix3(double e[]); //Copies elements from e
 
-	void operator=(Matrix3 lhs);
+	void operator=(const Matrix3& lhs); //This should copy the vector
+
 	void set(double e[]);
-	double at(unsigned int i, unsigned int j);
-	double* data();
+	double at(unsigned int i, unsigned int j) const;
+	double at(unsigned int i) const;
 
 	//---------------------------------
 	//---------- Operations -----------
 	//---------------------------------
-	Matrix3 operator*(Matrix3& rhs);
-	Vec3 apply(Vec3 v);
+	Vec3 apply(const Vec3& v) const;
+	Matrix3 operator*(const Matrix3& rhs) const;
 
 	//---------------------------------------------
 	//----------- Matrix constructors -------------

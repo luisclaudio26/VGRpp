@@ -18,9 +18,9 @@ public:
 	void setY(double y) { this->_y = y; }
 	void setW(double w) { this->_w = w; }
 
-	double x() { return this->_x; }
-	double y() { return this->_y; }
-	double w() { return this->_w; }
+	double x() const { return this->_x; }
+	double y() const { return this->_y; }
+	double w() const { return this->_w; }
 
 	//--------------------------
 	//------- Operations -------
