@@ -22,7 +22,7 @@ public:
 	void setShape(RawShape* s, Matrix3& t);
 	void setPaint(RawPaint* p, Matrix3& t);
 
-	void preprocess(std::vector<Element*>& pool);
+	void preprocess(std::vector<Element*>& pool, const Matrix3& scene_t);
 };
 
 #endif

@@ -14,7 +14,7 @@ public:
 	RawTriangle(Vec2& p0, Vec2& p1, Vec2& p2);
 
 	//----- From RawShape ------
-	Shape* preprocess(Matrix3& xf);
+	Shape* preprocess(const Matrix3& xf, const Matrix3& scene_t);
 };
 
 #endif

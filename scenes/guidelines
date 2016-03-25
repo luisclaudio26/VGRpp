@@ -1,0 +1,30 @@
+This is how a .2d file should look:
+
+WINDOW <double> <double> <double> <double>      # This is what will be effectively draw in the window
+VIEWPORT <int> <int>							# This will be our window size in pixels
+
+TRANSFORM <double x9>							# Scene transformation. This is applied to all objects in scene,
+												# after the object transformations
+
+ELEMENTCOUNT <int>								# Number of elements we'll describe below
+
+_SHAPE_ <shape data>
+TRANSFORM <double x9>
+_PAINT_ <paint data>
+TRANSFORM <double x9>
+
+_SHAPE_ <shape data>
+TRANSFORM <double x9>
+_PAINT_ <paint data>
+TRANSFORM <double x9>
+
+...
+
+
+_SHAPE_ can be:
+
+	TRIANGLE : <double x6>, which are coodinates of the vertice v0, v1, v2
+
+_PAINT_ can be:
+	
+	SOLID : <unsigned char x4>, which are R G B A color channels

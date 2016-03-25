@@ -67,13 +67,11 @@ static void parse_element(std::fstream& f, std::vector<RawElement>& rawVector)
 	rawVector.push_back( raw );
 }
 
-static void parse_viewport(std::fstream& f, Rect& v)
+static void parse_viewport(std::fstream& f, Vec2& v)
 {
 	int w, h;
 	f>>w; f>>h;
-
-	v.setLeftBottom( Vec2::zero() );
-	v.setRightTop( Vec2(w,h) );
+	v.set( w, h );
 }
 
 //-----------------------------------------------------
@@ -84,7 +82,7 @@ Parser::Parser()
 	
 }
 
-int Parser::loadScene(std::string filepath, std::vector<RawElement>& raw, Rect& window, Rect& viewport)
+int Parser::loadScene(std::string filepath, std::vector<RawElement>& raw, Rect& window, Vec2& viewport, Matrix3& scene_t)
 {
 	std::string buffer;
 	std::fstream file;
@@ -103,6 +101,11 @@ int Parser::loadScene(std::string filepath, std::vector<RawElement>& raw, Rect& 
 	file>>buffer;
 	if( buffer.compare("VIEWPORT") ) return -1;
 	parse_viewport(file, viewport);
+
+	//scene transformation
+	file>>buffer;
+	if( buffer.compare("TRANSFORM") ) return -1;
+	parse_matrix3(file, scene_t);
 	
 	//starting reading elements
 	file>>buffer;

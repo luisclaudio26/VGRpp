@@ -16,7 +16,7 @@ RawSolid::RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A)
 	this->A_ = A;
 }
 
-Paint* RawSolid::preprocess(Matrix3& xf)
+Paint* RawSolid::preprocess(const Matrix3& xf, const Matrix3& scene_t)
 {
 	Solid* out = new Solid(R_, G_, B_, A_);
 	return out;

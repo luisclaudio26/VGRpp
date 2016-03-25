@@ -7,7 +7,7 @@
 class RawPaint
 {
 public:
-	virtual Paint* preprocess(Matrix3& xf) = 0;
+	virtual Paint* preprocess(const Matrix3& xf, const Matrix3& scene_t) = 0;
 };
 
 #endif

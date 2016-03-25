@@ -3,7 +3,7 @@
 
 #include "../vector/vector2.h"
 #include "../vector/matrix3.h"
-#include "../RawElement/RawTriangle.h"
+#include "../element/shape.h"
 
 //TODO: NO BOUNDING BOX TEST YET!!!
 
@@ -15,7 +15,7 @@ private:
 
 	//Implicit equation coef for each edge. A 3x3 matrix
 	//stored in a 9-element vector
-	double *edge;
+	double edge[9];
 	void implicitize();
 
 public:
@@ -26,12 +26,14 @@ public:
 	//--------------------------
 	//--------- Access ---------
 	//--------------------------
-	void setxf(Matrix3& xf);
+	void setxf(const Matrix3& xf);
 
-	//--------------------------------
-	//------- From RawTriangle -------
-	//--------------------------------
-	bool is_inside(double x, double y);
+	//--------------------------
+	//------- From Shape -------
+	//--------------------------
+	void set_scenexf(const Matrix3& scenexf) override;
+	bool is_inside(double x, double y) override;
+
 };
 
 #endif

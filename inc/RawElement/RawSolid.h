@@ -15,7 +15,7 @@ public:
 	RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A);
 
 	//------ From RawPaint -------
-	Paint* preprocess(Matrix3& xf);
+	Paint* preprocess(const Matrix3& xf, const Matrix3& scene_t);
 };
 
 #endif

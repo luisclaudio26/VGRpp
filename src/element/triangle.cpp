@@ -6,11 +6,11 @@
 //---------------------------------------
 //-------------- INTERNAL ---------------
 //---------------------------------------
-void compute_implicit_line(Vec2& p0, Vec2& p1, double* coef)
+void compute_implicit_line(const Vec2& p0, const Vec2& p1, double* coef)
 {
 	double a = p1.y() - p0.y();
 	double b = p0.x() - p1.x();
-	double c = -a * p0.x() - b*p0.y();
+	double c = -a*p0.x() - b*p0.y();
 
 	coef[0] = a;
 	coef[1] = b;
@@ -30,13 +30,7 @@ Triangle::Triangle(Vec2& p0, Vec2& p1, Vec2& p2)
 	this->p2 = p2;
 
 	//Compute implicit equation for each edge
-	edge = new double[9];
 	implicitize();
-}
-
-Triangle::~Triangle()
-{
-	delete[] edge;
 }
 
 bool Triangle::is_inside(double x, double y)
@@ -48,21 +42,26 @@ bool Triangle::is_inside(double x, double y)
 	return edge_test[0] == edge_test[1] && edge_test[1] == edge_test[2];
 }
 
-void Triangle::setxf(Matrix3& xf)
+void Triangle::setxf(const Matrix3& xf)
 {
 	this->xf = xf;
+	implicitize();
+}
 
-	//Transform vertice
-	p0 = xf.apply( p0.homogeneous() ).euclidean();
-	p1 = xf.apply( p1.homogeneous() ).euclidean();
-	p2 = xf.apply( p2.homogeneous() ).euclidean();
-
+void Triangle::set_scenexf(const Matrix3& scenexf)
+{
+	this->scenexf = scenexf;
 	implicitize();
 }
 
 void Triangle::implicitize()
 {
-	compute_implicit_line(p0, p1, edge);
-	compute_implicit_line(p1, p2, &edge[3]);
-	compute_implicit_line(p2, p0, &edge[6]);
+	Matrix3 t = scenexf * xf;
+	Vec2 p0_t = t.apply( p0.homogeneous() ).euclidean();
+	Vec2 p1_t = t.apply( p1.homogeneous() ).euclidean();
+	Vec2 p2_t = t.apply( p2.homogeneous() ).euclidean();
+
+	compute_implicit_line(p0_t, p1_t, edge);
+	compute_implicit_line(p1_t, p2_t, &edge[3]);
+	compute_implicit_line(p2_t, p0_t, &edge[6]);
 }

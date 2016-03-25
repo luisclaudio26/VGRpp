@@ -15,7 +15,7 @@ private:
 	std::vector<Element*> render_pool;
 
 	//viewport transformation for this window
-	Matrix3 t_viewport;
+	Matrix3 viewport_t;
 	Vec2 viewport_size;
 
 	//Background color (define this after inside .2d file)
@@ -32,7 +32,7 @@ public:
 	~Render();
 
 	//take raw objects, preprocess and store in pool
-	int preprocess(std::vector<RawElement>& raw, Rect& window, Rect& viewport);
+	int preprocess(std::vector<RawElement>& raw, const Rect& window, const Vec2& viewport, const Matrix3& scene_t);
 
 	//creates window, draw everything inside pool until we quit
 	void run();
