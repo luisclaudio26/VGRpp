@@ -38,8 +38,8 @@ public:
 
 	static Matrix3 translate(Vec2 d)
 	{
-		double t[] = {0, 0, d.x(),
-					0, 0, d.y(),
+		double t[] = {1, 0, d.x(),
+					0, 1, d.y(),
 					0, 0, 1};
 		return Matrix3(t);
 	}

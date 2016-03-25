@@ -93,10 +93,6 @@ int Render::preprocess(std::vector<RawElement>& raw, const Rect& window, const V
 	this->viewport_t = viewport_transformation(window, viewport);
 	this->viewport_size = viewport;
 
-	std::cout<<"SceneXF = ";
-	for(int i = 0; i < 9; i++) std::cout<<viewport_t.at(i)<<", ";
-	std::cout<<std::endl;
-
 	//preprocess all raw elements and store in render pool
 	for(int i = 0; i < raw.size(); i++)
 		raw[i].preprocess( this->render_pool, viewport_t * scene_t );
