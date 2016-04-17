@@ -25,6 +25,8 @@ public:
 	//---------------------------------
 	Vec3 apply(const Vec3& v) const;
 	Matrix3 operator*(const Matrix3& rhs) const;
+	Matrix3 operator*(double s) const;
+	Matrix3 inv() const;
 
 	//---------------------------------------------
 	//----------- Matrix constructors -------------

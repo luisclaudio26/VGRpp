@@ -48,6 +48,13 @@ Matrix3 Matrix3::operator*(const Matrix3& rhs) const
 	return Matrix3(out);
 }
 
+Matrix3 Matrix3::operator*(double s) const {
+	double out[9];
+	for(int i = 0; i < 9; i++)
+		out[i] = e_[i] * s;
+	return Matrix3(out);
+}
+
 Vec3 Matrix3::apply(const Vec3& v) const
 {
 	Vec3 out;
@@ -73,4 +80,25 @@ std::string Matrix3::mat2str() const
 	ss<<"}";
 
 	return ss.str();
+}
+
+Matrix3 Matrix3::inv() const {
+	//Thanks wikipedia for the formula
+	double A = e_[4]*e_[8] - e_[5]*e_[7];
+	double B = -(e_[3]*e_[8] - e_[5]*e_[6]);
+	double C = e_[3]*e_[7] - e_[4]*e_[6];
+	double D = -(e_[1]*e_[8] - e_[2]*e_[7]);
+	double E = e_[0]*e_[8] - e_[2]*e_[6];
+	double F = -(e_[0]*e_[7] - e_[1]*e_[6]);
+	double G = e_[1]*e_[5] - e_[2]*e_[4];
+	double H = -(e_[0]*e_[5] - e_[2]*e_[3]);
+	double I = e_[0]*e_[4] - e_[1]*e_[3];
+
+	double det = e_[0]*A + e_[1]*B + e_[2]*C;
+
+	double out[] = {A/det, D/det, G/det,
+					B/det, E/det, H/det,
+				 	C/det, F/det, I/det};
+
+	return Matrix3(out);
 }
