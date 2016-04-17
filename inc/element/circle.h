@@ -15,6 +15,9 @@ private:
 	double radius;
 	Matrix3 xf;
 
+	//Transformation from scene space to shape space
+	Matrix3 scene2obj;
+
 public:
 	Circle(const Vec2& center, double radius) {
 		this->center = center;
@@ -23,12 +26,18 @@ public:
 
 	void setxf(const Matrix3& xf) {
 		this->xf = xf;
+		this->scene2obj = (scenexf * xf).inv();
+	}
+
+	void set_scenexf(const Matrix3& scenexf) override {
+		this->scenexf = scenexf;
+		this->scene2obj = (scenexf * xf).inv();
 	}
 
 	virtual bool is_inside(double x, double y) override {
-
-		Matrix3 t = scenexf * xf;
-		Vec2 p = t.apply( Vec2(x,y).homogeneous() ).euclidean();
+		//Point is in scene space; we send it to object space
+		//and then check whether it is inside circle.
+		Vec2 p = scene2obj.apply( Vec2(x,y).homogeneous() ).euclidean();
 
 		return (p - this->center).norm() < this->radius ? true : false;
 	}
