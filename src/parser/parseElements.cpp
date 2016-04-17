@@ -4,6 +4,7 @@
 #include <sstream>
 #include "../../inc/vector/vector2.h"
 #include "../../inc/RawElement/RawTriangle.h"
+#include "../../inc/RawElement/RawCircle.h"
 #include "../../inc/RawElement/RawSolid.h"
 #include "../../inc/types.h"
 
@@ -14,6 +15,7 @@ ParseElement::ParseElement()
 	//Create association between names in .2d files and parsing functions for shapes and paints.
 	//TODO: SPLIT THIS INTO TWO SEPARATE FUNCTIONS
 	this->type2shape.insert( std::pair<std::string, shapeFunc>(TRIANGLE, &ParseElement::parseTriangle) );
+	this->type2shape.insert( std::pair<std::string, shapeFunc>(CIRCLE, &ParseElement::parseCircle) );
 
 	this->type2paint.insert( std::pair<std::string, paintFunc>(SOLID, &ParseElement::parseSolid) );
 }
@@ -33,6 +35,18 @@ RawPaint* ParseElement::parsePaintByType(std::string type, std::string data)
 //-------------------------------------------------------------
 //--------------------- SHAPE PARSING -------------------------
 //-------------------------------------------------------------
+RawShape* ParseElement::parseCircle(std::string data)
+{
+	std::stringstream ss(data);
+
+	Vec2 center; double radius;
+	
+	double x, y;
+	ss>>x>>y>>radius; center.set(x,y);
+
+	return new RawCircle(center, radius);
+}
+
 RawShape* ParseElement::parseTriangle(std::string data)
 {
 	std::stringstream ss(data);

@@ -14,6 +14,7 @@ typedef RawPaint* (ParseElement::*paintFunc)(std::string);
 //----------------------------------
 //These are the tags as they appear in .2d files
 const std::string TRIANGLE("TRIANGLE");
+const std::string CIRCLE("CIRCLE");
 
 //----------------------------------
 //----------- PAINT TAGS -----------
@@ -38,6 +39,7 @@ private:
 	//return a pointer to the parent class whose 
 	//dynamic type is of the desired shape
 	RawShape* parseTriangle(std::string);
+	RawShape* parseCircle(std::string);
 
 	//-------------------------------------
 	//----------- PARSE PAINTS ------------
