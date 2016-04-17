@@ -1,6 +1,7 @@
 #include "../../inc/vector/matrix3.h"
 
 #include <cstring>
+#include <sstream>
 
 #define SIZE_MAT_3 	(9 * sizeof(double))
 #define AT(i,j)		(i * 3 + j)
@@ -55,4 +56,21 @@ Vec3 Matrix3::apply(const Vec3& v) const
 	out.setW( e_[6] * v.x() + e_[7] * v.y() + e_[8] * v.w() );
 
 	return out;
+}
+
+std::string Matrix3::mat2str() const
+{
+	std::stringstream ss("");
+
+	ss<<"{";
+	for(int i = 0; i < 3; i++)
+	{
+		ss<<"{";
+		for(int j = 0; j < 3; j++)
+			ss<<this->e_[i*3 + j]<<", ";
+		ss<<"} ";
+	}
+	ss<<"}";
+
+	return ss.str();
 }

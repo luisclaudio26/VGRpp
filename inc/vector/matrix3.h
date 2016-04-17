@@ -3,6 +3,7 @@
 
 #include "vector2.h"
 #include "vector3.h"
+#include <string>
 
 class Matrix3
 {
@@ -45,6 +46,11 @@ public:
 	}
 
 	static Matrix3 identity() { return Matrix3(); }
+
+	//------------------------------------
+	//---------- Debugging ops -----------
+	//------------------------------------
+	std::string mat2str() const;
 };
 
 #endif
