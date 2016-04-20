@@ -49,6 +49,14 @@ public:
 
 	static Matrix3 identity() { return Matrix3(); }
 
+	static Matrix3 affine(double e1, double e2, double e3, double e4, double e5, double e6)
+	{
+		double a[] = {e1, e2, e3,
+					e4, e5, e6,
+					0.0, 0.0, 1.0};
+		return Matrix3(a);
+	}
+
 	//------------------------------------
 	//---------- Debugging ops -----------
 	//------------------------------------

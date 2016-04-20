@@ -26,6 +26,7 @@ public:
 	//------- Operations -------
 	//--------------------------
 	Vec2 euclidean();
+	double dot(const Vec3& rhs) const;
 };
 
 #endif

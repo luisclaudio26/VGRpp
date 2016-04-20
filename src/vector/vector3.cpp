@@ -17,3 +17,8 @@ Vec2 Vec3::euclidean()
 {
 	return Vec2(_x/_w, _y/_w);
 }
+
+double Vec3::dot(const Vec3& rhs) const
+{
+	return _x * rhs.x() + _y * rhs.y() + _w * rhs.w();
+}
