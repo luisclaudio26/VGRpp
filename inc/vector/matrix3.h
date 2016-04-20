@@ -27,6 +27,7 @@ public:
 	Matrix3 operator*(const Matrix3& rhs) const;
 	Matrix3 operator*(double s) const;
 	Matrix3 inv() const;
+	Matrix3 transpose() const;
 
 	//---------------------------------------------
 	//----------- Matrix constructors -------------

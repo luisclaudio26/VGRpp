@@ -102,3 +102,11 @@ Matrix3 Matrix3::inv() const {
 
 	return Matrix3(out);
 }
+
+Matrix3 Matrix3::transpose() const {
+	double out[] = {e_[0], e_[3], e_[6],
+					e_[1], e_[4], e_[7],
+					e_[2], e_[5], e_[8]};
+
+	return Matrix3(out);
+}
