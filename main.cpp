@@ -17,7 +17,7 @@
 
 int main(int argc, char** args)
 {
-	std::string filepath("scenes/blueTriangle.2d"); //Not to type everything in terminal
+	std::string filepath("scenes/path.2d"); //Not to type everything in terminal
 
 	std::vector<RawElement> raw;
 	Rect window; Vec2 viewport; Matrix3 scene_t;
