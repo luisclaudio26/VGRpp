@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <vector>
 #include <string>
+#include <chrono>
 #include "inc/render.h"
 #include "inc/parser/parser.h"
 #include "inc/vector/rect.h"

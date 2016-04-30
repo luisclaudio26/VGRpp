@@ -1,8 +1,10 @@
 #include "../inc/render.h"
 #include "../inc/vector/matrix3.h"
 #include <SDL/SDL.h>
-
 #include <iostream>
+#include <chrono>
+
+using namespace std::chrono;
 
 //-------------------------------------------
 //----------------- INTERNAL ----------------
@@ -107,8 +109,12 @@ void Render::run()
 
 	SDL_Surface* window = SDL_SetVideoMode(viewport_size.x(), viewport_size.y(), 32, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
+	milliseconds acc_time = milliseconds(0);
+	int n_frames = 0;
 	while(true)
 	{
+		high_resolution_clock::time_point t1 = high_resolution_clock::now();
+
 		//draw everything inside pool
 		draw_all( this->render_pool, window, this->bg_color );
 
@@ -117,6 +123,20 @@ void Render::run()
 
 		//show screen
 		SDL_Flip(window);
+
+		high_resolution_clock::time_point t2 = high_resolution_clock::now();
+
+		//Timing stuff
+		acc_time += duration_cast<milliseconds>(t2-t1);
+		n_frames++;
+
+		if(acc_time.count() >= 1000)
+		{
+			//std::cout<<"Time per frame: "<<acc_time.count() / n_frames<<" ms"<<std::endl;
+			std::cout<<n_frames<<" fps"<<std::endl;
+			acc_time = milliseconds(0);
+			n_frames = 0;
+		}
 	}
 
 	//clean everything
