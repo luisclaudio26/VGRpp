@@ -10,11 +10,13 @@
 	an implicit function */
 
 #include <string>
+#include "../../element/path/primitive.h"
 
 class RawPrimitive
 {
 public:
 	virtual std::string prim2str() = 0;
+	virtual Primitive* preprocess() = 0;
 };
 
 #endif

@@ -2,6 +2,8 @@
 #define _RAW_LINE_H_
 
 #include "../../vector/vector2.h"
+#include "./RawPrimitive.h"
+#include "../../element/path/line.h"
 #include <string>
 #include <sstream>
 
@@ -20,9 +22,13 @@ public:
 	std::string prim2str() override {
 		std::stringstream out;
 
-		out<<"Line["<<p1.x()<<", "<<p1.y()<<" -> "<<p2.x()<<", "<<p2.y()<<"]";
+		out<<"RawLine["<<p1.x()<<", "<<p1.y()<<" -> "<<p2.x()<<", "<<p2.y()<<"]";
 
 		return out.str();
+	}
+
+	Primitive* preprocess() override { 
+		return new Line(p1, p2); 
 	}
 };
 
