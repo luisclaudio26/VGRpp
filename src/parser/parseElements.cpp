@@ -2,12 +2,13 @@
 
 #include <iostream>
 #include <sstream>
+#include "../../inc/types.h"
 #include "../../inc/vector/vector2.h"
 #include "../../inc/RawElement/RawTriangle.h"
 #include "../../inc/RawElement/RawCircle.h"
 #include "../../inc/RawElement/RawSolid.h"
 #include "../../inc/RawElement/path/RawPath.h"
-#include "../../inc/types.h"
+#include "../../inc/RawElement/path/RawQuadratic.h"
 
 ParseElement* ParseElement::parseElement_ptr = NULL;
 
@@ -104,7 +105,7 @@ RawShape* ParseElement::parsePath(std::string data)
 			Vec2 p1 = Vec2(p1x, p1y);
 			Vec2 p2 = Vec2(p2x, p2y);
 
-			out->push_primitive( new Quadratic(p0, p1, p2) );
+			out->push_primitive( new RawQuadratic(p0, p1, p2) );
 
 			current = p2;
 		}
