@@ -92,6 +92,22 @@ RawShape* ParseElement::parsePath(std::string data)
 
 			current = next;
 		}
+		else if(!buffer.compare("Q"))
+		{
+			Vec2 p0 = current;
+
+			double p1x, p1y;
+			double p2x, p2y;
+			ss>>p1x>>p1y;
+			ss>>p2x>>p2y;
+
+			Vec2 p1 = Vec2(p1x, p1y);
+			Vec2 p2 = Vec2(p2x, p2y);
+
+			out->push_primitive( new Quadratic(p0, p1, p2) );
+
+			current = p2;
+		}
 
 		//Get next instruction
 		ss>>buffer;
