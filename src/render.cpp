@@ -102,6 +102,15 @@ int Render::preprocess(std::vector<RawElement>& raw, const Rect& window, const V
 	return 1;
 }
 
+//Originally, this code was intended to render stuff in real time, but
+//code architecture resulted in EXTREMELY low performance due to inheritance
+//and stuff I can't figure out without code profiler.
+//As I don't want to erase my original code (it will be useful for code profiling
+//after), I decided just to leave it here and use a flag which of the two functions
+//we'll use.
+
+#ifdef REALTIME
+
 void Render::run()
 {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -142,3 +151,36 @@ void Render::run()
 	//clean everything
 	SDL_Quit();
 }
+
+#else 
+
+void Render::run()
+{
+	SDL_Init(SDL_INIT_VIDEO);
+	SDL_WM_SetCaption("My Renderer", "My Renderer");
+
+	SDL_Surface* window = SDL_SetVideoMode(viewport_size.x(), viewport_size.y(), 32, SDL_HWSURFACE | SDL_DOUBLEBUF );
+	
+
+	high_resolution_clock::time_point t1 = high_resolution_clock::now();
+
+	//draw everything inside pool
+	draw_all( this->render_pool, window, this->bg_color );
+
+	//show screen
+	SDL_Flip(window);
+
+	high_resolution_clock::time_point t2 = high_resolution_clock::now();
+
+	//Timing stuff
+	milliseconds total_time = duration_cast<milliseconds>(t2-t1);
+	std::cout<<"Rendering time: "<<total_time.count()<<" ms"<<std::endl;
+
+	//get events, skip if user quitted
+	while( !this->handle_input() );
+
+	//clean everything
+	SDL_Quit();
+}
+
+#endif
