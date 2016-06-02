@@ -71,6 +71,14 @@ Vec2 Vec2::operator-() const {
 	return this->scale(-1.0);
 }
 
+Vec2 Vec2::operator*(double s) const {
+	return this->scale(s);
+}
+
+Vec2 Vec2::operator+(const Vec2& rhs) const {
+	return this->add(rhs);
+}
+
 Vec3 Vec2::homogeneous() const {
 	return Vec3(_x, _y, 1.0);
 }

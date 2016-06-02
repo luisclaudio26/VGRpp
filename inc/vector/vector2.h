@@ -37,6 +37,8 @@ public:
 	Vec3 homogeneous() const;
 	Vec2 operator-(const Vec2& rhs) const;
 	Vec2 operator-() const;
+	Vec2 operator*(double s) const;
+	Vec2 operator+(const Vec2& rhs) const;
 
 	//-------- other stuff -------
 	static Vec2 zero() { return Vec2(0.0, 0.0); }

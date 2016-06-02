@@ -17,6 +17,8 @@ private:
 public:
 	RawPath() { }
 
+	//TODO: Destructor should destroy everything inside primitives
+
 	void push_primitive(RawPrimitive* prim) {
 		if(prim) this->primitives.push_back(prim);
 	}
@@ -25,9 +27,14 @@ public:
 	{
 		Path *p = new Path;
 
-		//preprocess each primitive and push it to p
+		//preprocess each primitive
+		std::vector<Primitive*> holder;
 		for(int i = 0; i < primitives.size(); i++)
-			p->push_primitive( primitives[i]->preprocess() );
+			primitives[i]->preprocess(holder);
+
+		//push each preprocessed primitive to Path
+		for(int i = 0; i < holder.size(); i++)
+			p->push_primitive( holder[i] );
 
 		//Apply transformations
 		p->setxf(xf);

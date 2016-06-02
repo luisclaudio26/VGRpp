@@ -27,8 +27,8 @@ public:
 		return out.str();
 	}
 
-	Primitive* preprocess() override { 
-		return new Line(p1, p2); 
+	void preprocess(std::vector<Primitive*>& holder) override { 
+		holder.push_back( new Line(p1, p2) ); 
 	}
 };
 
