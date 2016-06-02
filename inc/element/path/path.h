@@ -43,9 +43,6 @@ public:
 	void set_scenexf(const Matrix3& scenexf) override {
 		this->scenexf = scenexf;
 		transform_primitives();
-
-		for(auto it = primitives.begin(); it != primitives.end(); ++it)
-			std::cout<<(*it)->prim2str()<<std::endl;
 	}
 
 	bool is_inside(double x, double y) override 
