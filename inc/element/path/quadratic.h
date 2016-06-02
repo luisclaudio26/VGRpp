@@ -39,6 +39,12 @@ private:
 		else dy = 0;
 	}
 
+	void recompute_param()
+	{
+		setAABB();
+		setDY();
+	}
+
 public:
 	Quadratic() {}
 
@@ -48,13 +54,12 @@ public:
 		this->_p1 = p1;
 		this->_p2 = p2;
 
-		setAABB();
-		setDY();
+		recompute_param();
 	}
 
-	void set_p0(const Vec2& _p0) { this->p0 = _p0; }
-	void set_p1(const Vec2& _p1) { this->p1 = _p1; }
-	void set_p2(const Vec2& _p2) { this->p2 = _p2; }
+	void set_p0(const Vec2& _p0) { this->_p0 = _p0; recompute_param(); }
+	void set_p1(const Vec2& _p1) { this->_p1 = _p1; recompute_param(); }
+	void set_p2(const Vec2& _p2) { this->_p2 = _p2; recompute_param(); }
 
 	std::string prim2str() override 
 	{
@@ -66,11 +71,10 @@ public:
 	void transform(const Matrix3& t) override 
 	{
 		p0 = t.apply( this->_p0.homogeneous() ).euclidean();
-		p1 = t.apply( this->_p0.homogeneous() ).euclidean();
-		p2 = t.apply( this->_p0.homogeneous() ).euclidean();
+		p1 = t.apply( this->_p1.homogeneous() ).euclidean();
+		p2 = t.apply( this->_p2.homogeneous() ).euclidean();
 
-		setAABB();
-		setDY();
+		recompute_param();
 	}
 
 	int to_the_left(const Vec2& p) override 

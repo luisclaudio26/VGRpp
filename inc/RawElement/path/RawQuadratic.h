@@ -7,6 +7,8 @@
 #include "../../vector/numeric.h"
 #include "../../element/path/quadratic.h"
 
+#include <iostream>
+
 //Truncates parameter in range [0.0,1.0]
 static double clamp(double t)
 {
@@ -40,7 +42,6 @@ private:
 	}
 
 public:
-
 	RawQuadratic(const Vec2& p0, const Vec2& p1, const Vec2& p2)
 	{
 		this->p0 = p0;
