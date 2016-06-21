@@ -9,14 +9,6 @@
 
 #include <iostream>
 
-//Truncates parameter in range [0.0,1.0]
-static double clamp(double t)
-{
-	if(t > 1.0) return 1.0;
-	else if(t < 0.0) return 0.0;
-	else return t;
-}
-
 class RawQuadratic : public RawPrimitive
 {
 private:
@@ -66,8 +58,8 @@ public:
 		b = (p1-p0)*2;
 
 		double t[] = {0.0, -1.0, -1.0, 1.0};
-		t[1] = clamp( -b.x()/a.x() ); 
-		t[2] = clamp( -b.y()/a.y() );
+		t[1] = Numeric::clamp( -b.x()/a.x() ); 
+		t[2] = Numeric::clamp( -b.y()/a.y() );
 
 		//Ad-hoc sort
 		if(t[1] > t[2]) {
