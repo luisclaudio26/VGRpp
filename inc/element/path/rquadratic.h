@@ -46,9 +46,9 @@ private:
 	}
 
 public:
-	void set_p0(const Vec2& p) { this->_p0 = p; recompute_param(); }
-	void set_p1(const Vec3& p) { this->_p1 = p; recompute_param(); }
-	void set_p2(const Vec2& p) { this->_p2 = p; recompute_param(); }
+	void set_p0(const Vec2& p) { this->_p0 = p; this->p0 = p; recompute_param(); }
+	void set_p1(const Vec3& p) { this->_p1 = p; this->p1 = p; recompute_param(); }
+	void set_p2(const Vec2& p) { this->_p2 = p; this->p2 = p; recompute_param(); }
 
 	//-----------------------------------------
 	//---------- FROM PRIMITIVE.h -------------
@@ -80,9 +80,6 @@ public:
 			if(p.x() <= min.x()) return dy;
 			if(p.x() > max.x()) return 0;
 
-			cout<<prim2str()<<endl;
-			cout<<"AABB = "<<min.to_str()<<", "<<max.to_str()<<endl;
-
 			//We're inside the box, so we need to test for intersection
 			//Find the point in the curve whose Y coordinate is equal to
 			//the Y coordinate of our point; then, find out if the point
@@ -91,10 +88,6 @@ public:
 
 			double x_inter = Numeric::bezier2_at(t_inter, p0.x(), p1.x(), p2.x());
 			double w_inter = Numeric::bezier2_at(t_inter, 1.0, p1.w(), 1.0);
-
-			cout<<"p.y() = "<<p.y()<<endl;
-			cout<<"y(t) = "<<Numeric::bezier2_at(t_inter, p0.y(), p1.y(), p2.y())<<endl;
-			cout<<"y(t)/w(t) = "<<Numeric::bezier2_at(t_inter, p0.y(), p1.y()*p1.w(), p2.y()) / Numeric::bezier2_at(t_inter, 1, p1.w(), 1)<<endl;
 
 			return (p.x() <= x_inter/w_inter) ? dy : 0;
 		}

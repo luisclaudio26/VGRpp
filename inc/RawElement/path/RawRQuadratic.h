@@ -44,6 +44,7 @@ private:
     	out.set_p1( Vec3(u1, v1, r1) );
     	out.set_p2( Vec2(u2, v2) );
 
+    	cout<<prim2str()<<endl;
     	cout<<u0<<", "<<u1<<", "<<u2<<endl;
 		cout<<v0<<", "<<v1<<", "<<v2<<endl;
 		cout<<r0<<", "<<r1<<", "<<r2<<endl;
@@ -69,13 +70,14 @@ public:
 		double t[6]; t[0] = 0.0;
 					 t[5] = 1.0;
 
-		//compute maxima: derivative of x(t)/w(t), which is waaaaaay
+		//compute maxima: derivative of P(t)/w(t), which is waaaaaay
 		//boring to do, so I copy/pasted from the slides
 		double ay = (-1.0 + p1.w())*(p0.y() - p2.y());
 		double by = p0.y() - 2*p1.w()*p0.y() + 2*p1.y() - p2.y();
 		double cy = p1.w()*p0.y() - p1.y();
 
 		Numeric::quadratic(0.0, 1.0, ay, by, cy, t[1], t[2]);
+		cout<<"t1, t2 = "<<t[1]<<", "<<t[2]<<endl;
 		t[1] = Numeric::clamp(t[1]);
 		t[2] = Numeric::clamp(t[2]);
 
@@ -84,9 +86,10 @@ public:
 		double cx = p1.w()*p0.x() - p1.x();
 
 		Numeric::quadratic(0.0, 1.0, ax, bx, cx, t[3], t[4]);
+		cout<<"t3, t4 = "<<t[3]<<", "<<t[4]<<endl;
 		t[3] = Numeric::clamp(t[3]);
 		t[4] = Numeric::clamp(t[4]);
-		
+
 		//sort roots
 		std::sort(t, t+6);
 
@@ -102,6 +105,8 @@ public:
 				RQuadratic *RQ = new RQuadratic();
 				cut_at(t0, t1, *RQ);
 				holder.push_back(RQ);
+
+				cout<<RQ->prim2str()<<endl;
 			}
 		}
 	}
@@ -109,8 +114,11 @@ public:
 	void transform(const Matrix3& t) override
 	{
 		p0 = t.apply( p0.homogeneous() ).euclidean();
-		p1 = t.apply( p1 );
 		p2 = t.apply( p2.homogeneous() ).euclidean();
+
+		double weight = p1.w();
+		p1 = t.apply( Vec3(p1.x(), p1.y(), 1.0) );
+		p1.setW(weight);
 	}
 };
 
