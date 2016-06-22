@@ -22,27 +22,31 @@ private:
 	{
 		//Cut curve at a, b
 		double u0, v0, r0, u1, v1, r1, u2, v2, r2;
-		u0 = Numeric::lerp2(a, a, p0.x(), p1.x(), p2.x() );
-		v0 = Numeric::lerp2(a, a, p0.y(), p1.y(), p2.y() );
+		u0 = Numeric::lerp2(a, a, p0.x(), p1.x()*p1.w(), p2.x() );
+		v0 = Numeric::lerp2(a, a, p0.y(), p1.y()*p1.w(), p2.y() );
 		r0 = Numeric::lerp2(a, a, 1, p1.w(), 1);
-		u1 = Numeric::lerp2(a, b, p0.x(), p1.x(), p2.x() );
-		v1 = Numeric::lerp2(a, b, p0.y(), p1.y(), p2.y() );
+		u1 = Numeric::lerp2(a, b, p0.x(), p1.x()*p1.w(), p2.x() );
+		v1 = Numeric::lerp2(a, b, p0.y(), p1.y()*p1.w(), p2.y() );
 		r1 = Numeric::lerp2(a, b, 1, p1.w(), 1);
-		u2 = Numeric::lerp2(b, b, p0.x(), p1.x(), p2.x() );
-		v2 = Numeric::lerp2(b, b, p0.y(), p1.y(), p2.y() );
+		u2 = Numeric::lerp2(b, b, p0.x(), p1.x()*p1.w(), p2.x() );
+		v2 = Numeric::lerp2(b, b, p0.y(), p1.y()*p1.w(), p2.y() );
 		r2 = Numeric::lerp2(b, b, 1, p1.w(), 1);
-
-		cout<<u0<<", "<<u1<<", "<<u2<<endl;
-		cout<<v0<<", "<<v1<<", "<<v2<<endl;
-		cout<<r0<<", "<<r1<<", "<<r2<<endl;
 
 		//canonize final arc
     	double ir0 = 1.0/r0, ir2 = 1.0/r2;
-    	double ir1 = sqrt(ir0*ir2);
+    	double ir1 = 1.0/sqrt(r0*r2);
 
-    	out.set_p0( Vec2(u0*ir0, v0*ir0) );
-    	out.set_p1( Vec3(u1*ir1, v1*ir1, r1*ir1) );
-    	out.set_p2( Vec2(u2*ir2, v2*ir2) );
+    	u0 *= ir0; u1 *= ir1; u2 *= ir2;
+		v0 *= ir0; v1 *= ir1; v2 *= ir2;
+		r0 *= ir0; r1 *= ir1; r2 *= ir2;
+
+    	out.set_p0( Vec2(u0, v0) );
+    	out.set_p1( Vec3(u1, v1, r1) );
+    	out.set_p2( Vec2(u2, v2) );
+
+    	cout<<u0<<", "<<u1<<", "<<u2<<endl;
+		cout<<v0<<", "<<v1<<", "<<v2<<endl;
+		cout<<r0<<", "<<r1<<", "<<r2<<endl;
 	}
 
 public:

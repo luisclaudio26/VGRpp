@@ -31,8 +31,8 @@ private:
 
 	void setAABB()
 	{
-		min.setX( p0.x() < p2.x() ? p0.x() : p2.x() );
-		min.setY( p0.y() < p2.y() ? p0.y() : p2.y() );
+		min.setX( p0.x() < p2.x() ? p0.x() : p2.x());
+		min.setY( p0.y() < p2.y() ? p0.y() : p2.y());
 
 		max.setX( p0.x() > p2.x() ? p0.x() : p2.x());
 		max.setY( p0.y() > p2.y() ? p0.y() : p2.y());
@@ -88,15 +88,14 @@ public:
 			//is to the left of the intersection.
 			double t_inter = Numeric::RC_find_root(0, 1, p0.y(), p1.y(), p1.w(), p2.y(), p.y());
 
-			double x_inter = Numeric::bezier2_at(t_inter, p0.x(), p1.x()*p1.w(), p2.x());
+			double x_inter = Numeric::bezier2_at(t_inter, p0.x(), p1.x(), p2.x());
 			double w_inter = Numeric::bezier2_at(t_inter, 1.0, p1.w(), 1.0);
 
 			cout<<"p.y() = "<<p.y()<<endl;
 			cout<<"y(t) = "<<Numeric::bezier2_at(t_inter, p0.y(), p1.y(), p2.y())<<endl;
 			cout<<"y(t)/w(t) = "<<Numeric::bezier2_at(t_inter, p0.y(), p1.y()*p1.w(), p2.y()) / Numeric::bezier2_at(t_inter, 1, p1.w(), 1)<<endl;
 
-			//return (p.x() <= x_inter/w_inter) ? dy : 0;
-			return dy;
+			return (p.x() <= x_inter/w_inter) ? dy : 0;
 		}
 
 		return 0;

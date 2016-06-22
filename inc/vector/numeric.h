@@ -110,10 +110,10 @@ public:
 	    if(delta < EPS) return tm;
 
 	    // Recursively subdivide
-	    double y = lerp2(tm, tm, x0, x1*w1, x2)/lerp2(tm, tm, 1, w1, 1) - k;
+	    double y = lerp2(tm, tm, x0, x1, x2)/lerp2(tm, tm, 1, w1, 1) - k;
 	    double sy = sign(y);
-	    double st0 = sign( lerp2(t0, t0, x0, x1*w1, x2)/lerp2(t0, t0, 1, w1, 1) - k );
-	    double st1 = sign( lerp2(t1, t1, x0, x1*w1, x2)/lerp2(t1, t1, 1, w1, 1) - k );
+	    double st0 = sign( lerp2(t0, t0, x0, x1, x2)/lerp2(t0, t0, 1, w1, 1) - k );
+	    double st1 = sign( lerp2(t1, t1, x0, x1, x2)/lerp2(t1, t1, 1, w1, 1) - k );
 
 	    if(sy == st0)
 	        return RC_find_root(tm, t1, x0, x1, w1, x2, k);
