@@ -105,6 +105,13 @@ public:
 			}
 		}
 	}
+
+	void transform(const Matrix3& t) override
+	{
+		p0 = t.apply( p0.homogeneous() ).euclidean();
+		p1 = t.apply( p1 );
+		p2 = t.apply( p2.homogeneous() ).euclidean();
+	}
 };
 
 #endif

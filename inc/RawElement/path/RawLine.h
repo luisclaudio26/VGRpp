@@ -30,6 +30,12 @@ public:
 	void preprocess(std::vector<Primitive*>& holder) override { 
 		holder.push_back( new Line(p1, p2) ); 
 	}
+
+	void transform(const Matrix3& t) override
+	{
+		p1 = t.apply( p1.homogeneous() ).euclidean();
+		p2 = t.apply( p2.homogeneous() ).euclidean();
+	}
 };
 
 #endif

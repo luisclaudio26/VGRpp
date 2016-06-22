@@ -13,6 +13,7 @@ using std::endl;
 
 //Remember that an RQuadratic is ALWAYS monotonic,
 //as we cut them while processing the raw rational quadratic
+//Also, remember _p1 is already projected! i.e., is in form (x1w1, y1w1, w1)
 class RQuadratic : public Primitive
 {
 private:

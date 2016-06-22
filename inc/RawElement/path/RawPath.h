@@ -27,6 +27,10 @@ public:
 	{
 		Path *p = new Path;
 
+		//transform raw primitive
+		for(auto p = primitives.begin(); p != primitives.end(); ++p)
+			(*p)->transform(scene_t * xf);
+
 		//preprocess each primitive
 		std::vector<Primitive*> holder;
 		for(int i = 0; i < primitives.size(); i++)
@@ -35,10 +39,6 @@ public:
 		//push each preprocessed primitive to Path
 		for(int i = 0; i < holder.size(); i++)
 			p->push_primitive( holder[i] );
-
-		//Apply transformations
-		p->setxf(xf);
-		p->set_scenexf(scene_t);
 
 		return p;
 	}

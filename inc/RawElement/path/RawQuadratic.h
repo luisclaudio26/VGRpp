@@ -48,6 +48,13 @@ public:
 		return out.str();
 	}
 
+	void transform(const Matrix3& t)
+	{
+		p0 = t.apply( p0.homogeneous() ).euclidean();
+		p1 = t.apply( p1.homogeneous() ).euclidean();
+		p2 = t.apply( p2.homogeneous() ).euclidean();
+	}
+
 	void preprocess(std::vector<Primitive*>& holder) override
 	{
 		//Compute maxima by doing dF/dt = 0
