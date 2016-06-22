@@ -34,8 +34,8 @@ private:
 		min.setX( p0.x() < p2.x() ? p0.x() : p2.x() );
 		min.setY( p0.y() < p2.y() ? p0.y() : p2.y() );
 
-		max.setX( p0.x() > p2.x() ? p0.x() : p2.x() );
-		max.setY( p0.y() > p2.y() ? p0.y() : p2.y() );
+		max.setX( p0.x() > p2.x() ? p0.x() : p2.x() + 100);
+		max.setY( p0.y() > p2.y() ? p0.y() : p2.y() + 100);
 	}
 
 	void recompute_param()
@@ -66,8 +66,6 @@ public:
 		this->p2 = t.apply( this->_p2.homogeneous() ).euclidean();
 
 		recompute_param();
-
-		cout<<prim2str()<<endl;
 	}
 
 	//Returns ZERO if the ray casted in the x direction
@@ -86,8 +84,8 @@ public:
 			//the Y coordinate of our point; then, find out if the point
 			//is to the left of the intersection.
 			//Notice that if we want y(t)/w(t) = 0, it is enough to have y(t) = 0
-			double a = p0.y() - p1.y()*2 + p2.y();
-			double b = (p1.y() - p0.y())*2;
+			double a = p0.y() + p2.y() - 2*( p.y() + p1.w()*(p1.y() - p.y()) );
+			double b = 2*( p1.w()*(p1.y()-p.y()) - p0.y() + p.y());
 			double c = p0.y() - p.y();
 
 			//This function returns the root of the equation ax²+bx+c which
@@ -96,6 +94,7 @@ public:
 			//are monotonic. If there is none, we return +INF.
 			//Notice we could also use a classical numerical root finder here
 			double t_inter = Numeric::quadratic_in_range(0.0, 1.0, a, b, c);
+			
 			double x_inter = Numeric::bezier2_at(t_inter, p0.x(), p1.x(), p2.x());
 			double w_inter = Numeric::bezier2_at(t_inter, 1.0, p1.w(), 1.0);
 

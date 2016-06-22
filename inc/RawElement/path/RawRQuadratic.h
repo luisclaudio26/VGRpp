@@ -34,13 +34,21 @@ private:
 		w1 = Numeric::lerp2(t0, t1, 1.0, p1.w(), 1.0);
 		w2 = Numeric::lerp2(t1, t1, 1.0, p1.w(), 1.0);
 
+		cout<<u0<<", "<<u1<<", "<<u2<<endl;
+		cout<<v0<<", "<<v1<<", "<<v2<<endl;
+		cout<<w0<<", "<<w1<<", "<<w2<<endl;
+
 		//canonize final arc
     	double iw0 = 1.0/w0, iw2 = 1.0/w2;
     	double iw1 = sqrt(iw0 * iw2);
 
     	u0 *= iw0; u1 *= iw1; u2 *= iw2;
     	v0 *= iw0; v1 *= iw1; v2 *= iw2;
-    			   w1 *= iw1; 
+    	w0 *= iw0; w1 *= iw1; w2 *= iw2;
+
+	   	cout<<u0<<", "<<u1<<", "<<u2<<endl;
+		cout<<v0<<", "<<v1<<", "<<v2<<endl;
+		cout<<w0<<", "<<w1<<", "<<w2<<endl;
 
     	out.set_p0( Vec2(u0, v0) );
     	out.set_p1( Vec3(u1, v1, w1) );
@@ -95,6 +103,8 @@ public:
 			
 			if(t0 != t1)
 			{
+				cout<<"Cutting at "<<t0<<", "<<t1<<endl;
+
 				RQuadratic *RQ = new RQuadratic();
 				cut_at(t0, t1, *RQ);
 				holder.push_back(RQ);

@@ -1,6 +1,9 @@
 #ifndef _VECTOR3_H_
 #define _VECTOR3_H_
 
+#include <sstream>
+#include <string>
+
 class Vec2;
 
 class Vec3
@@ -21,6 +24,16 @@ public:
 	double x() const { return this->_x; }
 	double y() const { return this->_y; }
 	double w() const { return this->_w; }
+
+	//-------------------------------
+	//-------- debugging ops --------
+	//-------------------------------
+	std::string to_str() 
+	{
+		std::stringstream ss;
+		ss<<"("<<_x<<", "<<_y<<", "<<_w<<")"; 
+		return ss.str(); 
+	}
 
 	//--------------------------
 	//------- Operations -------

@@ -1,6 +1,9 @@
 #ifndef _VEC_2D_
 #define _VEC_2D_
 
+#include <string>
+#include <sstream>
+
 class Vec3;
 
 class Vec2
@@ -40,8 +43,17 @@ public:
 	Vec2 operator*(double s) const;
 	Vec2 operator+(const Vec2& rhs) const;
 
+	//-------- debugging ops --------
+	std::string to_str() 
+	{
+		std::stringstream ss;
+		ss<<"("<<_x<<", "<<_y<<")"; 
+		return ss.str(); 
+	}
+
 	//-------- other stuff -------
 	static Vec2 zero() { return Vec2(0.0, 0.0); }
+
 };
 
 #endif
