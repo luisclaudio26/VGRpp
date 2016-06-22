@@ -27,7 +27,8 @@ public:
 	//I literally stole this from prof. Diego Nehab's code!!! Thanks professor.
 	static double lerp1(double a, double x0, double x1)
 	{
-		return (1-a)*x0 + a*x1;
+		if(a == 1) return x1;
+		else return x0 + a*(x1 - x0);
 	}
 
 	static double lerp2(double a, double b, double x0, double x1, double x2)
@@ -98,6 +99,28 @@ public:
 		if(t > 1.0) return 1.0;
 		else if(t < 0.0) return 0.0;
 		else return t;
+	}
+
+	static double RC_find_root(double t0, double t1, double x0, double x1, double w1, double x2, double k)
+	{
+		double tm = (t0 + t1)*0.5;
+
+	    // Halting criterium
+	    double delta = t1 - t0;
+	    if(delta < EPS) return tm;
+
+	    // Recursively subdivide
+	    double y = lerp2(tm, tm, x0, x1*w1, x2)/lerp2(tm, tm, 1, w1, 1) - k;
+	    double sy = sign(y);
+	    double st0 = sign( lerp2(t0, t0, x0, x1*w1, x2)/lerp2(t0, t0, 1, w1, 1) - k );
+	    double st1 = sign( lerp2(t1, t1, x0, x1*w1, x2)/lerp2(t1, t1, 1, w1, 1) - k );
+
+	    if(sy == st0)
+	        return RC_find_root(tm, t1, x0, x1, w1, x2, k);
+	    else if(sy == st1)
+	        return RC_find_root(t0, tm, x0, x1, w1, x2, k);
+	    else if(y == 0.0)
+	        return tm;
 	}
 };
 
