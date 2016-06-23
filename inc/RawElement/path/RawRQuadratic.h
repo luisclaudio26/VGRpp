@@ -31,14 +31,14 @@ private:
 	{
 		//Cut curve at a, b
 		double u0, v0, r0, u1, v1, r1, u2, v2, r2;
-		u0 = Numeric::lerp2(a, a, p0.x(), p1.x()*p1.w(), p2.x() );
-		v0 = Numeric::lerp2(a, a, p0.y(), p1.y()*p1.w(), p2.y() );
+		u0 = Numeric::lerp2(a, a, p0.x(), p1.x(), p2.x() );
+		v0 = Numeric::lerp2(a, a, p0.y(), p1.y(), p2.y() );
 		r0 = Numeric::lerp2(a, a, 1, p1.w(), 1);
-		u1 = Numeric::lerp2(a, b, p0.x(), p1.x()*p1.w(), p2.x() );
-		v1 = Numeric::lerp2(a, b, p0.y(), p1.y()*p1.w(), p2.y() );
+		u1 = Numeric::lerp2(a, b, p0.x(), p1.x(), p2.x() );
+		v1 = Numeric::lerp2(a, b, p0.y(), p1.y(), p2.y() );
 		r1 = Numeric::lerp2(a, b, 1, p1.w(), 1);
-		u2 = Numeric::lerp2(b, b, p0.x(), p1.x()*p1.w(), p2.x() );
-		v2 = Numeric::lerp2(b, b, p0.y(), p1.y()*p1.w(), p2.y() );
+		u2 = Numeric::lerp2(b, b, p0.x(), p1.x(), p2.x() );
+		v2 = Numeric::lerp2(b, b, p0.y(), p1.y(), p2.y() );
 		r2 = Numeric::lerp2(b, b, 1, p1.w(), 1);
 
 		//canonize final arc
@@ -80,9 +80,13 @@ public:
 
 		cout<<prim2str()<<endl;
 
+		//project point
+		p1.setX( p1.x() * p1.w() );
+		p1.setY( p1.y() * p1.w() );
+
 		//compute maxima: derivative of P(t)/w(t), which is waaaaaay
 		//boring to do, so I copy/pasted from the slides
-		compute_maxima(p0.y(), p1.y()*p1.w(), p1.w(), p2.y(), t[1], t[2]);
+		compute_maxima(p0.y(), p1.y(), p1.w(), p2.y(), t[1], t[2]);
 		cout<<"t1, t2 = "<<t[1]<<", "<<t[2]<<endl;
 		t[1] = Numeric::clamp(t[1]);
 		t[2] = Numeric::clamp(t[2]);
@@ -118,6 +122,9 @@ public:
 		p0 = t.apply( p0.homogeneous() ).euclidean();
 		p2 = t.apply( p2.homogeneous() ).euclidean();
 
+		//for transformation purposes, the w coordinate
+		//is just the weight of the point; it is not
+		//projected yet
 		double weight = p1.w();
 		p1 = t.apply( Vec3(p1.x(), p1.y(), 1.0) );
 		p1.setW(weight);
