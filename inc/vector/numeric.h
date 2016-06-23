@@ -46,7 +46,7 @@ public:
 	static double quadratic_in_range(double t0, double t1, double a, double b, double c)
 	{
 		double r1, r2;
-		quadratic(t0, t1, a, b, c, r1, r2);
+		quadratic(a, b, c, r1, r2);
 
 		if( t0 <= r1 && r1 <= t1 ) return r1;
 		if( t0 <= r2 && r2 <= t1 ) return r2;
@@ -54,7 +54,7 @@ public:
 		return std::numeric_limits<double>::infinity();
 	}
 
-	static double quadratic(double t0, double t1, double a, double b, double c, double& r1, double& r2)
+	static double quadratic(double a, double b, double c, double& r1, double& r2)
 	{
 		//Again, copy/paste from Diego Nehab's code, which was based on Jim Blinn's
 		//"How to Solve a Quadratic Equation"

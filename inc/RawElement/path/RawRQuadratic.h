@@ -18,6 +18,15 @@ private:
 	Vec2 p0, p2;
 	Vec3 p1;
 
+	void compute_maxima(double x0, double x1, double w, double x2, double& r1, double& r2)
+	{
+		double a = 2*(-1 + w)*(x0 - x2);
+		double b = 2*(x0 - 2*w*x0 + 2*x1 - x2);
+		double c = 2*(w*x0 - x1);
+
+		Numeric::quadratic(a, b, c, r1, r2);
+	}
+
 	void cut_at(double a, double b, RQuadratic& out)
 	{
 		//Cut curve at a, b
@@ -44,7 +53,6 @@ private:
     	out.set_p1( Vec3(u1, v1, r1) );
     	out.set_p2( Vec2(u2, v2) );
 
-    	cout<<prim2str()<<endl;
     	cout<<u0<<", "<<u1<<", "<<u2<<endl;
 		cout<<v0<<", "<<v1<<", "<<v2<<endl;
 		cout<<r0<<", "<<r1<<", "<<r2<<endl;
@@ -70,22 +78,16 @@ public:
 		double t[6]; t[0] = 0.0;
 					 t[5] = 1.0;
 
+		cout<<prim2str()<<endl;
+
 		//compute maxima: derivative of P(t)/w(t), which is waaaaaay
 		//boring to do, so I copy/pasted from the slides
-		double ay = (-1.0 + p1.w())*(p0.y() - p2.y());
-		double by = p0.y() - 2*p1.w()*p0.y() + 2*p1.y() - p2.y();
-		double cy = p1.w()*p0.y() - p1.y();
-
-		Numeric::quadratic(0.0, 1.0, ay, by, cy, t[1], t[2]);
+		compute_maxima(p0.y(), p1.y()*p1.w(), p1.w(), p2.y(), t[1], t[2]);
 		cout<<"t1, t2 = "<<t[1]<<", "<<t[2]<<endl;
 		t[1] = Numeric::clamp(t[1]);
 		t[2] = Numeric::clamp(t[2]);
 
-		double ax = (-1 + p1.w())*(p0.x() - p2.x());
-		double bx = p0.x() - 2*p1.w()*p0.x() + 2*p1.x() - p2.x();
-		double cx = p1.w()*p0.x() - p1.x();
-
-		Numeric::quadratic(0.0, 1.0, ax, bx, cx, t[3], t[4]);
+		compute_maxima(p0.x(), p1.x(), p1.w(), p2.x(), t[3], t[4]);
 		cout<<"t3, t4 = "<<t[3]<<", "<<t[4]<<endl;
 		t[3] = Numeric::clamp(t[3]);
 		t[4] = Numeric::clamp(t[4]);
@@ -106,7 +108,7 @@ public:
 				cut_at(t0, t1, *RQ);
 				holder.push_back(RQ);
 
-				cout<<RQ->prim2str()<<endl;
+				cout<<RQ->prim2str()<<endl<<endl;
 			}
 		}
 	}
