@@ -28,3 +28,8 @@ _SHAPE_ can be:
 _PAINT_ can be:
 	
 	SOLID : <unsigned char x4>, which are R G B A color channels
+
+	LINEAR : <spread> <p0> <p1> <s0> <rgba> <s1> <rgba> <s2> <rgba> ...
+			where <spread> is the type of spreading to the gradient (pad, repeat, reflect,...),
+			<p0> and <p1> are the starting and ending points for the gradient and each pair <si> <rgba>
+			is a stop point and its respective color. <si> is in the range [0, 1].
