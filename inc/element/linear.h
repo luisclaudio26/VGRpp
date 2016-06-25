@@ -9,6 +9,10 @@
 #include <utility>
 #include "../vector/numeric.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 class Linear : public Paint
 {
 private:
@@ -25,7 +29,7 @@ private:
 
 		//TODO: This won't if v is outside interval [0,1]!
 		//Do error checking after
-		while( cur.first < v )
+		while( cur.first <= v )
 		{
 			last = cur;
 			cur = stops[++count];
@@ -59,7 +63,7 @@ public:
 		
 		//wrap it
 		v = spr_func(v);
-
+		
 		//search corresponding stops
 		Color_v s1, s2;
 		get_stop(v, s1, s2);
@@ -73,10 +77,10 @@ public:
 
 		//compose final color
 		Color _color = 0;
-		_color += ( (Color)out.R << 24 );
-		_color += ( (Color)out.G << 16 );
-		_color += ( (Color)out.B << 8 );
-		_color += (Color)out.A;
+		_color += ( (Color)(out.R*255) << 24 );
+		_color += ( (Color)(out.G*255) << 16 );
+		_color += ( (Color)(out.B*255) << 8 );
+		_color += (Color)(out.A*255);
 
 		return _color;
 	}	
