@@ -52,10 +52,6 @@ private:
     	out.set_p0( Vec2(u0, v0) );
     	out.set_p1( Vec3(u1, v1, r1) );
     	out.set_p2( Vec2(u2, v2) );
-
-    	cout<<u0<<", "<<u1<<", "<<u2<<endl;
-		cout<<v0<<", "<<v1<<", "<<v2<<endl;
-		cout<<r0<<", "<<r1<<", "<<r2<<endl;
 	}
 
 public:
@@ -78,8 +74,6 @@ public:
 		double t[6]; t[0] = 0.0;
 					 t[5] = 1.0;
 
-		cout<<prim2str()<<endl;
-
 		//project point
 		p1.setX( p1.x() * p1.w() );
 		p1.setY( p1.y() * p1.w() );
@@ -87,12 +81,10 @@ public:
 		//compute maxima: derivative of P(t)/w(t), which is waaaaaay
 		//boring to do, so I copy/pasted from the slides
 		compute_maxima(p0.y(), p1.y(), p1.w(), p2.y(), t[1], t[2]);
-		cout<<"t1, t2 = "<<t[1]<<", "<<t[2]<<endl;
 		t[1] = Numeric::clamp(t[1]);
 		t[2] = Numeric::clamp(t[2]);
 
 		compute_maxima(p0.x(), p1.x(), p1.w(), p2.x(), t[3], t[4]);
-		cout<<"t3, t4 = "<<t[3]<<", "<<t[4]<<endl;
 		t[3] = Numeric::clamp(t[3]);
 		t[4] = Numeric::clamp(t[4]);
 
@@ -106,13 +98,9 @@ public:
 			
 			if(t0 != t1)
 			{
-				cout<<"Cutting at "<<t0<<", "<<t1<<endl;
-
 				RQuadratic *RQ = new RQuadratic();
 				cut_at(t0, t1, *RQ);
 				holder.push_back(RQ);
-
-				cout<<RQ->prim2str()<<endl<<endl;
 			}
 		}
 	}
