@@ -58,12 +58,12 @@ public:
 		//transform point to canonical space
 		Vec2 cs_p = world2canonical.apply( Vec3(x,y,1.0) ).euclidean();
 
-		//get ratio of lengths ( ||cs_p|| / grad_length)
-		double v = cs_p.norm() / grad_length;
+		//get ratio of lengths ( projection of cs_p on the x axis divided by grad_length)
+		double v = cs_p.x() / grad_length;
 		
 		//wrap it
 		v = spr_func(v);
-		
+
 		//search corresponding stops
 		Color_v s1, s2;
 		get_stop(v, s1, s2);
@@ -75,14 +75,7 @@ public:
 		out.B = Numeric::lerp1(v, s1.B, s2.B);
 		out.A = Numeric::lerp1(v, s1.A, s2.A);
 
-		//compose final color
-		Color _color = 0;
-		_color += ( (Color)(out.R*255) << 24 );
-		_color += ( (Color)(out.G*255) << 16 );
-		_color += ( (Color)(out.B*255) << 8 );
-		_color += (Color)(out.A*255);
-
-		return _color;
+		return ColorOp::rgba_from_colorv(out);
 	}	
 };
 

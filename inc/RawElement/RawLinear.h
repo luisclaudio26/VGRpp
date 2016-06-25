@@ -43,21 +43,13 @@ public:
 		//p0 and p1 to origin and rotate so p1 to lies on x axis
 		Matrix3 p0_to_origin = Matrix3::translate( -p0 );
 
-		cout<<"Translation = "<<p0_to_origin.mat2str()<<endl;
-
 		double cosTheta = p1.x() / p1.norm();
 		double sinTheta = sqrt(1 - cosTheta*cosTheta);
 		Matrix3 rotate_p1 = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
 
-		cout<<"Rotation = "<<rotate_p1.mat2str()<<endl;
-
 		Matrix3 world_to_canonical = rotate_p1 * p0_to_origin * xf.inv() * scene_t.inv();
 
-		cout<<"Final = "<<world_to_canonical.mat2str()<<endl;
-
 		p1 = world_to_canonical.apply( p1.homogeneous() ).euclidean();
-
-		cout<<"p1 = "<<p1.to_str()<<endl;
 
 		return new Linear(world_to_canonical, stops, spread_func_from_str(spread), p1.x() );
 	}

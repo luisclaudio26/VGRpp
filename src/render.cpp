@@ -27,6 +27,7 @@ Matrix3 viewport_transformation(const Rect& window, const Vec2& viewport)
 void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
 {
 	//TODO: ALPHA BLENDING
+	//Remember that pixels are packed as ARGB!!!
 	Uint32 *pixels = (Uint32*)surf->pixels;
 
 	for(int i = 0; i < surf->h; i++)

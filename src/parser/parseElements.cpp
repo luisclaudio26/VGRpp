@@ -179,7 +179,7 @@ RawPaint* ParseElement::parseLinear(std::string data)
 		ss>>stop;
 		ss>>color[0]>>color[1]>>color[2]>>color[3];
 
-		rl->push_stop(stop, (Color_v){color[0]/255.0, color[0]/255.0, color[0]/255.0, color[0]/255.0});
+		rl->push_stop(stop, (Color_v){color[0]/255.0, color[1]/255.0, color[2]/255.0, color[3]/255.0});
 	}
 
 	return rl;

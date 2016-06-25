@@ -19,11 +19,7 @@ public:
 	}
 
 	Solid(ColorChnl r, ColorChnl g, ColorChnl b, ColorChnl a) {
-		_color = 0;
-		_color += ( (Color)r << 24 );
-		_color += ( (Color)g << 16 );
-		_color += ( (Color)b << 8 );
-		_color += (Color)a;
+		this->_color = ColorOp::rgba_from_components(r, g, b, a);
 	}
 
 	//--------------------------
