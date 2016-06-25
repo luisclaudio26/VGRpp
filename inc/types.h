@@ -4,4 +4,8 @@
 typedef unsigned char 	ColorChnl;
 typedef unsigned int	Color;	
 
+typedef struct {
+	double R, G, B, A;
+} Color_v;
+
 #endif

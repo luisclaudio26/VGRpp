@@ -8,6 +8,7 @@
 #include "../../inc/RawElement/RawTriangle.h"
 #include "../../inc/RawElement/RawCircle.h"
 #include "../../inc/RawElement/RawSolid.h"
+#include "../../inc/RawElement/RawLinear.h"
 #include "../../inc/RawElement/path/RawPath.h"
 #include "../../inc/RawElement/path/RawQuadratic.h"
 #include "../../inc/RawElement/path/RawRQuadratic.h"
@@ -23,6 +24,7 @@ ParseElement::ParseElement()
 	this->type2shape.insert( std::pair<std::string, shapeFunc>(PATH, &ParseElement::parsePath) );
 
 	this->type2paint.insert( std::pair<std::string, paintFunc>(SOLID, &ParseElement::parseSolid) );
+	this->type2paint.insert( std::pair<std::string, paintFunc>(LINEAR, &ParseElement::parseLinear) );
 }
 
 RawShape* ParseElement::parseShapeByType(std::string type, std::string data)
@@ -152,4 +154,33 @@ RawPaint* ParseElement::parseSolid(std::string data)
 	ss>>A;
 
 	return new RawSolid( (ColorChnl)R, (ColorChnl)G, (ColorChnl)B, (ColorChnl)A);
+}
+
+RawPaint* ParseElement::parseLinear(std::string data)
+{
+	std::stringstream ss(data);
+
+	RawLinear *rl = new RawLinear();
+
+	std::string spread;
+	ss>>spread;
+	rl->set_spread_type(spread);
+
+	double p0x, p0y, p1x, p1y;
+	ss>>p0x>>p0y;
+	ss>>p1x>>p1y;
+	rl->set_p0( Vec2(p0x, p0y) );
+	rl->set_p1( Vec2(p1x, p1y) );
+
+	while(!ss.eof())
+	{
+		double stop; int color[4];
+
+		ss>>stop;
+		ss>>color[0]>>color[1]>>color[2]>>color[3];
+
+		rl->push_stop(stop, (Color_v){color[0]/255.0, color[0]/255.0, color[0]/255.0, color[0]/255.0});
+	}
+
+	return rl;
 }
