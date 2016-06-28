@@ -9,6 +9,7 @@
 #include "../../inc/RawElement/RawCircle.h"
 #include "../../inc/RawElement/RawSolid.h"
 #include "../../inc/RawElement/RawLinear.h"
+#include "../../inc/RawElement/RawRadial.h"
 #include "../../inc/RawElement/path/RawPath.h"
 #include "../../inc/RawElement/path/RawQuadratic.h"
 #include "../../inc/RawElement/path/RawRQuadratic.h"
@@ -25,6 +26,7 @@ ParseElement::ParseElement()
 
 	this->type2paint.insert( std::pair<std::string, paintFunc>(SOLID, &ParseElement::parseSolid) );
 	this->type2paint.insert( std::pair<std::string, paintFunc>(LINEAR, &ParseElement::parseLinear) );
+	this->type2paint.insert( std::pair<std::string, paintFunc>(RADIAL, &ParseElement::parseRadial) );
 }
 
 RawShape* ParseElement::parseShapeByType(std::string type, std::string data)
@@ -183,4 +185,9 @@ RawPaint* ParseElement::parseLinear(std::string data)
 	}
 
 	return rl;
+}
+
+RawPaint* ParseElement::parseRadial(std::string data)
+{
+	return new RawRadial();
 }

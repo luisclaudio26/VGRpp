@@ -23,6 +23,7 @@ const std::string PATH("PATH");
 //These are the tags as they appear in .2d files
 const std::string SOLID("SOLID");
 const std::string LINEAR("LINEAR");
+const std::string RADIAL("RADIAL");
 
 class ParseElement
 {
@@ -50,8 +51,10 @@ private:
 	//All these functions, of type paintFunc, 
 	//return a pointer to the parent class whose 
 	//dynamic type is of the desired paint
+	//TODO: pass strings by const reference!
 	RawPaint* parseSolid(std::string);
 	RawPaint* parseLinear(std::string);
+	RawPaint* parseRadial(std::string);
 
 public:
 
