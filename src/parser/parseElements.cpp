@@ -189,5 +189,27 @@ RawPaint* ParseElement::parseLinear(std::string data)
 
 RawPaint* ParseElement::parseRadial(std::string data)
 {
-	return new RawRadial();
+	std::stringstream ss(data);
+
+	RawRadial *rr = new RawRadial();
+
+	std::string spread;
+	ss>>spread;
+	rr->set_spread_type(spread);
+
+	double p0x, p0y, p1x, p1y;
+	ss>>p0x>>p0y>>p1x>>p1y;
+	rr->set_p0( Vec2(p0x, p0y) );
+	rr->set_p1( Vec2(p1x, p1y) );
+
+	while(!ss.eof())
+	{
+		double stop; Color_v color;
+		ss>>stop;
+		ss>>color.R>>color.G>>color.B>>color.A;
+
+		rr->push_stop(stop, color);
+	}
+
+	return rr;
 }
