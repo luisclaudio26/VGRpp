@@ -33,3 +33,8 @@ _PAINT_ can be:
 			where <spread> is the type of spreading to the gradient (pad, repeat, reflect,...),
 			<p0> and <p1> are the starting and ending points for the gradient and each pair <si> <rgba>
 			is a stop point and its respective color. <si> is in the range [0, 1].
+
+	RADIAL: <spread> <center> <focus> <s0> <rgba> <s1> <rgba> ...
+			where <spread> defines how we'll spread/wrap the gradient (pad, repeat, reflect, ...),
+			<center> and <focus> are points and and each pair <si> <rgba> is a stop point and its
+			respective color.
