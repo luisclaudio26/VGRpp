@@ -29,7 +29,7 @@ private:
 
 		//TODO: This won't if v is outside interval [0,1]!
 		//Do error checking after
-		while( cur.first <= v )
+		while( cur.first < v )
 		{
 			last = cur;
 			cur = stops[++count];
@@ -60,7 +60,7 @@ public:
 
 		//get ratio of lengths ( projection of cs_p on the x axis divided by grad_length)
 		double v = cs_p.x() / grad_length;
-		
+
 		//wrap it
 		v = spr_func(v);
 

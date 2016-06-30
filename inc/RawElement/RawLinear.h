@@ -45,13 +45,18 @@ public:
 		//p0 at origin, p1 lying in x axis. Translate
 		//p0 and p1 to origin and rotate so p1 to lies on x axis
 		Matrix3 p0_to_origin = Matrix3::translate( -p0 );
+		p1 = p0_to_origin.apply( p1.homogeneous() ).euclidean();
 
 		double cosTheta = p1.x() / p1.norm();
 		double sinTheta = sqrt(1 - cosTheta*cosTheta);
+
+		//if p1.y < 0, and for so we should rotate
+		//in the opposite direction
+		if(p1.y() < 0) sinTheta = -sinTheta;
+
 		Matrix3 rotate_p1 = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
 
 		Matrix3 world_to_canonical = rotate_p1 * p0_to_origin * xf.inv() * scene_t.inv();
-
 		p1 = world_to_canonical.apply( p1.homogeneous() ).euclidean();
 
 		return new Linear(world_to_canonical, stops, spread_func_from_str(spread), p1.x() );
