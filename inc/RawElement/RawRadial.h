@@ -46,7 +46,10 @@ public:
 		Matrix3 align_center = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
 		center = align_center.apply( center.homogeneous() ).euclidean();
 
-		return new Radial( spread_func_from_str(spr), center.x(), radius, stops );
+		//compose everything
+		Matrix3 canonical_grad = align_center * focus_to_origin * T.inv();
+
+		return new Radial( spread_func_from_str(spr), center.x(), radius, canonical_grad, stops );
 	}
 };
 
