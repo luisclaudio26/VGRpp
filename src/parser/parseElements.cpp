@@ -212,6 +212,12 @@ RawPaint* ParseElement::parseRadial(std::string data)
 		ss>>stop;
 		ss>>color.R>>color.G>>color.B>>color.A;
 
+		//TODO: create a method for this
+		color.R /= 255.0;
+		color.G /= 255.0;
+		color.B /= 255.0;
+		color.A /= 255.0;
+
 		rr->push_stop(stop, color);
 	}
 
