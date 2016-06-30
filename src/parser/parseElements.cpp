@@ -199,8 +199,12 @@ RawPaint* ParseElement::parseRadial(std::string data)
 
 	double p0x, p0y, p1x, p1y;
 	ss>>p0x>>p0y>>p1x>>p1y;
-	rr->set_p0( Vec2(p0x, p0y) );
-	rr->set_p1( Vec2(p1x, p1y) );
+	rr->set_center( Vec2(p0x, p0y) );
+	rr->set_focus( Vec2(p1x, p1y) );
+
+	double r;
+	ss>>r;
+	rr->set_radius(r);
 
 	while(!ss.eof())
 	{

@@ -7,6 +7,11 @@ class Radial : public Paint
 {
 private:
 public:
+	Radial(spread_func spr, double focus, double radius, const std::vector<std::pair<double, Color_v> >& stops)
+	{
+		
+	}
+
 
 	//-----------------------------
 	//------- From paint.h --------

@@ -38,6 +38,9 @@ public:
 	//----- From RawPaint.h -----
 	Paint* preprocess(const Matrix3& xf, const Matrix3& scene_t) override
 	{
+		//TODO: THIS IS NOT CORRECT! WE MUST BUILD THE ROTATION MATRIX
+		//FROM THE TRANSFORMED POINTS!
+
 		//Transform points to canonical space:
 		//p0 at origin, p1 lying in x axis. Translate
 		//p0 and p1 to origin and rotate so p1 to lies on x axis
