@@ -14,6 +14,10 @@ const double EPS = 0.0000001;
 class Numeric
 {
 public:
+	static bool d_equal(double rhs, double lhs) {
+		return fabs(rhs-lhs) < EPS;
+	}
+
 	static int sign(double x) {
 		if(x > 0) return 1;
 		else if(x < 0) return -1;

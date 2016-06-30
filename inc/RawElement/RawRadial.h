@@ -43,18 +43,25 @@ public:
 		center = focus_to_origin.apply( center.homogeneous() ).euclidean();
 		focus = focus_to_origin.apply( focus.homogeneous() ).euclidean();
 
-		//Rotate center so to align with x axis
-		double cosTheta = center.x() / center.norm();
-		double sinTheta = sqrt( 1 - cosTheta*cosTheta );
-		Matrix3 align_center = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
-		
-		center = align_center.apply( center.homogeneous() ).euclidean();
-		focus = align_center.apply( focus.homogeneous() ).euclidean();
+		//Rotate center so to align with x axis, if points are not coincident
+		Matrix3 align_center = Matrix3::identity();
+
+		if( !Numeric::d_equal(center.norm(), 0.0) )
+		{
+			double cosTheta = center.x() / center.norm();
+			double sinTheta = sqrt( 1 - cosTheta*cosTheta );
+			align_center = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
+			
+			center = align_center.apply( center.homogeneous() ).euclidean();
+			focus = align_center.apply( focus.homogeneous() ).euclidean();
+		}
 
 		//compose everything
-		Matrix3 canonical_grad = align_center * focus_to_origin * scale_to_unit * (xf * scene_t).inv();
+		Matrix3 canonical_grad = align_center * focus_to_origin * scale_to_unit * (scene_t * xf).inv();
 
-		std::cout<<"Center = "<<center.to_str()<<", focus = "<<focus.to_str()<<endl;
+		//CAVEAT: I must read the radial gradient specs from RVG to know what to do when focus
+		//is outside circle; as I'm too lazy for this, I'll just clamp it to the border if it's the case
+		if( center.x() > 1.0) center.setX(1.0);
 
 		return new Radial( spread_func_from_str(spr), center.x(), canonical_grad, stops );
 	}
