@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#define FULL_TRANSPARENT 0x000000
+#define FULL_TRANSPARENT 0x00000000
 
 class Element
 {
@@ -44,13 +44,11 @@ public:
 	//----------------------------
 	//---------- SAMPLE ----------
 	//----------------------------
-	//TODO: Maybe we could just return a full transparent color
-	//so to avoid this return value. This needs alpha blending to
-	//be fully functional!!!
 	void sample(double x, double y, Color& out)
 	{
-		if( _shape->is_inside(x,y) )
+		if( _shape->is_inside(x,y) ) 
 			out = _paint->sample(x, y);
+		else out = FULL_TRANSPARENT;
 	}
 };
 

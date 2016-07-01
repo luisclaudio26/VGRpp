@@ -38,3 +38,7 @@ _PAINT_ can be:
 			where <spread> defines how we'll spread/wrap the gradient (pad, repeat, reflect, ...),
 			<center> and <focus> are points and and each pair <si> <rgba> is a stop point and its
 			respective color.
+
+
+Further Remarks:
+	- ALPHA channel is fully opaque with value 255 and fully transparent with value 255

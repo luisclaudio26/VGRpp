@@ -1,5 +1,6 @@
 #include "../inc/render.h"
 #include "../inc/vector/matrix3.h"
+#include "../inc/types.h"
 #include <SDL/SDL.h>
 #include <iostream>
 #include <chrono>
@@ -33,14 +34,21 @@ void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
 	for(int i = 0; i < surf->h; i++)
 		for(int j = 0; j < surf->w; j++)
 		{
-			Uint32 out = bg;
+			Uint32 acc = bg;
+
+			//sample at the center of the pixel, in each layer
 			for(int k = 0; k < pool.size(); k++)
-				pool[k]->sample( j + 0.5, i + 0.5, out);
+			{
+				Uint32 layer_color;
+				pool[k]->sample( j + 0.5, i + 0.5, layer_color);
+
+				acc = ColorOp::color_over(layer_color, acc);
+			}
 
 			//Invert y axis
 			int inv_i = surf->h - i - 1;
 			
-			pixels[inv_i*surf->w + j] = out;
+			pixels[inv_i*surf->w + j] = acc;
 		}
 }
 
@@ -51,7 +59,8 @@ Render* Render::render_ptr = 0;
 
 Render::Render() 
 {
-	this->bg_color = 0x000000;
+	//Black, opaque background
+	this->bg_color = 0xFF000000;
 }
 
 Render::~Render()
