@@ -5,6 +5,7 @@
 #include "../element/texture.h"
 #include "../spread.h"
 #include <SDL_image.h>
+#include <SDL/SDL.h>
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -35,7 +36,7 @@ public:
 		//sends the pixel from scene space to texture space.
 		Matrix3 scene2tex = (scene_t * xf).inv();
 
-		//initialize SDL image drive
+		//initialize SDL image drive. TODO: MUST DROP THIS POINTER AFTER
 		if( !IMG_Init(img_flags) )
 			cout<<"Error while initialize SDL Image!"<<endl;
 
