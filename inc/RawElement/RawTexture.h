@@ -3,6 +3,7 @@
 
 #include "./RawPaint.h"
 #include "../element/texture.h"
+#include "../spread.h"
 #include <SDL_image.h>
 #include <iostream>
 using std::cout;
@@ -38,7 +39,13 @@ public:
 		if( !IMG_Init(img_flags) )
 			cout<<"Error while initialize SDL Image!"<<endl;
 
-		return new Texture();
+		//load image
+		SDL_Surface *image = IMG_Load( this->url.c_str() );
+
+		if( !image )
+			cout<<"Error while loading image: "<<IMG_GetError()<<endl;
+
+		return new Texture(image, spread_func_from_str(this->spread), scene2tex );
 	}
 };
 
