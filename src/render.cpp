@@ -4,8 +4,11 @@
 #include <SDL/SDL.h>
 #include <iostream>
 #include <chrono>
+#include <cstdlib>
 
 using namespace std::chrono;
+
+#define samples_per_pixel 16
 
 //-------------------------------------------
 //----------------- INTERNAL ----------------
@@ -25,30 +28,57 @@ Matrix3 viewport_transformation(const Rect& window, const Vec2& viewport)
 	return scl * t1 ;
 }
 
+Color_v sample_image(const std::vector<Element*>& pool, double i, double j, Color bg)
+{	
+	Uint32 acc = bg;
+	for(int k = 0; k < pool.size(); k++)
+	{
+		Uint32 layer_color;
+		pool[k]->sample(j, i, layer_color);
+
+		acc = ColorOp::color_over(layer_color, acc);
+	}
+
+	//TODO: This conversion is AWFUL! elements should return
+	//color_v's, so we can alpha composite, supersample and
+	//only in the end pack it into an Integer!
+	return ColorOp::colorv_from_rgba(acc);
+}
+
 void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
 {
-	//TODO: ALPHA BLENDING
 	//Remember that pixels are packed as ARGB!!!
 	Uint32 *pixels = (Uint32*)surf->pixels;
 
+	//for each layer, we take multiple samples close
+	//to each other and simply take its average (which
+	//is equivalent to box-filter it).
 	for(int i = 0; i < surf->h; i++)
 		for(int j = 0; j < surf->w; j++)
 		{
-			Uint32 acc = bg;
+			Color_v out = (Color_v){0,0,0,0};
 
-			//sample at the center of the pixel, in each layer
-			for(int k = 0; k < pool.size(); k++)
+			for(int k = 0; k < samples_per_pixel; k++)
 			{
-				Uint32 layer_color;
-				pool[k]->sample( j + 0.5, i + 0.5, layer_color);
+				double _i = i + (double)rand()/RAND_MAX;
+				double _j = j + (double)rand()/RAND_MAX;
 
-				acc = ColorOp::color_over(layer_color, acc);
+				Color_v sample = sample_image(pool, _i, _j, bg);
+
+				out.R += sample.R;
+				out.G += sample.G;
+				out.B += sample.B;
+				out.A += sample.A;
 			}
 
-			//Invert y axis
+			out.R /= samples_per_pixel;
+			out.G /= samples_per_pixel;
+			out.B /= samples_per_pixel;
+			out.A /= samples_per_pixel;
+
+			//Invert y axis and paint
 			int inv_i = surf->h - i - 1;
-			
-			pixels[inv_i*surf->w + j] = acc;
+			pixels[inv_i*surf->w + j] = ColorOp::rgba_from_colorv(out);
 		}
 }
 
