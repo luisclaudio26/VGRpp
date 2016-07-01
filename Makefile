@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -g -O2 -std=c++11
-CLIBS = -lm $(shell sdl-config --cflags --libs)
+CLIBS = -lm $(shell sdl-config --cflags --libs) -lSDL_image
 EXEC = render
 
 all: render.o parser.o rect.o vector2.o vector3.o RawElement.o matrix3.o triangle.o parseElements.o RawTriangle.o RawSolid.o

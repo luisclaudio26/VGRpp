@@ -228,5 +228,17 @@ RawPaint* ParseElement::parseRadial(std::string data)
 
 RawPaint* ParseElement::parseTexture(std::string data)
 {
-	return new RawTexture();
+	std::stringstream ss(data);
+
+	RawTexture *rt = new RawTexture();
+
+	std::string spread;
+	ss>>spread;
+	rt->set_spread_type(spread);
+
+	std::string image_url;
+	ss>>image_url;
+	rt->set_image_url(image_url);
+
+	return rt;
 }
