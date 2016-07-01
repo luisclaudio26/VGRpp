@@ -24,6 +24,7 @@ const std::string PATH("PATH");
 const std::string SOLID("SOLID");
 const std::string LINEAR("LINEAR");
 const std::string RADIAL("RADIAL");
+const std::string TEXTURE("TEXTURE");
 
 class ParseElement
 {
@@ -55,6 +56,7 @@ private:
 	RawPaint* parseSolid(std::string);
 	RawPaint* parseLinear(std::string);
 	RawPaint* parseRadial(std::string);
+	RawPaint* parseTexture(std::string);
 
 public:
 
