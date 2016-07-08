@@ -15,11 +15,9 @@ void compute_implicit_line(const Vec2& p0, const Vec2& p1, double* coef)
 	// Aqui você calcula a, b e c para a equação de forma
 	// ax+by+c = 0 que passa por p0 e p1.
 
-	/*
-	double a = ...
-	double b = ...
-	double c = ...
-	*/
+	double a = 1.0;
+	double b = 1.0;
+	double c = 1.0;
 
 	coef[0] = a;
 	coef[1] = b;
@@ -53,6 +51,8 @@ bool Triangle::is_inside(double x, double y)
 	// (definindo onde o segmento reta "começa" e "termina")
 	// em sentido horário/anti-horário, o ponto vai estar à
 	// à direita ou à esquerda de todas as retas ao mesmo tempo.
+
+	return false;
 }
 
 void Triangle::setxf(const Matrix3& xf)
@@ -85,11 +85,9 @@ void Triangle::implicitize()
 	// "lembrar" onde os pontos estavam originalmente (isto é, precisamos
 	// saber as coordenadas dos pontos tal como foram definidos no arquivo .2d)
 	
-	/*
-	Vec2 p0_t = ...
-	Vec2 p1_t = ...
-	Vec2 p2_t = ...
-	*/
+	Vec2 p0_t = Vec2(0.0,0.0);
+	Vec2 p1_t = Vec2(0.0,0.0);
+	Vec2 p2_t = Vec2(0.0,0.0);
 
 	// Uma vez que os pontos foram transformados, podemos
 	// calcular a equação implícita para cada uma das arestas.
