@@ -8,7 +8,7 @@
 
 using namespace std::chrono;
 
-#define samples_per_pixel 16
+#define samples_per_pixel 1
 
 //-------------------------------------------
 //----------------- INTERNAL ----------------
