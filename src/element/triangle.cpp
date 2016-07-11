@@ -73,6 +73,8 @@ void Triangle::set_scenexf(const Matrix3& scenexf)
 
 void Triangle::implicitize()
 {
+	// Posteriormente:
+	//
 	// Aqui você deve aplicar a transformação do modelo
 	// aos vértices, depois a transformação da cena
 	//
@@ -85,9 +87,9 @@ void Triangle::implicitize()
 	// "lembrar" onde os pontos estavam originalmente (isto é, precisamos
 	// saber as coordenadas dos pontos tal como foram definidos no arquivo .2d)
 	
-	Vec2 p0_t = Vec2(0.0,0.0);
-	Vec2 p1_t = Vec2(0.0,0.0);
-	Vec2 p2_t = Vec2(0.0,0.0);
+	Vec2 p0_t = p0;
+	Vec2 p1_t = p1;
+	Vec2 p2_t = p2;
 
 	// Uma vez que os pontos foram transformados, podemos
 	// calcular a equação implícita para cada uma das arestas.
