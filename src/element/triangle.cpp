@@ -29,9 +29,8 @@ void compute_implicit_line(const Vec2& p0, const Vec2& p1, double* coef)
 //----------------------------------------------
 Triangle::Triangle() {	}
 
-Triangle::Triangle(Vec2& p0, Vec2& p1, Vec2& p2)
+Triangle::Triangle(const Vec2& p0, const Vec2& p1, const Vec2& p2)
 {
-	//map vertice to scene space
 	this->p0 = p0;
 	this->p1 = p1;
 	this->p2 = p2;
@@ -55,15 +54,15 @@ bool Triangle::is_inside(double x, double y)
 	return false;
 }
 
-void Triangle::setxf(const Matrix3& xf)
+void Triangle::set_modelxf(const Matrix3& xf)
 {
 	//Cada vez que a gente muda a transformação do MODELO, temos que
 	//recalcular onde os pontos estarão na tela.
-	this->xf = xf;
+	this->model_xf = xf;
 	implicitize();
 }
 
-void Triangle::set_scenexf(const Matrix3& scenexf)
+void Triangle::set_scenexf(const Matrix3& xf)
 {
 	//Cada vez que a gente muda a transformação da CENA, temos
 	//que recalcular onde os pontos estarão na tela.
@@ -73,7 +72,10 @@ void Triangle::set_scenexf(const Matrix3& scenexf)
 
 void Triangle::implicitize()
 {
-	// Posteriormente:
+	// Para o primeiro laboratório, ignore o texto abaixo e pule direto
+	// para a função compute_implicit_line().
+	//
+	// ---------------------------------------------------------------
 	//
 	// Aqui você deve aplicar a transformação do modelo
 	// aos vértices, depois a transformação da cena
@@ -83,7 +85,7 @@ void Triangle::implicitize()
 	// que depois são "convertidos" de volta para pontos euclidianos.
 	//
 	// Lembre-se de não transformar os pontos p0, p1, p2 diretamente,
-	// pois se mudamos a transformação scene_xf ou xf precisaremos
+	// pois se mudamos a transformação scene_xf ou model_xf precisaremos
 	// "lembrar" onde os pontos estavam originalmente (isto é, precisamos
 	// saber as coordenadas dos pontos tal como foram definidos no arquivo .2d)
 	

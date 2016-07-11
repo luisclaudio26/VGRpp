@@ -13,7 +13,7 @@ class Circle: public Shape
 private:
 	Vec2 center;
 	double radius;
-	Matrix3 xf;
+	Matrix3 model_xf;
 
 	//Matrix describing this circle/ellipsis
 	Matrix3 conic;
@@ -26,19 +26,19 @@ public:
 	}
 
 	void setxf(const Matrix3& xf) {
-		this->xf = xf;
+		this->model_xf = xf;
 		update_conic();
 	}
 
-	void set_scenexf(const Matrix3& scenexf) override {
-		this->scenexf = scenexf;
+	void set_scenexf(const Matrix3& xf) override {
+		this->scenexf = xf;
 		update_conic();
 	}
 
 	void update_conic()
 	{
 		//This function takes the xf and scene_xf matrices
-		//and use them, altogether with radius and center,
+		//and use them altogether with radius and center,
 		//to create a matrix representation for the circle
 		//(which can turn out to be an ellipse after xf)
 		Matrix3 t = Matrix3::scale(radius, radius);
@@ -46,7 +46,6 @@ public:
 		t = scenexf * xf * t;
 		t = t.inv();
 
-		//std::cout<<t.mat2str()<<std::endl;
 		double aux[] = {1.0, 0.0, 0.0,
 						0.0, 1.0, 0.0,
 						0.0, 0.0, -1.0};

@@ -11,7 +11,7 @@ class Triangle : public Shape
 {
 private:
 	Vec2 p0, p1, p2;
-	Matrix3 xf;
+	Matrix3 model_xf;
 
 	//Implicit equation coef for each edge. A 3x3 matrix
 	//stored in a 9-element vector
@@ -20,18 +20,18 @@ private:
 
 public:
 	Triangle();
-	Triangle(Vec2& p0, Vec2& p1, Vec2& p2);
+	Triangle(const Vec2& p0, const Vec2& p1, const Vec2& p2);
 	~Triangle();
 
 	//--------------------------
 	//--------- Access ---------
 	//--------------------------
-	void setxf(const Matrix3& xf);
+	void set_modelxf(const Matrix3& xf);
 
 	//--------------------------
 	//------- From Shape -------
 	//--------------------------
-	void set_scenexf(const Matrix3& scenexf) override;
+	void set_scenexf(const Matrix3& xf) override;
 	bool is_inside(double x, double y) override;
 
 };
