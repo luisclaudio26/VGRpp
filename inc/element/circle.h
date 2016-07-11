@@ -54,11 +54,14 @@ public:
 	}
 
 	virtual bool is_inside(double x, double y) override {
-		//This is just the product [x,y,1].(m.[x,y,1]) expressed with
-		//the functions we already have
-		Vec3 p(x,y,1);
-		double d = p.dot( conic.apply(p) );
-		return d <= 0;
+
+		// Neste primeiro laboratório, você só vai usar os atributos
+		// center e radius. A transformação xf do modelo veremos depois.
+		// A matriz conic e o método update_conic() são usadas para
+		// a representação matricial do círculo/elipse, como veremos
+		// superficialmente depois.
+
+		return false;
 	}
 };
 
