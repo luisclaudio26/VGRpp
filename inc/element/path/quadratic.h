@@ -71,11 +71,8 @@ public:
 
 	void transform(const Matrix3& t) override 
 	{
-		p0 = t.apply( this->_p0.homogeneous() ).euclidean();
-		p1 = t.apply( this->_p1.homogeneous() ).euclidean();
-		p2 = t.apply( this->_p2.homogeneous() ).euclidean();
-
-		recompute_param();
+		//We can't do anything here, because monotonization is not invariant under
+		//any transformations!
 	}
 
 	int to_the_left(const Vec2& p) override 
@@ -85,21 +82,15 @@ public:
 			if(p.x() <= min.x()) return dy;
 			if(p.x() > max.x()) return 0;
 
-			//We're inside the box, so we need to test for intersection
-			//Find the point in the curve whose Y coordinate is equal to
-			//the Y coordinate of our point; then, find out if the point
-			//is to the left of the intersection.
-			double a = p0.y() - p1.y()*2 + p2.y();
-			double b = (p1.y() - p0.y())*2;
-			double c = p0.y() - p.y();
-
-			//This function returns the root of the equation ax²+bx+c which
-			//is in range [0.0, 1.0]; if there are multiple roots in the range, 
-			//we one of them, but this should not happen because segments
-			//are monotonic. If there is none, we return +INF.
-			//Notice we could also use a classical numerical root finder here
-			double t_inter = Numeric::quadratic_in_range(0.0, 1.0, a, b, c);
-			double x_inter = Numeric::bezier2_at(t_inter, p0.x(), p1.x(), p2.x());
+			// Comece verificando em que parâmetro t y(t) é igual
+			// a p.y(). Depois, ache x(t) e retorne +1/-1 se
+			// p.x() estiver à esquerda.
+			//
+			// Armazene x(t) em x_inter!
+			//
+			// Lembre que no cabeçalho inc/vector/numeric.h tem algumas funções
+			// que podem ser úteis. Verifique!
+			double x_inter = 0;
 
 			return (p.x() <= x_inter) ? dy : 0;
 		}
