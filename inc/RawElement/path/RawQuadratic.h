@@ -57,36 +57,27 @@ public:
 
 	void preprocess(std::vector<Primitive*>& holder) override
 	{
-		//Compute maxima by doing dF/dt = 0
-		//The derivative of a quadratic function is a linear
-		//one (ax+b), and we have one for X and one for Y
-		Vec2 a, b;
-		a = p0*2 - p1*4 + p2*2;
-		b = (p1-p0)*2;
+		// Essa é a parte mais difícil de renderizar uma curva.
+		//
+		// Para monotonizar: comece calculando em que pontos t1
+		// e t2 a curva muda de sinal. Lembre-se que é simplesmente
+		// dF/dt = 0, e que temos duas funções de uma variável:
+		// ( x(t), y(t) ). Como cada função é quadrática, a derivada
+		// será uma função linear (at+b).
+		Vec2 a, b; double t[] = {0.0, -1.0, -1.0, 1.0};
 
-		double t[] = {0.0, -1.0, -1.0, 1.0};
-		t[1] = Numeric::clamp( -b.x()/a.x() ); 
-		t[2] = Numeric::clamp( -b.y()/a.y() );
-
-		//Ad-hoc sort
-		if(t[1] > t[2]) {
-			double tmp = t[2];
-			t[2] = t[1];
-			t[1] = tmp;
-		}
-
-		//split bézier
-		for(int i = 1; i < 4; i++)
-		{
-			//This is safe, cause we're really setting 0.0 and 1.0
-			//to T if it was clamped in the range [0.0, 1.0]
-			if( t[i] != t[i-1] )
-			{
-				Quadratic *Q = new Quadratic();
-				cut_at( t[i-1], t[i], Q );
-				holder.push_back(Q);
-			}
-		}
+		// t deve conter os pontos de mudança de sinal em t[1] e t[2].
+		// Agora, invoque a função cut_at() para cortar a curva em
+		// quantas partes for necessário. Teremos no máximo três novas
+		// curvas -> [t0,t1], [t1,t2], [t2,t3]
+		// 
+		// Crie dinamicamente um ponteiro para objeto Quadratic usando
+		// new e coloque no vetor holder usando holder.push_back(). 
+		// Note que Quadratic herda de Primitive, então podemos fazer
+		// isso!
+		//
+		// Se tudo der certo nessa parte, vocÊ deverá ver um quadradinho
+		// colorido no lugar da curva.
 	}
 };
 
