@@ -43,7 +43,7 @@ public:
 		//(which can turn out to be an ellipse after xf)
 		Matrix3 t = Matrix3::scale(radius, radius);
 		t = Matrix3::translate(center) * t;
-		t = scenexf * xf * t;
+		t = scenexf * model_xf * t;
 		t = t.inv();
 
 		double aux[] = {1.0, 0.0, 0.0,
