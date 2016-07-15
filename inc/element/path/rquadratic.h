@@ -46,7 +46,7 @@ private:
 	}
 
 public:
-	RQuadratic(const Vec2& p0, const Vec2& p1, const Vec2& p2)
+	RQuadratic(const Vec2& p0, const Vec3& p1, const Vec2& p2)
 	{
 		this->p0 = p0;
 		this->p1 = p1;
