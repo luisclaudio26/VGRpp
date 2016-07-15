@@ -36,12 +36,15 @@ public:
 	}
 
 	//----- From RawPaint.h -----
-	Paint* preprocess(const Matrix3& xf, const Matrix3& scene_t) override
+	Paint* preprocess(const Matrix3& paint_xf, const Matrix3& scene_t) override
 	{
 		// Você deve montar aqui uma transformação que leva
 		// p0 para a origem e p1 para <1,0>. Isso envolve uma
 		// translação -p0, uma rotação que leva p1 para o eixo
 		// x e uma escala que leva p1 para <1,0>.
+		//
+		// Não esqueça de levar em consideração a transformação
+		// do paint!
 		//
 		// Você vai construir essa matrix e passar ela como parâmetro
 		// para o objeto Linear.
