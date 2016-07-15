@@ -46,6 +46,15 @@ private:
 	}
 
 public:
+	RQuadratic(const Vec2& p0, const Vec2& p1, const Vec2& p2)
+	{
+		this->p0 = p0;
+		this->p1 = p1;
+		this->p2 = p2;
+
+		recompute_param();
+	}
+
 	void set_p0(const Vec2& p) { this->_p0 = p; this->p0 = p; recompute_param(); }
 	void set_p1(const Vec3& p) { this->_p1 = p; this->p1 = p; recompute_param(); }
 	void set_p2(const Vec2& p) { this->_p2 = p; this->p2 = p; recompute_param(); }
@@ -62,11 +71,9 @@ public:
 
 	void transform(const Matrix3& t) override
 	{
-		this->p0 = t.apply( this->_p0.homogeneous() ).euclidean();
-		this->p1 = t.apply( this->_p1 );
-		this->p2 = t.apply( this->_p2.homogeneous() ).euclidean();
-
-		recompute_param();
+		//We can't do anything here, because monotonization is not
+		//invariant to transformations! i.e. transforming the curve
+		//here would make it lose the monotonic property.
 	}
 
 	//Returns ZERO if the ray casted in the x direction
@@ -75,24 +82,23 @@ public:
 	//the direction the primitive is going (down or up) 
 	int to_the_left(const Vec2& p) override
 	{
-		if(min.y() <= p.y() && p.y() < max.y())
-		{
-			if(p.x() <= min.x()) return dy;
-			if(p.x() > max.x()) return 0;
+		// Essa vai ser um pouco mais difícil, mas você pode colar
+		// do método para curvas quadráticas integrais. Retorne zero
+		// se não houver interseção e retorne DY (+1/-1) se houver.
+		//
+		// Você vai calcular o ponto de interseção entre a curva racional
+		// e a linha horizontal com origem p.y(), igual às curvas integrais,
+		// mas lembre que o ponto é da forma [x.w y.w w], então para achá-lo
+		// na forma [x y] você deve dividir x.w e y.w por w.
+		//
+		// Você deve achar numericamente a interseção usando um método
+		// de biseção ou Newton-Raphson, por exemplo. Se você não quiser
+		// fazer seu próprio método, veja a função Numeric::RC_find_root(),
+		// que implementa um método de biseção bem simples (e ineficiente).
 
-			//We're inside the box, so we need to test for intersection
-			//Find the point in the curve whose Y coordinate is equal to
-			//the Y coordinate of our point; then, find out if the point
-			//is to the left of the intersection.
-			double t_inter = Numeric::RC_find_root(0, 1, p0.y(), p1.y(), p1.w(), p2.y(), p.y());
 
-			double x_inter = Numeric::bezier2_at(t_inter, p0.x(), p1.x(), p2.x());
-			double w_inter = Numeric::bezier2_at(t_inter, 1.0, p1.w(), 1.0);
 
-			return (p.x() <= x_inter/w_inter) ? dy : 0;
-		}
-
-		return 0;
+		return false;
 	}
 };
 

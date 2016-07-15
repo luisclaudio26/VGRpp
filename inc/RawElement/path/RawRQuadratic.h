@@ -71,38 +71,29 @@ public:
 
 	void preprocess(std::vector<Primitive*>& holder)
 	{
-		double t[6]; t[0] = 0.0;
-					 t[5] = 1.0;
-
-		//project point
-		p1.setX( p1.x() * p1.w() );
-		p1.setY( p1.y() * p1.w() );
-
-		//compute maxima: derivative of P(t)/w(t), which is waaaaaay
-		//boring to do, so I copy/pasted from the slides
-		compute_maxima(p0.y(), p1.y(), p1.w(), p2.y(), t[1], t[2]);
-		t[1] = Numeric::clamp(t[1]);
-		t[2] = Numeric::clamp(t[2]);
-
-		compute_maxima(p0.x(), p1.x(), p1.w(), p2.x(), t[3], t[4]);
-		t[3] = Numeric::clamp(t[3]);
-		t[4] = Numeric::clamp(t[4]);
-
-		//sort roots
-		std::sort(t, t+6);
-
-		//cut
-		for(int i = 1; i < 6; i++)
-		{
-			double t0 = t[i-1], t1 = t[i];
-			
-			if(t0 != t1)
-			{
-				RQuadratic *RQ = new RQuadratic();
-				cut_at(t0, t1, *RQ);
-				holder.push_back(RQ);
-			}
-		}
+		// Este laboratório será bem parecido com o de curvas quadráticas
+		// integrais, mas algumas fórmulas mudam e também o número máximo
+		// de curvas que conseguimos no fim.
+		//
+		// Não esqueça que o ponto de controle lido está na forma [x y w], 
+		// isto é: temos a localização do ponto no espaço euclidiano do modelo
+		// e o seu peso. Isso significa então que antes de fazer quaisquer
+		// operações, o ponto deve ser PROJETADO (posto na forma [x.w y.w w]).
+		//
+		// Lembre também que só o ponto de controle está num plano diferente de
+		// w = 1, então os outros pontos são armazenados como Vec2 e não Vec3.
+		//
+		// Derivar uma quadrática racional é a derivada de uma razão de polinômios
+		// (reveja o slide). No fim igualamos o numerador do polinômio derivado a zero
+		// e percebemos que é necessário resolver uma equação quadrática: isso significa
+		// que podemos ter duas raízes (= pontos de máximo) para y(t) e duas raízes
+		// (= pontos de máximo) para x(t), então é possível ter 5 curvas monótonas
+		// ao fim! A função para cortar a Bézier racional é idêntica e já está implementada,
+		// então não precisa se preocupar com isso.
+		//
+		// Da mesma forma que no exercício de quadráticas integrais, você deve
+		// colocar os ponteiros para as novas curvas (RQuadratic*) no vetor holder
+		// usando holder.push_back().
 	}
 
 	void transform(const Matrix3& t) override

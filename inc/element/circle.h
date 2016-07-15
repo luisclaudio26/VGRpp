@@ -18,6 +18,9 @@ private:
 	//Matrix describing this circle/ellipsis
 	Matrix3 conic;
 
+	//Sends point in viewport space to unit circle
+	Matrix3 to_unit;
+
 public:
 	Circle(const Vec2& center, double radius) {
 		this->center = center;
@@ -41,25 +44,22 @@ public:
 		//and use them altogether with radius and center,
 		//to create a matrix representation for the circle
 		//(which can turn out to be an ellipse after xf)
-		Matrix3 t = Matrix3::scale(radius, radius);
-		t = Matrix3::translate(center) * t;
-		t = scenexf * model_xf * t;
-		t = t.inv();
+		to_unit = scenexf * model_xf * Matrix3::translate(center) * Matrix3::scale(radius, radius);
+		to_unit = to_unit.inv();
 
 		double aux[] = {1.0, 0.0, 0.0,
 						0.0, 1.0, 0.0,
 						0.0, 0.0, -1.0};
-		conic = t.transpose() * Matrix3(aux) * t;
+		conic = to_unit.transpose() * Matrix3(aux) * to_unit;
 	}
 
-	virtual bool is_inside(double x, double y) override {
-
+	virtual bool is_inside(double x, double y) override 
+	{
 		// Neste primeiro laboratório, você só vai usar os atributos
 		// center e radius. A transformação xf do modelo veremos depois.
 		// A matriz conic e o método update_conic() são usadas para
 		// a representação matricial do círculo/elipse, como veremos
 		// superficialmente depois.
-
 		return false;
 	}
 };
