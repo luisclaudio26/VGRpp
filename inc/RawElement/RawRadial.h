@@ -30,37 +30,17 @@ public:
 	//-------------------------------------
 	//---------- From RawPaint.h ----------
 	//-------------------------------------
-	Paint* preprocess(const Matrix3& xf, const Matrix3& scene_t) override
+	Paint* preprocess(const Matrix3& paint_xf, const Matrix3& scene_t) override
 	{
-		//Scale so to get unit circle
-		Matrix3 scale_to_unit = Matrix3::scale(1/radius, 1/radius);
-		center = scale_to_unit.apply( center.homogeneous() ).euclidean();
-		focus = scale_to_unit.apply( focus.homogeneous() ).euclidean();
+		// Assim como no gradiente linear, você vai construir uma transformação
+		// que mapeia um ponto para um espaço de gradiente radial canônico:
+		// Translade o foco para a origem, rotacione para por o centro no eixo x,
+		// escalone para o raio ser 1. Novamente, não esqueça da transformação do paint!
+		Matrix3 canonical_grad = Matrix3::identity();
 
-		//Translate center and focus to origin
-		Matrix3 focus_to_origin = Matrix3::translate( -focus );
-		
-		center = focus_to_origin.apply( center.homogeneous() ).euclidean();
-		focus = focus_to_origin.apply( focus.homogeneous() ).euclidean();
-
-		//Rotate center so to align with x axis, if points are not coincident
-		Matrix3 align_center = Matrix3::identity();
-
-		if( !Numeric::d_equal(center.norm(), 0.0) )
-		{
-			double cosTheta = center.x() / center.norm();
-			double sinTheta = sqrt( 1 - cosTheta*cosTheta );
-			align_center = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
-			
-			center = align_center.apply( center.homogeneous() ).euclidean();
-			focus = align_center.apply( focus.homogeneous() ).euclidean();
-		}
-
-		//compose everything
-		Matrix3 canonical_grad = align_center * focus_to_origin * scale_to_unit * (scene_t * xf).inv();
-
-		//CAVEAT: I must read the radial gradient specs from RVG to know what to do when focus
-		//is outside circle; as I'm too lazy for this, I'll just clamp it to the border if it's the case
+		//ATENÇÃO: Eu não sei exatamente o que o SVG/PS especifica para o caso em que o foco
+		//cai fora do círculo. Vamos só assumir que se ele estiver na borda, vamos trazê-lo
+		// pra borda.
 		if( center.x() > 1.0) center.setX(1.0);
 
 		return new Radial( spread_func_from_str(spr), center.x(), canonical_grad, stops );

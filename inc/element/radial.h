@@ -51,33 +51,14 @@ public:
 	//-----------------------------
 	Color sample(double x, double y) override
 	{
-		Vec2 p = canonical_grad.apply( Vec3(x, y, 1.0) ).euclidean();
-
-		//compute intersection
-		double a = p.x()*p.x() + p.y()*p.y();
-		double b = -2*p.x()*center;
-		double c = center*center - 1; //TODO: precompute this
-
-		double r1, r2;
-		Numeric::quadratic(a, b, c, r1, r2);
-		double r = (r1 > r2) ? r1 : r2;
-
-		//compute ratio of lengths
-		double ratio = 1/r; //OMG THIS IS AWESOME
-
-		//wrap
-		double wrapped = spread(ratio);
-
-		//sample
-		Color_v s1, s2;
-		get_stop(wrapped, s1, s2);
-
-		//interpolate - we should create a Interpolate_color function!
-		Color_v out;
-		out.R = Numeric::lerp1(wrapped, s1.R, s2.R);
-		out.G = Numeric::lerp1(wrapped, s1.G, s2.G);
-		out.B = Numeric::lerp1(wrapped, s1.B, s2.B);
-		out.A = Numeric::lerp1(wrapped, s1.A, s2.A);
+		// A ideia é a mesma: jogue o ponto (x,y) para o espaço
+		// do gradiente canônico e calcule a interseção entre o raio
+		// que vai da origem até (x,y). O seu parâmetro para interpolação
+		// vai ser a razão do tamanho do vetor da origem até à interseção
+		// e do tamanho do vetor (x,y). O resto é igual ao gradiente linear:
+		// aplique a função spr_func, procure o valor na rampa, interpole as
+		// cores, etc;
+		Color_v out = {1.0, 1.0, 1.0, 1.0};
 
 		return ColorOp::rgba_from_colorv(out);
 	}
