@@ -38,28 +38,17 @@ public:
 	//----- From RawPaint.h -----
 	Paint* preprocess(const Matrix3& xf, const Matrix3& scene_t) override
 	{
-		//TODO: THIS IS NOT CORRECT! WE MUST BUILD THE ROTATION MATRIX
-		//FROM THE TRANSFORMED POINTS!
+		// Você deve montar aqui uma transformação que leva
+		// p0 para a origem e p1 para <1,0>. Isso envolve uma
+		// translação -p0, uma rotação que leva p1 para o eixo
+		// x e uma escala que leva p1 para <1,0>.
+		//
+		// Você vai construir essa matrix e passar ela como parâmetro
+		// para o objeto Linear.
 
-		//Transform points to canonical space:
-		//p0 at origin, p1 lying in x axis. Translate
-		//p0 and p1 to origin and rotate so p1 to lies on x axis
-		Matrix3 p0_to_origin = Matrix3::translate( -p0 );
-		p1 = p0_to_origin.apply( p1.homogeneous() ).euclidean();
+		Matrix3 world2canonical = Matrix3::identity();
 
-		double cosTheta = p1.x() / p1.norm();
-		double sinTheta = sqrt(1 - cosTheta*cosTheta);
-
-		//if p1.y < 0, and for so we should rotate
-		//in the opposite direction
-		if(p1.y() < 0) sinTheta = -sinTheta;
-
-		Matrix3 rotate_p1 = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
-
-		Matrix3 world_to_canonical = rotate_p1 * p0_to_origin * xf.inv() * scene_t.inv();
-		p1 = world_to_canonical.apply( p1.homogeneous() ).euclidean();
-
-		return new Linear(world_to_canonical, stops, spread_func_from_str(spread), p1.x() );
+		return new Linear(world2canonical, stops, spread_func_from_str(spread));
 	}
 };
 

@@ -19,7 +19,6 @@ private:
 	std::vector<std::pair<double,Color_v> > stops;
 	spread_func spr_func;
 	Matrix3 world2canonical;
-	double grad_length;
 
 	void get_stop(double v, Color_v& s1, Color_v& s2)
 	{
@@ -39,7 +38,7 @@ private:
 	}
 
 public:
-	Linear(const Matrix3& world2canonical, const std::vector< std::pair<double,Color_v> >& stops, spread_func spr_func, double grad_length)
+	Linear(const Matrix3& world2canonical, const std::vector< std::pair<double,Color_v> >& stops, spread_func spr_func)
 	{
 		this->world2canonical = world2canonical;
 
@@ -49,31 +48,29 @@ public:
 		this->stops = std::move(stops);
 
 		this->spr_func = spr_func;
-
-		this->grad_length = grad_length;
 	}
 
 	Color sample(double x, double y) override
 	{
-		//transform point to canonical space
-		Vec2 cs_p = world2canonical.apply( Vec3(x,y,1.0) ).euclidean();
-
-		//get ratio of lengths ( projection of cs_p on the x axis divided by grad_length)
-		double v = cs_p.x() / grad_length;
-
-		//wrap it
-		v = spr_func(v);
-
-		//search corresponding stops
-		Color_v s1, s2;
-		get_stop(v, s1, s2);
-
-		//interpolate colors
-		Color_v out;
-		out.R = Numeric::lerp1(v, s1.R, s2.R);
-		out.G = Numeric::lerp1(v, s1.G, s2.G);
-		out.B = Numeric::lerp1(v, s1.B, s2.B);
-		out.A = Numeric::lerp1(v, s1.A, s2.A);
+		// Comece mapeando o ponto (x,y) para o espaço
+		// canônico usando a matrix world2canonical.
+		//
+		// Depois, compute a projeção deste ponto no vetor
+		// P1-P0 (que no fim é o vetor <1,0> ).
+		//
+		// Isso vai te retornar um valor real. Esse valor
+		// deve ser tratado pela função de espalhamento
+		// spr_func.
+		//
+		// Depois disso, você deve percorrer a rampa de cores
+		// e encontrar a cor a retornar. Num primeiro momento,
+		// basta retornar a cor mais próxima, depois você pode
+		// tentar tomar as duas cores mais próximas à esquerda
+		// e à direita e realizar uma interpolação linear.
+		//
+		// Lembre-se que as cores em uma struct Color_v são
+		// armazenadas num range [0,1]! 
+		Color_v out = {1.0, 1.0, 1.0, 1.0};
 
 		return ColorOp::rgba_from_colorv(out);
 	}	
