@@ -1,24 +1,26 @@
 #ifndef _SOLID_H_
 #define _SOLID_H_
 
-#include "../types.h"
+#include "../color.h"
 #include "../vector/matrix3.h"
 #include "./paint.h"
+using Color::ColorRGBA;
+using Color::ColorChnl;
 
 class Solid : public Paint
 {
 private:
-	Color _color;
+	ColorRGBA _color;
 
 public:
 	Solid();
-	Solid(Color c);
+	Solid(ColorRGBA c);
 	Solid(ColorChnl r, ColorChnl g, ColorChnl b, ColorChnl a);
 
 	//-----------------------------
 	//-------- From Paint ---------
 	//-----------------------------
-	Color sample(double x, double y) override;
+	ColorRGBA sample(double x, double y) override;
 };
 
 #endif

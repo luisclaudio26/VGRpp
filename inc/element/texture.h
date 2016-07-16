@@ -4,6 +4,8 @@
 #include "./paint.h"
 #include "../spread.h"
 #include <SDL/SDL.h>
+using Color::ColorRGBA;
+using Spread::spread_func;
 
 #include <iostream>
 using std::cout;
@@ -22,7 +24,7 @@ public:
 	//-----------------------------------
 	//--------- From Texture.h ----------
 	//-----------------------------------
-	Color sample(double x, double y) override;
+	ColorRGBA sample(double x, double y) override;
 };
 
 #endif

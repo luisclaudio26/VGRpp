@@ -6,7 +6,8 @@
 #include "vector/rect.h"
 #include "vector/matrix3.h"
 #include "element/element.h"
-#include "types.h"
+#include "color.h"
+using Color::ColorRGBA;
 
 class Render
 {
@@ -19,7 +20,7 @@ private:
 	Vec2 viewport_size;
 
 	//Background color (define this after inside .2d file)
-	Color bg_color;
+	ColorRGBA bg_color;
 
 	//handle window and keyboard input. Return TRUE if we must quit.
 	bool handle_input();

@@ -1,11 +1,11 @@
 #include "../../inc/RawElement/RawRadial.h"
 
-inline void RawRadial::set_spread_type(const std::string& spread) { this->spr = spread; }
-inline void RawRadial::set_center(const Vec2& p) { this->center = p; }
-inline void RawRadial::set_focus(const Vec2& p) { this->focus = p; }
-inline void RawRadial::set_radius(double r) { this->radius = r; }
+void RawRadial::set_spread_type(const std::string& spread) { this->spr = spread; }
+void RawRadial::set_center(const Vec2& p) { this->center = p; }
+void RawRadial::set_focus(const Vec2& p) { this->focus = p; }
+void RawRadial::set_radius(double r) { this->radius = r; }
 
-inline void RawRadial::push_stop(double s, const Color_v& color) 
+void RawRadial::push_stop(double s, const Color_v& color) 
 { 
 	this->stops.push_back( std::pair<double,Color_v>(s, color) ); 
 }
@@ -26,5 +26,5 @@ Paint* RawRadial::preprocess(const Matrix3& paint_xf, const Matrix3& scene_xf)
 	// pra borda.
 	if( center.x() > 1.0) center.setX(1.0);
 
-	return new Radial( spread_func_from_str(spr), center.x(), canonical_grad, stops );
+	return new Radial( Spread::spread_func_from_str(spr), center.x(), canonical_grad, stops );
 }

@@ -6,6 +6,9 @@
 #include "../spread.h"
 #include <SDL_image.h>
 #include <SDL/SDL.h>
+
+using Spread::spread_func;
+
 #include <iostream>
 using std::cout;
 using std::endl;

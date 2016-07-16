@@ -1,10 +1,12 @@
 #ifndef _RAW_SOLID_H_
 #define _RAW_SOLID_H_
 
-#include "../types.h"
+#include "../color.h"
 #include "RawPaint.h"
 #include "../vector/matrix3.h"
 #include "../element/solid.h"
+using Color::ColorChnl;
+using Color::ColorRGBA;
 
 class RawSolid : public RawPaint
 {

@@ -5,20 +5,20 @@ Solid::Solid()
 	this->_color = 0; 
 }
 
-Solid::Solid(Color c) 
+Solid::Solid(ColorRGBA c) 
 {
 	this->_color = c;
 }
 
 Solid::Solid(ColorChnl r, ColorChnl g, ColorChnl b, ColorChnl a) 
 {
-	this->_color = ColorOp::rgba_from_components(r, g, b, a);
+	this->_color = Color::rgba_from_components(r, g, b, a);
 }
 
 //-----------------------------
 //-------- From Paint ---------
 //-----------------------------
-Color Solid::sample(double x, double y)
+ColorRGBA Solid::sample(double x, double y)
 {
 	return _color;
 }

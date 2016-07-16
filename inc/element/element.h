@@ -1,10 +1,11 @@
 #ifndef _ELEMENT_H_
 #define _ELEMENT_H_
 
-#include "../types.h"
+#include "../color.h"
 #include "shape.h"
 #include "paint.h"
 #include "../vector/matrix3.h"
+using Color::ColorRGBA;
 
 #include <iostream>
 
@@ -31,7 +32,7 @@ public:
 	//----------------------------
 	//---------- SAMPLE ----------
 	//----------------------------
-	void sample(double x, double y, Color& out);
+	void sample(double x, double y, ColorRGBA& out);
 };
 
 #endif

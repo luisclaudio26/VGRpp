@@ -16,5 +16,5 @@ all: $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@ $(CLIBS)
 
 clean:
-	rm ./bin/*.o
+	rm $(OBJ)
 	rm $(EXEC)

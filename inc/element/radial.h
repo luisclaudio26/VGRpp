@@ -5,6 +5,10 @@
 #include "../spread.h"
 #include "../vector/numeric.h"
 #include <vector>
+using Color::Color_v;
+using Color::ColorRGBA;
+using Spread::spread_func;
+
 
 #include <iostream>
 
@@ -25,7 +29,7 @@ public:
 	//-----------------------------
 	//------- From paint.h --------
 	//-----------------------------
-	Color sample(double x, double y) override;
+	ColorRGBA sample(double x, double y) override;
 };
 
 #endif

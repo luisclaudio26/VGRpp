@@ -1,10 +1,12 @@
 #include "../inc/render.h"
 #include "../inc/vector/matrix3.h"
-#include "../inc/types.h"
+#include "../inc/color.h"
 #include <SDL/SDL.h>
 #include <iostream>
 #include <chrono>
 #include <cstdlib>
+using Color::ColorRGBA;
+using Color::Color_v;
 
 using namespace std::chrono;
 
@@ -26,27 +28,27 @@ Matrix3 viewport_transformation(const Rect& window, const Vec2& viewport)
 	return scl * t1 ;
 }
 
-Color_v sample_image(const std::vector<Element*>& pool, double i, double j, Color bg)
+Color_v sample_image(const std::vector<Element*>& pool, double i, double j, ColorRGBA bg)
 {	
-	Uint32 acc = bg;
+	ColorRGBA acc = bg;
 	for(int k = 0; k < pool.size(); k++)
 	{
-		Uint32 layer_color;
+		ColorRGBA layer_color;
 		pool[k]->sample(j, i, layer_color);
 
-		acc = ColorOp::color_over(layer_color, acc);
+		acc = Color::color_over(layer_color, acc);
 	}
 
 	//TODO: This conversion is AWFUL! elements should return
 	//color_v's, so we can alpha composite, supersample and
 	//only in the end pack it into an Integer!
-	return ColorOp::colorv_from_rgba(acc);
+	return Color::colorv_from_rgba(acc);
 }
 
-void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
+void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, ColorRGBA bg)
 {
 	//Remember that pixels are packed as ARGB!!!
-	Uint32 *pixels = (Uint32*)surf->pixels;
+	ColorRGBA *pixels = (ColorRGBA*)surf->pixels;
 
 	for(int i = 0; i < surf->h; i++)
 		for(int j = 0; j < surf->w; j++)
@@ -55,7 +57,7 @@ void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
 	
 			//Invert y axis and paint
 			int inv_i = surf->h - i - 1;
-			pixels[inv_i*surf->w + j] = ColorOp::rgba_from_colorv(sample);
+			pixels[inv_i*surf->w + j] = Color::rgba_from_colorv(sample);
 		}
 }
 

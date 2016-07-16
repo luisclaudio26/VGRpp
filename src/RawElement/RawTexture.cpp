@@ -2,8 +2,8 @@
 
 #define img_flags (IMG_INIT_PNG | IMG_INIT_JPG)
 
-inline void RawTexture::set_spread_type(const std::string& spr) { this->spread = spr; }
-inline void RawTexture::set_image_url(const std::string& url) { this->url = url; }
+void RawTexture::set_spread_type(const std::string& spr) { this->spread = spr; }
+void RawTexture::set_image_url(const std::string& url) { this->url = url; }
 
 //-----------------------------------
 //--------- From RawPaint.h ---------
@@ -27,5 +27,5 @@ Paint* RawTexture::preprocess(const Matrix3& paint_xf, const Matrix3& scene_xf)
 	if( !image )
 		cout<<"Error while loading image: "<<IMG_GetError()<<endl;
 
-	return new Texture(image, spread_func_from_str(this->spread), scene2tex );
+	return new Texture(image, Spread::spread_func_from_str(this->spread), scene2tex );
 }

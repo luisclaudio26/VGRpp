@@ -2,12 +2,16 @@
 #define _LINEAR_H_
 
 #include "paint.h"
-#include "../types.h"
+#include "../color.h"
 #include "../spread.h"
 #include "../vector/matrix3.h"
 #include <vector>
 #include <utility>
 #include "../vector/numeric.h"
+using Color::Color_v;
+using Color::ColorRGBA;
+using Spread::spread_func;
+
 
 #include <iostream>
 using std::cout;
@@ -25,7 +29,7 @@ public:
 			const std::vector< std::pair<double,Color_v> >& stops, 
 			spread_func spr_func);
 
-	Color sample(double x, double y) override;
+	ColorRGBA sample(double x, double y) override;
 };
 
 #endif

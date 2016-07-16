@@ -24,9 +24,9 @@ RQuadratic::RQuadratic(const Vec2& p0, const Vec3& p1, const Vec2& p2)
 	recompute_param();
 }
 
-inline void RQuadratic::set_p0(const Vec2& p) { this->_p0 = p; this->p0 = p; recompute_param(); }
-inline void RQuadratic::set_p1(const Vec3& p) { this->_p1 = p; this->p1 = p; recompute_param(); }
-inline void RQuadratic::set_p2(const Vec2& p) { this->_p2 = p; this->p2 = p; recompute_param(); }
+void RQuadratic::set_p0(const Vec2& p) { this->_p0 = p; this->p0 = p; recompute_param(); }
+void RQuadratic::set_p1(const Vec3& p) { this->_p1 = p; this->p1 = p; recompute_param(); }
+void RQuadratic::set_p2(const Vec2& p) { this->_p2 = p; this->p2 = p; recompute_param(); }
 
 //-----------------------------------------
 //---------- FROM PRIMITIVE.h -------------

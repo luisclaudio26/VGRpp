@@ -1,10 +1,10 @@
 #include "../../inc/RawElement/RawLinear.h"
 
-inline void RawLinear::set_spread_type(const std::string& spread) { this->spread = spread; }
-inline void RawLinear::set_p0(const Vec2& p) { this->p0 = p; }
-inline void RawLinear::set_p1(const Vec2& p) { this->p1 = p; }
+void RawLinear::set_spread_type(const std::string& spread) { this->spread = spread; }
+void RawLinear::set_p0(const Vec2& p) { this->p0 = p; }
+void RawLinear::set_p1(const Vec2& p) { this->p1 = p; }
 
-inline void RawLinear::push_stop(double s, const Color_v& c) 
+void RawLinear::push_stop(double s, const Color_v& c) 
 {
 	stops.push_back( std::pair<double,Color_v>(s,c) );
 }
@@ -23,5 +23,5 @@ Paint* RawLinear::preprocess(const Matrix3& paint_xf, const Matrix3& scene_xf)
 	// para o objeto Linear
 	Matrix3 world2canonical = Matrix3::identity();
 
-	return new Linear(world2canonical, stops, spread_func_from_str(spread));
+	return new Linear(world2canonical, stops, Spread::spread_func_from_str(spread));
 }

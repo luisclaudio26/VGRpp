@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "../../inc/types.h"
+#include "../../inc/color.h"
 #include "../../inc/vector/vector2.h"
 #include "../../inc/vector/vector3.h"
 #include "../../inc/RawElement/RawTriangle.h"

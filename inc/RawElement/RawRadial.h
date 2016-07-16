@@ -4,6 +4,9 @@
 #include "RawPaint.h"
 #include "../element/radial.h"
 #include "../spread.h"
+
+using Spread::spread_func;
+
 #include <iostream>
 using std::cout;
 using std::endl;

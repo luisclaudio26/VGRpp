@@ -5,10 +5,13 @@
 #include "../element/linear.h"
 #include "../spread.h"
 #include "../vector/vector2.h"
-#include "../types.h"
+#include "../color.h"
 #include <vector>
 #include <string>
 #include <utility>
+using Color::Color_v;
+using Color::ColorRGBA;
+using Spread::spread_func;
 
 #include <iostream>
 using std::cout;

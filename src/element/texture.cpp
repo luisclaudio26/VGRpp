@@ -8,7 +8,7 @@
 static const int CHANNEL_3 = 24;
 static const int CHANNEL_4 = 32;
 
-static Color get_pixel_in_surface(int i, int j, SDL_Surface *image)
+static ColorRGBA get_pixel_in_surface(int i, int j, SDL_Surface *image)
 {
 	//start inverting y-axis
 	i = image->h - i - 1;
@@ -59,7 +59,7 @@ Texture::Texture(SDL_Surface* image, spread_func spread, const Matrix3& scene2te
 //-----------------------------------
 //--------- From Texture.h ----------
 //-----------------------------------
-Color Texture::sample(double x, double y)
+ColorRGBA Texture::sample(double x, double y)
 {
 	//map pixel to texture space
 	Vec2 tex = scene2tex.apply( Vec3(x, y, 1.0) ).euclidean();

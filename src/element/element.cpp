@@ -27,9 +27,9 @@ Paint* Element::paint() { return _paint; }
 //----------------------------
 //---------- SAMPLE ----------
 //----------------------------
-void Element::sample(double x, double y, Color& out)
+void Element::sample(double x, double y, ColorRGBA& out)
 {
 	if( _shape->is_inside(x,y) ) 
 		out = _paint->sample(x, y);
-	else out = FULL_TRANSPARENT;
+	else out = Color::FULL_TRANSPARENT;
 }
