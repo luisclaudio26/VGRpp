@@ -7,6 +7,9 @@
 
 namespace Color
 {
+	//----------------------------------------
+	//------------- Data types ---------------
+	//----------------------------------------
 	typedef unsigned char 	ColorChnl;
 	typedef unsigned int	ColorRGBA;
 
@@ -16,6 +19,9 @@ namespace Color
 		double R, G, B, A;
 	} Color_v;
 
+	//----------------------------------------------
+	//------------- Color operations ---------------
+	//----------------------------------------------
 	ColorRGBA rgba_from_colorv(const Color_v& c);
 	Color_v colorv_from_rgba(ColorRGBA c);
 	ColorRGBA rgba_from_components(ColorChnl r, ColorChnl g, ColorChnl b, ColorChnl a);
