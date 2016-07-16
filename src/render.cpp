@@ -50,35 +50,14 @@ void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, Color bg)
 	//Remember that pixels are packed as ARGB!!!
 	Uint32 *pixels = (Uint32*)surf->pixels;
 
-	//for each layer, we take multiple samples close
-	//to each other and simply take its average (which
-	//is equivalent to box-filter it).
 	for(int i = 0; i < surf->h; i++)
 		for(int j = 0; j < surf->w; j++)
 		{
-			Color_v out = (Color_v){0,0,0,0};
-
-			for(int k = 0; k < samples_per_pixel; k++)
-			{
-				double _i = i + (double)rand()/RAND_MAX;
-				double _j = j + (double)rand()/RAND_MAX;
-
-				Color_v sample = sample_image(pool, _i, _j, bg);
-
-				out.R += sample.R;
-				out.G += sample.G;
-				out.B += sample.B;
-				out.A += sample.A;
-			}
-
-			out.R /= samples_per_pixel;
-			out.G /= samples_per_pixel;
-			out.B /= samples_per_pixel;
-			out.A /= samples_per_pixel;
-
+			Color_v sample = sample_image(pool, i, j, bg);
+	
 			//Invert y axis and paint
 			int inv_i = surf->h - i - 1;
-			pixels[inv_i*surf->w + j] = ColorOp::rgba_from_colorv(out);
+			pixels[inv_i*surf->w + j] = ColorOp::rgba_from_colorv(sample);
 		}
 }
 
