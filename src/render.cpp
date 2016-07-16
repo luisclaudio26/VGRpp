@@ -53,7 +53,19 @@ void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, ColorRGBA bg)
 	for(int i = 0; i < surf->h; i++)
 		for(int j = 0; j < surf->w; j++)
 		{
-			Color_v sample = sample_image(pool, i, j, bg);
+			// Neste exercício, você vai ter de modificar um código
+			// já existente. Esse loop escreve a cor de um pixel (i,j)
+			// na imagem final. Por enquanto usamos apenas uma amostra
+			// centrada no pixel, mas para o supersampling você terá
+			// de fazer um loop para extrair N amostras da imagem,
+			// localizadas em posições aleatórias*, e depois fazer
+			// a média dos pontos.
+			//
+			// * Garanta que as amostras não transbordam para o pixel
+			// vizinho, isto é, as amostrar devem ser feitas em pontos
+			// (i + dx, i + dy) onde dx e dy estão no intervalo [0,1].
+			
+			Color_v sample = sample_image(pool, i + 0.5, j + 0.5, bg);
 	
 			//Invert y axis and paint
 			int inv_i = surf->h - i - 1;
