@@ -1,6 +1,10 @@
 #ifndef _TYPES_H_
 #define _TYPES_H_
 
+#include "vector/numeric.h"
+#include <vector>
+#include <utility>
+
 //TODO: BETTER ORGANIZE THIS
 
 typedef unsigned char 	ColorChnl;
@@ -70,6 +74,36 @@ public:
 	static Color color_over(Color top, Color bottom)
 	{
 		return rgba_from_colorv( color_over( colorv_from_rgba(top), colorv_from_rgba(bottom) ) );
+	}
+
+	static Color_v color_lerp(double t, const Color_v& c1, const Color_v& c2)
+	{
+		Color_v out;
+		out.R = Numeric::lerp1(t, c1.R, c2.R);
+		out.G = Numeric::lerp1(t, c1.G, c2.G);
+		out.B = Numeric::lerp1(t, c1.B, c2.B);
+		out.A = Numeric::lerp1(t, c1.A, c2.A);
+
+		return out;
+	}
+
+	static double get_stop(double v, Color_v& s1, Color_v& s2, const std::vector<std::pair<double,Color_v> >& ramp)
+	{
+		std::pair<double,Color_v> cur, last;
+		int count = 1;
+		last = ramp[count-1], cur = ramp[count];
+
+		//TODO: This won't work if v is outside interval [0,1]!
+		//Do error checking after
+		while( cur.first < v )
+		{
+			last = cur;
+			cur = ramp[++count];
+		}
+
+		s1 = last.second; s2 = cur.second;
+
+		return v - last.first;
 	}
 };
 

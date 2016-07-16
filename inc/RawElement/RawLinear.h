@@ -47,8 +47,7 @@ public:
 		// do paint!
 		//
 		// Você vai construir essa matrix e passar ela como parâmetro
-		// para o objeto Linear.
-
+		// para o objeto Linear
 		Matrix3 world2canonical = Matrix3::identity();
 
 		return new Linear(world2canonical, stops, spread_func_from_str(spread));

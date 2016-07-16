@@ -17,21 +17,9 @@ private:
 	Matrix3 canonical_grad;
 
 	//this must be moved to spread.h to avoid duplication!
-	void get_stop(double v, Color_v& s1, Color_v& s2)
+	double get_stop(double v, Color_v& s1, Color_v& s2)
 	{
-		std::pair<double,Color_v> cur, last;
-		int count = 1;
-		last = stops[count-1], cur = stops[count];
-
-		//TODO: This won't if v is outside interval [0,1]!
-		//Do error checking after
-		while( cur.first < v )
-		{
-			last = cur;
-			cur = stops[++count];
-		}
-
-		s1 = last.second; s2 = cur.second;
+		return ColorOp::get_stop(v, s1, s2, stops);
 	}
 
 public:
@@ -44,7 +32,6 @@ public:
 		this->center = center;
 		this->canonical_grad = world2canonical;
 	}
-
 
 	//-----------------------------
 	//------- From paint.h --------
