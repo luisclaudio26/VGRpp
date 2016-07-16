@@ -61,17 +61,21 @@ Texture::Texture(SDL_Surface* image, spread_func spread, const Matrix3& scene2te
 //-----------------------------------
 ColorRGBA Texture::sample(double x, double y)
 {
-	//map pixel to texture space
-	Vec2 tex = scene2tex.apply( Vec3(x, y, 1.0) ).euclidean();
+	// Comece mapeando o ponto (x,y) para o espaço da textura.
+	// Depois, use a função this->spread() mapeie o ponto no
+	// retângulo [0,1] x [0,1].
+	//
+	// Mapeie o ponto do retângulo [0,1] x [0,1] para um ponto
+	// na imagem this->image. Você vai encontrar um valor real 
+	// como 120.7, por exemplo, mas precisamos de um valor inteiro
+	// para poder acessar o pixel da imagem. Aí é que entra a fase 
+	// de interpolação: Nearest-Neighbour, em que você só arredonda
+	// o valor para o inteiro mais próximo; Interpolação Bilinear,
+	// em que você usa os 4 pixels mais próximos para interpolar
+	// o valor final, etc. 
 
-	//wrap texel coordinates
-	tex.setX( this->spread( tex.x() ) );
-	tex.setY( this->spread( tex.y() ) );
-
-	//we'll filter using NEAREST NEIGHBOUR method,
-	//which is the same as box-filtering
-	int j = tex.x() * image->w;
-	int i = tex.y() * image->h;
+	int j = 0;
+	int i = 0;
 
 	return get_pixel_in_surface(i, j, this->image);
 }
