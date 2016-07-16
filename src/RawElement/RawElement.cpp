@@ -12,13 +12,13 @@ RawElement::~RawElement()
 	if(!paint) delete paint;
 }
 
-void RawElement::setShape(RawShape* s, Matrix3& t)
+inline void RawElement::setShape(RawShape* s, Matrix3& t)
 {
 	this->shape = s;
 	this->shapexf = t;
 }
 
-void RawElement::setPaint(RawPaint* p, Matrix3& t)
+inline void RawElement::setPaint(RawPaint* p, Matrix3& t)
 {
 	this->paint = p;
 	this->paintxf = t;

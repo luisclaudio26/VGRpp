@@ -8,8 +8,6 @@
 
 #include <iostream>
 
-#define FULL_TRANSPARENT 0x00000000
-
 class Element
 {
 private:
@@ -20,36 +18,20 @@ public:
 	//---------------------------------
 	//---------- CTORS/DTORS ----------
 	//---------------------------------
-	Element() {
-		_shape = 0;
-		_paint = 0;
-	}
-
-	Element(Shape* s, Paint* p) {
-		this->_shape = s;
-		this->_paint = p;
-	}
-
-	~Element() {
-		delete _shape; _shape = NULL;
-		delete _paint; _paint = NULL;
-	}
+	Element();
+	Element(Shape* s, Paint* p);
+	~Element();
 
 	//------------------------------------
 	//---------- ACCESS METHODS ----------
 	//------------------------------------
-	Shape* shape() { return _shape; }
-	Paint* paint() { return _paint; }
+	Shape* shape();
+	Paint* paint();
 
 	//----------------------------
 	//---------- SAMPLE ----------
 	//----------------------------
-	void sample(double x, double y, Color& out)
-	{
-		if( _shape->is_inside(x,y) ) 
-			out = _paint->sample(x, y);
-		else out = FULL_TRANSPARENT;
-	}
+	void sample(double x, double y, Color& out);
 };
 
 #endif

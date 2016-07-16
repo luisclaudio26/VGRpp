@@ -3,6 +3,7 @@
 
 #include "RawShape.h"
 #include "../vector/vector2.h"
+#include "../element/triangle.h"
 
 class RawTriangle : public RawShape
 {
@@ -11,10 +12,12 @@ private:
 
 public:
 	RawTriangle();
-	RawTriangle(Vec2& p0, Vec2& p1, Vec2& p2);
-
+	RawTriangle(const Vec2& p0, const Vec2& p1, const Vec2& p2);
+	
+	//--------------------------
 	//----- From RawShape ------
-	Shape* preprocess(const Matrix3& xf, const Matrix3& scene_t);
+	//--------------------------
+	Shape* preprocess(const Matrix3& model_xf, const Matrix3& scene_xf) override;
 };
 
 #endif

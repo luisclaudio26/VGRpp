@@ -4,6 +4,7 @@
 #include "../types.h"
 #include "RawPaint.h"
 #include "../vector/matrix3.h"
+#include "../element/solid.h"
 
 class RawSolid : public RawPaint
 {
@@ -14,8 +15,10 @@ public:
 	RawSolid();
 	RawSolid(ColorChnl R, ColorChnl G, ColorChnl B, ColorChnl A);
 
+	//----------------------------
 	//------ From RawPaint -------
-	Paint* preprocess(const Matrix3& xf, const Matrix3& scene_t);
+	//----------------------------
+	Paint* preprocess(const Matrix3& xf, const Matrix3& scene_xf) override;
 };
 
 #endif

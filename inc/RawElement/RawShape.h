@@ -7,7 +7,7 @@
 class RawShape
 {
 public:
-	virtual Shape* preprocess(const Matrix3& xf, const Matrix3& scene_t) = 0;
+	virtual Shape* preprocess(const Matrix3& model_xf, const Matrix3& scene_xf) = 0;
 };
 
 #endif

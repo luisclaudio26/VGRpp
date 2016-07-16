@@ -27,8 +27,6 @@ void compute_implicit_line(const Vec2& p0, const Vec2& p1, double* coef)
 //----------------------------------------------
 //-------------- FROM TRIANGLE.h ---------------
 //----------------------------------------------
-Triangle::Triangle() {	}
-
 Triangle::Triangle(const Vec2& p0, const Vec2& p1, const Vec2& p2)
 {
 	this->p0 = p0;
@@ -54,19 +52,19 @@ bool Triangle::is_inside(double x, double y)
 	return false;
 }
 
-void Triangle::set_modelxf(const Matrix3& xf)
+void Triangle::set_modelxf(const Matrix3& model_xf)
 {
 	//Cada vez que a gente muda a transformação do MODELO, temos que
 	//recalcular onde os pontos estarão na tela.
-	this->model_xf = xf;
+	this->model_xf = model_xf;
 	implicitize();
 }
 
-void Triangle::set_scenexf(const Matrix3& xf)
+void Triangle::set_scenexf(const Matrix3& scene_xf)
 {
 	//Cada vez que a gente muda a transformação da CENA, temos
 	//que recalcular onde os pontos estarão na tela.
-	this->scenexf = scenexf;
+	this->scene_xf = scene_xf;
 	implicitize();
 }
 

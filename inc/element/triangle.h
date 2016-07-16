@@ -5,7 +5,6 @@
 #include "../vector/matrix3.h"
 #include "../element/shape.h"
 
-//TODO: NO BOUNDING BOX TEST YET!!!
 
 class Triangle : public Shape
 {
@@ -19,21 +18,19 @@ private:
 	void implicitize();
 
 public:
-	Triangle();
+	Triangle() { }
 	Triangle(const Vec2& p0, const Vec2& p1, const Vec2& p2);
-	~Triangle();
 
-	//--------------------------
-	//--------- Access ---------
-	//--------------------------
-	void set_modelxf(const Matrix3& xf);
+	//----------------------------------
+	//--------- Access methods ---------
+	//----------------------------------
+	void set_modelxf(const Matrix3& model_xf);
 
 	//--------------------------
 	//------- From Shape -------
 	//--------------------------
-	void set_scenexf(const Matrix3& xf) override;
+	void set_scenexf(const Matrix3& scene_xf) override;
 	bool is_inside(double x, double y) override;
-
 };
 
 #endif

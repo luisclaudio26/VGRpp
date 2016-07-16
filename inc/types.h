@@ -5,7 +5,9 @@
 #include <vector>
 #include <utility>
 
-//TODO: BETTER ORGANIZE THIS
+#define FULL_TRANSPARENT 0x00000000
+
+//TODO: Mudar o nome desse arquivo e transformar Color num namespace!
 
 typedef unsigned char 	ColorChnl;
 typedef unsigned int	Color;
