@@ -17,6 +17,13 @@
 
 int main(int argc, char** args)
 {
+	if(argc < 2) 
+	{
+		printf("Usage:\n");
+		printf("	./render ./path/to/scene/file.2d\n");
+		return 0;
+	}
+
 	std::string filepath(args[1]);
 
 	std::vector<RawElement> raw;
