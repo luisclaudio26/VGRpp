@@ -15,9 +15,15 @@ void compute_implicit_line(const Vec2& p0, const Vec2& p1, double* coef)
 	// Aqui você calcula a, b e c para a equação de forma
 	// ax+by+c = 0 que passa por p0 e p1.
 
-	double a = 1.0;
-	double b = 1.0;
-	double c = 1.0;
+	//Vetor que vai de p0 até p1
+	Vec2 v = p1 - p0;
+
+	//Vetor ortogonal a v
+	Vec2 v_ort( -v.y(), v.x() );
+
+	double a = v_ort.x();
+	double b = v_ort.y();
+	double c = -v_ort.dot(p0);
 
 	coef[0] = a;
 	coef[1] = b;
@@ -49,7 +55,12 @@ bool Triangle::is_inside(double x, double y)
 	// em sentido horário/anti-horário, o ponto vai estar à
 	// à direita ou à esquerda de todas as retas ao mesmo tempo.
 
-	return false;
+	double line1 = edge[0]*x + edge[1]*y + edge[2];
+	double line2 = edge[3]*x + edge[4]*y + edge[5];
+	double line3 = edge[6]*x + edge[7]*y + edge[8];
+
+	return Numeric::sign(line1) == Numeric::sign(line2) &&
+			Numeric::sign(line2) == Numeric::sign(line3);
 }
 
 void Triangle::set_modelxf(const Matrix3& model_xf)
@@ -87,9 +98,11 @@ void Triangle::implicitize()
 	// "lembrar" onde os pontos estavam originalmente (isto é, precisamos
 	// saber as coordenadas dos pontos tal como foram definidos no arquivo .2d)
 	
-	Vec2 p0_t = p0;
-	Vec2 p1_t = p1;
-	Vec2 p2_t = p2;
+	Matrix3 T = scene_xf * model_xf;
+
+	Vec2 p0_t = T.apply( p0.homogeneous() ).euclidean();
+	Vec2 p1_t = T.apply( p1.homogeneous() ).euclidean();
+	Vec2 p2_t = T.apply( p2.homogeneous() ).euclidean();
 
 	// Uma vez que os pontos foram transformados, podemos
 	// calcular a equação implícita para cada uma das arestas.

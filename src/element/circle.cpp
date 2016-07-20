@@ -29,7 +29,7 @@ void Circle::update_conic()
 	to_unit = to_unit.inv();
 
 	double aux[] = {1.0, 0.0, 0.0,
-					0.0, 1.0, 0.0,
+					0.0, -1.0, 0.0,
 					0.0, 0.0, -1.0};
 	conic = to_unit.transpose() * Matrix3(aux) * to_unit;
 }
@@ -41,5 +41,7 @@ bool Circle::is_inside(double x, double y)
 	// A matriz conic e o método update_conic() são usadas para
 	// a representação matricial do círculo/elipse, como veremos
 	// superficialmente depois.
-	return false;
+
+	Vec3 p(x,y,1.0);
+	return p.dot( conic.apply(p) ) <= 0;
 }
