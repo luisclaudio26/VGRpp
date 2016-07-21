@@ -3,6 +3,10 @@
 using Color::ColorRGBA;
 using Color::Color_v;
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 ColorRGBA Color::rgba_from_colorv(const Color_v& c)
 {
 	ColorRGBA _color = 0;
@@ -89,5 +93,5 @@ double Color::get_stop(double v, Color_v& s1, Color_v& s2, const std::vector<std
 
 	s1 = last.second; s2 = cur.second;
 
-	return v - last.first;
+	return (v - last.first)/(cur.first - last.first);
 }
