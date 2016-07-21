@@ -36,7 +36,7 @@ Paint* RawLinear::preprocess(const Matrix3& paint_xf, const Matrix3& scene_xf)
 	_p1 = to_unit.apply( _p1.homogeneous() ).euclidean();
 
 	double cosTheta = _p1.x(), sinTheta = _p1.y();
-	Matrix3 to_x_axis = Matrix3::affine(cosTheta, -sinTheta, 0.0, sinTheta, cosTheta, 0.0);
+	Matrix3 to_x_axis = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
 
 	// Componha as três operações, junto com as operações que desfazem
 	// a transformação do modelo e da cena

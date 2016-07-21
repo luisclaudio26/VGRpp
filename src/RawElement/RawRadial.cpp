@@ -42,7 +42,7 @@ Paint* RawRadial::preprocess(const Matrix3& paint_xf, const Matrix3& scene_xf)
 	{
 		double length = center.norm();
 		double cosTheta = center.x() / length, sinTheta = center.y() / length;
-		Matrix3 to_x_axis = Matrix3::affine(cosTheta, -sinTheta, 0.0, sinTheta, cosTheta, 0.0);
+		Matrix3 to_x_axis = Matrix3::affine(cosTheta, sinTheta, 0.0, -sinTheta, cosTheta, 0.0);
 	}
 
 	// Junte tudo e inclua as transformações de paint e cena
