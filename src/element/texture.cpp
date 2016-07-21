@@ -72,10 +72,20 @@ ColorRGBA Texture::sample(double x, double y)
 	// de interpolação: Nearest-Neighbour, em que você só arredonda
 	// o valor para o inteiro mais próximo; Interpolação Bilinear,
 	// em que você usa os 4 pixels mais próximos para interpolar
-	// o valor final, etc. 
+	// o valor final, etc.
+	Vec2 p = scene2tex.apply( Vec3(x,y,1.0) ).euclidean();
 
-	int j = 0;
-	int i = 0;
+	// "Envelope" os valores
+	p.setX( spread(p.x()) );
+	p.setY( spread(p.y()) );
+
+	// Tome o valor em coordenadas da imagem
+	double tx = p.x()*image->w, ty = p.y()*image->h;
+
+	// Aproxime o pixel final. Usaremos Nearest Neighbour
+	// (que é só um arredondamento)
+	int j = ROUND(tx);
+	int i = ROUND(ty);
 
 	return get_pixel_in_surface(i, j, this->image);
 }
