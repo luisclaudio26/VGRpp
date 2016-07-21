@@ -21,7 +21,26 @@ Paint* RawLinear::preprocess(const Matrix3& paint_xf, const Matrix3& scene_xf)
 	//
 	// Você vai construir essa matrix e passar ela como parâmetro
 	// para o objeto Linear
-	Matrix3 world2canonical = Matrix3::identity();
+
+	// Translade para a origem
+	Matrix3 to_origin = Matrix3::translate( -p0 );
+
+	Vec2 _p1 = to_origin.apply( p1.homogeneous() ).euclidean();
+
+	// Escalone de forma que p1-p0 tenha comprimento 1
+	double s = 1.0 / (p1-p0).norm();
+	Matrix3 to_unit = Matrix3::scale(s, s);
+
+	// Rotacione de forma que p1 vá a para o eixo x. Lembre que
+	// essa operação deve ser calculada com o p1 já transladado/escalonado!
+	_p1 = to_unit.apply( _p1.homogeneous() ).euclidean();
+
+	double cosTheta = _p1.x(), sinTheta = _p1.y();
+	Matrix3 to_x_axis = Matrix3::affine(cosTheta, -sinTheta, 0.0, sinTheta, cosTheta, 0.0);
+
+	// Componha as três operações, junto com as operações que desfazem
+	// a transformação do modelo e da cena
+	Matrix3 world2canonical = to_x_axis * to_unit * to_origin * (scene_xf * paint_xf).inv();
 
 	return new Linear(world2canonical, stops, Spread::spread_func_from_str(spread));
 }
