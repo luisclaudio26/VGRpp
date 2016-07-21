@@ -29,7 +29,7 @@ void Circle::update_conic()
 	to_unit = to_unit.inv();
 
 	double aux[] = {1.0, 0.0, 0.0,
-					0.0, -1.0, 0.0,
+					0.0, 1.0, 0.0,
 					0.0, 0.0, -1.0};
 	conic = to_unit.transpose() * Matrix3(aux) * to_unit;
 }
