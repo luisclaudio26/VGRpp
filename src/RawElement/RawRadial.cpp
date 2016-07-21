@@ -31,10 +31,19 @@ Paint* RawRadial::preprocess(const Matrix3& paint_xf, const Matrix3& scene_xf)
 
 	center = to_unit.apply( center.homogeneous() ).euclidean();
 
-	// Rotacione para o centro ir pro eixo x
-	double length = center.norm();
-	double cosTheta = center.x() / length, sinTheta = center.y() / length;
-	Matrix3 to_x_axis = Matrix3::affine(cosTheta, -sinTheta, 0.0, sinTheta, cosTheta, 0.0);
+	// Rotacione para o centro ir pro eixo x; se o centro está
+	// acima do eixo X, temos de rotacionar no sentido contrário
+	// (mas calcular o seno e o cosseno a partir do centro já 
+	// garante isso sozinho). Também, só rotacionamos se o centro e o
+	// foco não coincidirem!
+	Matrix3 to_x_axis = Matrix3::identity();
+
+	if( !Numeric::d_equal(center.x(), 0.0) )
+	{
+		double length = center.norm();
+		double cosTheta = center.x() / length, sinTheta = center.y() / length;
+		Matrix3 to_x_axis = Matrix3::affine(cosTheta, -sinTheta, 0.0, sinTheta, cosTheta, 0.0);
+	}
 
 	// Junte tudo e inclua as transformações de paint e cena
 	Matrix3 canonical_grad = to_x_axis * to_unit * to_origin * (scene_xf * paint_xf).inv();
