@@ -5,7 +5,7 @@
 #include "shape.h"
 #include "paint.h"
 #include "../vector/matrix3.h"
-using Color::ColorRGBA;
+using Color::Color_v;
 
 #include <iostream>
 
@@ -32,7 +32,7 @@ public:
 	//----------------------------
 	//---------- SAMPLE ----------
 	//----------------------------
-	void sample(double x, double y, ColorRGBA& out);
+	void sample(double x, double y, Color_v& out);
 };
 
 #endif

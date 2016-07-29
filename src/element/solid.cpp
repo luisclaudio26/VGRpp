@@ -2,23 +2,23 @@
 
 Solid::Solid() 
 { 
-	this->_color = 0; 
+	this->_color = (Color_v){0.0, 0.0, 0.0, 1.0};
 }
 
-Solid::Solid(ColorRGBA c) 
+Solid::Solid(Color_v c) 
 {
 	this->_color = c;
 }
 
 Solid::Solid(ColorChnl r, ColorChnl g, ColorChnl b, ColorChnl a) 
 {
-	this->_color = Color::rgba_from_components(r, g, b, a);
+	this->_color = (Color_v){r/255.0, g/255.0, b/255.0, a/255.0};
 }
 
 //-----------------------------
 //-------- From Paint ---------
 //-----------------------------
-ColorRGBA Solid::sample(double x, double y)
+Color_v Solid::sample(double x, double y)
 {
 	return _color;
 }

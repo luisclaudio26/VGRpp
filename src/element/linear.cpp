@@ -12,7 +12,7 @@ Linear::Linear(const Matrix3& world2canonical, const std::vector< std::pair<doub
 	this->spr_func = spr_func;
 }
 
-ColorRGBA Linear::sample(double x, double y)
+Color_v Linear::sample(double x, double y)
 {
 	// Comece mapeando o ponto (x,y) para o espaço
 	// canônico usando a matrix world2canonical.
@@ -42,5 +42,5 @@ ColorRGBA Linear::sample(double x, double y)
 	// armazenadas num intervalo [0,1]! 
 	Color_v out = Color::color_lerp(t, c1, c2);
 
-	return Color::rgba_from_colorv(out);
+	return out;
 }	

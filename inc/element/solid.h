@@ -4,23 +4,23 @@
 #include "../color.h"
 #include "../vector/matrix3.h"
 #include "./paint.h"
-using Color::ColorRGBA;
+using Color::Color_v;
 using Color::ColorChnl;
 
 class Solid : public Paint
 {
 private:
-	ColorRGBA _color;
+	Color_v _color;
 
 public:
 	Solid();
-	Solid(ColorRGBA c);
+	Solid(Color_v c);
 	Solid(ColorChnl r, ColorChnl g, ColorChnl b, ColorChnl a);
 
 	//-----------------------------
 	//-------- From Paint ---------
 	//-----------------------------
-	ColorRGBA sample(double x, double y) override;
+	Color_v sample(double x, double y) override;
 };
 
 #endif

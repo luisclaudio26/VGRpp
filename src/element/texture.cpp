@@ -10,8 +10,10 @@
 static const int CHANNEL_3 = 24;
 static const int CHANNEL_4 = 32;
 
-static ColorRGBA get_pixel_in_surface(int i, int j, SDL_Surface *image)
+static Color_v get_pixel_in_surface(int i, int j, SDL_Surface *image)
 {
+	Color::Color_v out;
+
 	//start inverting y-axis
 	i = image->h - i - 1;
 
@@ -31,10 +33,10 @@ static ColorRGBA get_pixel_in_surface(int i, int j, SDL_Surface *image)
 		Uint8* p = &pxl8[i*image->pitch + j];
 		
 		//here we "build" the final pixel
-		Uint32 out = 0xFF000000;
-		out |= (p[0] << 16);
-		out |= (p[1] << 8);
-		out |= p[2];
+		out.A = 1.0;
+		out.R = (p[0] << 16) / 255.0;
+		out.G = (p[1] << 8) / 255.0;
+		out.B = p[2] / 255.0;
 
 		return out;
 	}
@@ -44,7 +46,7 @@ static ColorRGBA get_pixel_in_surface(int i, int j, SDL_Surface *image)
 		//a pixel itself, so we use ->w to get the vertical
 		//displacement, as ->w is the number of pixels in a line
 		Uint32* pxl32 = (Uint32*)image->pixels;
-		return pxl32[i*image->w + j];
+		return Color::colorv_from_rgba( pxl32[i*image->w + j] );
 	}
 }
 
@@ -61,7 +63,7 @@ Texture::Texture(SDL_Surface* image, spread_func spread, const Matrix3& scene2te
 //-----------------------------------
 //--------- From Texture.h ----------
 //-----------------------------------
-ColorRGBA Texture::sample(double x, double y)
+Color_v Texture::sample(double x, double y)
 {
 	// Comece mapeando o ponto (x,y) para o espaço da textura.
 	// Depois, use a função this->spread() mapeie o ponto no

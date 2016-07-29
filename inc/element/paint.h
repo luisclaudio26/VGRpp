@@ -3,7 +3,7 @@
 
 #include "../color.h"
 #include "../vector/matrix3.h"
-using Color::ColorRGBA;
+using Color::Color_v;
 
 class Paint
 {
@@ -16,7 +16,7 @@ public:
 	void set_scenexf(const Matrix3& scene_xf) { this->scene_xf = scene_xf; }
 	Matrix3 get_scenexf() const { return this->scene_xf; }
 
-	virtual ColorRGBA sample(double x, double y) = 0;
+	virtual Color_v sample(double x, double y) = 0;
 };
 
 #endif

@@ -9,7 +9,7 @@
 #include <utility>
 #include "../vector/numeric.h"
 using Color::Color_v;
-using Color::ColorRGBA;
+using Color::Color_v;
 using Spread::spread_func;
 
 
@@ -29,7 +29,7 @@ public:
 			const std::vector< std::pair<double,Color_v> >& stops, 
 			spread_func spr_func);
 
-	ColorRGBA sample(double x, double y) override;
+	Color_v sample(double x, double y) override;
 };
 
 #endif

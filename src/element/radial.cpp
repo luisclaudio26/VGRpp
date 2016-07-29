@@ -13,7 +13,7 @@ Radial::Radial(spread_func spr, double center, const Matrix3& world2canonical, c
 //-----------------------------
 //------- From paint.h --------
 //-----------------------------
-ColorRGBA Radial::sample(double x, double y)
+Color_v Radial::sample(double x, double y)
 {
 	// A ideia é a mesma: jogue o ponto (x,y) para o espaço
 	// do gradiente canônico e calcule a interseção entre o raio
@@ -49,5 +49,5 @@ ColorRGBA Radial::sample(double x, double y)
 
 	Color_v out = Color::color_lerp(t, c1, c2);
 
-	return Color::rgba_from_colorv(out);
+	return out;
 }

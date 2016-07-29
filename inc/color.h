@@ -13,11 +13,11 @@ namespace Color
 	typedef unsigned char 	ColorChnl;
 	typedef unsigned int	ColorRGBA;
 
-	const ColorRGBA FULL_TRANSPARENT = 0x00000000;
-
 	typedef struct {
 		double R, G, B, A;
 	} Color_v;
+
+	const Color_v FULL_TRANSPARENT = (Color_v){0.0, 0.0, 0.0, 0.0};
 
 	//----------------------------------------------
 	//------------- Color operations ---------------
