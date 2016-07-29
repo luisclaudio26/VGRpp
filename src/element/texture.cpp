@@ -1,5 +1,7 @@
 #include "../../inc/element/texture.h"
 
+// TODO: implementar MIP-MAPPING!
+
 //------------------------------------
 //------------ Internal --------------
 //------------------------------------
@@ -83,9 +85,11 @@ ColorRGBA Texture::sample(double x, double y)
 	double tx = p.x()*image->w, ty = p.y()*image->h;
 
 	// Aproxime o pixel final. Usaremos Nearest Neighbour
-	// (que é só um arredondamento)
-	int j = ROUND(tx);
-	int i = ROUND(ty);
+	// (que é só um arredondamento). Esse min() evita 
+	// capturar pixels na posição image->w/h, que causaria
+	// segmentation fault
+	int j = std::min(ROUND(tx), image->w - 1);
+	int i = std::min(ROUND(ty), image->h - 1);
 
 	return get_pixel_in_surface(i, j, this->image);
 }
