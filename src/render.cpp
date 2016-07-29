@@ -1,6 +1,7 @@
 #include "../inc/render.h"
 #include "../inc/vector/matrix3.h"
 #include "../inc/color.h"
+#include "../inc/bluenoise.h"
 #include <SDL/SDL.h>
 #include <iostream>
 #include <chrono>
@@ -9,6 +10,8 @@ using Color::ColorRGBA;
 using Color::Color_v;
 
 using namespace std::chrono;
+
+#define SAMPLES_PER_PIXEL 8
 
 //-------------------------------------------
 //----------------- INTERNAL ----------------
@@ -65,11 +68,35 @@ void draw_all(std::vector<Element*>& pool, SDL_Surface* surf, ColorRGBA bg)
 			// vizinho, isto é, as amostrar devem ser feitas em pontos
 			// (i + dx, i + dy) onde dx e dy estão no intervalo [0,1].
 			
-			Color_v sample = sample_image(pool, i + 0.5, j + 0.5, bg);
-	
+			// Acumule os valores das amostras aqui
+			Color_v acc = (Color_v){0, 0, 0, 0};
+
+			// Gere SAMPLES_PER_PIXEL amostras e some no acc
+			for(int k = 0; k < SAMPLES_PER_PIXEL; k++)
+			{
+				std::pair<float,float> dxy = BlueNoise::noise(SAMPLES_PER_PIXEL, k);
+
+				const double r1 = dxy.first, r2 = dxy.second; 
+				
+				// faça uma amostra na posição i+dx, j+dy
+				Color_v sample = sample_image(pool, i + r1, j + r2, bg);
+
+				// acumule os valores em acc
+				acc.R += sample.R;
+				acc.G += sample.G;
+				acc.B += sample.B;
+				acc.A += sample.A;
+			}
+
+			Color_v out;
+			out.R = acc.R / SAMPLES_PER_PIXEL;
+			out.G = acc.G / SAMPLES_PER_PIXEL;
+			out.B = acc.B / SAMPLES_PER_PIXEL;
+			out.A = acc.A / SAMPLES_PER_PIXEL;
+
 			//Invert y axis and paint
 			int inv_i = surf->h - i - 1;
-			pixels[inv_i*surf->w + j] = Color::rgba_from_colorv(sample);
+			pixels[inv_i*surf->w + j] = Color::rgba_from_colorv(out);
 		}
 }
 
