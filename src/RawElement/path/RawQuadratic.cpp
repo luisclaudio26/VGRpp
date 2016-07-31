@@ -88,6 +88,8 @@ void RawQuadratic::preprocess(std::vector<Primitive*>& holder)
 		{
 			Quadratic *new_curve = new Quadratic;
 			cut_at(t[i], t[i-1], *new_curve);
+
+			holder.push_back(new_curve);
 		}
 
 	// Se tudo der certo nessa parte, vocÊ deverá ver um quadradinho
