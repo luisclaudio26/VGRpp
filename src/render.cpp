@@ -11,7 +11,7 @@ using Color::Color_v;
 
 using namespace std::chrono;
 
-#define SAMPLES_PER_PIXEL 32
+#define SAMPLES_PER_PIXEL 1
 
 //-------------------------------------------
 //----------------- INTERNAL ----------------

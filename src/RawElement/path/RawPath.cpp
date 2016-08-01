@@ -1,5 +1,8 @@
 #include "../../../inc/RawElement/path/RawPath.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
 
 void RawPath::push_primitive(RawPrimitive* prim) 
 {

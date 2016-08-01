@@ -4,19 +4,16 @@
 
 void Quadratic::setAABB()
 {
-	min.setX( p0.x() < p2.x() ? p0.x() : p2.x() );
-	min.setY( p0.y() < p2.y() ? p0.y() : p2.y() );
+	min.setX( std::min(p0.x(), p2.x()) );
+	min.setY( std::min(p0.y(), p2.y()) );
 
-	max.setX( p0.x() > p2.x() ? p0.x() : p2.x() );
-	max.setY( p0.y() > p2.y() ? p0.y() : p2.y() );
+	max.setX( std::max(p0.x(), p2.x()) );
+	max.setY( std::max(p0.y(), p2.y()) );
 }
 
 void Quadratic::setDY()
 {
-	int diff = p2.y() - p0.y();
-	if(diff > 0) dy = +1;
-	else if(diff < 0) dy = -1;
-	else dy = 0;
+	this->dy = Numeric::sign( this->p2.y() - this->p0.y() );
 }
 
 void Quadratic::recompute_param()
@@ -55,34 +52,25 @@ void Quadratic::transform(const Matrix3& t)
 
 int Quadratic::to_the_left(const Vec2& p) 
 {
-	if(min.y() <= p.y() && p.y() < max.y())
-	{
-		if(p.x() <= min.x()) return dy;
-		if(p.x() > max.x()) return 0;
+	//Bounding box test
+	if( p.y() >= max.y() || p.y() < min.y() ) return 0;
+	if( p.x() <= min.x()) return dy;
+	if( p.x() > max.x()) return 0;
 
-		// Comece verificando em que parâmetro t y(t) é igual
-		// a p.y(). Depois, ache x(t) e retorne +1/-1 se
-		// p.x() estiver à esquerda.
-		//
-		// Armazene x(t) em x_inter!
-		//
-		// Lembre que no cabeçalho inc/vector/numeric.h tem algumas funções
-		// que podem ser úteis. Verifique!
+	//compute intersection
+	double a = p0.y() - 2*p1.y() + p2.y();
+	double b = 2 * ( p1.y() - p0.y() );
+	double c = p0.y() - p.y();
 
-		double a = p0.y() - 2*p1.y() + p2.y();
-		double b = 2 * ( p1.y() - p0.y() );
-		double c = p0.y() - p.y();
+	double r1, r2;
+	Numeric::quadratic(a, b, c, r1, r2);
 
-		double r1, r2;
-		Numeric::quadratic(a, b, c, r1, r2);
+	//only the root in [0,1] interval matters! Monotonization guarantees
+	//that one and only one root exists in [0,1]
+	double t;
+	t = (0.0 <= r1 && r1 <= 1.0) ? r1 : r2;
 
-		double t;
-		if(0.0 <= r1 && r1 <= 1.0) t = r1;
-		else t = r2;
+	double x_inter = Numeric::bezier2_at(t, p0.x(), p1.x(), p2.x());
 
-		double x_inter = Numeric::bezier2_at(t, p0.x(), p1.x(), p2.x());
-
-		return (p.x() <= x_inter) ? dy : 0;
-	}
-	return 0;
+	return p.x() <= x_inter ? dy : 0;
 }

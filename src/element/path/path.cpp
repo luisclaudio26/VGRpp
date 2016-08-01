@@ -1,5 +1,9 @@
 #include "../../../inc/element/path/path.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 //Applies transformation to all primitives in path
 void Path::transform_primitives()
 {

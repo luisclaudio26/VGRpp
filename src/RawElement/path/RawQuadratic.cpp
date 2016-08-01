@@ -1,6 +1,9 @@
 #include "../../../inc/RawElement/path/RawQuadratic.h"
 
 #include <algorithm>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 void RawQuadratic::cut_at(double t0, double t1, Quadratic& out)
 {
@@ -88,6 +91,8 @@ void RawQuadratic::preprocess(std::vector<Primitive*>& holder)
 		{
 			Quadratic *new_curve = new Quadratic;
 			cut_at(t[i], t[i-1], *new_curve);
+
+			//cout<<new_curve->prim2str()<<endl;
 
 			holder.push_back(new_curve);
 		}
