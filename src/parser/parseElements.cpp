@@ -79,17 +79,22 @@ RawShape* ParseElement::parsePath(std::string data)
 	RawPath *out = new RawPath();
 	Vec2 first(-1, -1);
 
-	//Read until we find a closing element Z
 	ss>>buffer;
 	while( !ss.eof() )
 	{
 		if(!buffer.compare("M"))
 		{
+			// Move instruction; just sets
+			// current position in (x,y). Also, sets
+			// the first element to the this one, 'cause
+			// we're effectively disconnecting path and
+			// this is the first point of the new disconnected
+			// part
 			double x, y;
 			ss>>x>>y;
 			current.setX(x); current.setY(y);
 
-			if(first.x() == -1) first = current;
+			first = current;
 		}
 		else if(!buffer.compare("L"))
 		{	
@@ -137,6 +142,8 @@ RawShape* ParseElement::parsePath(std::string data)
 		{
 			//Close contour
 			out->push_primitive( new RawLine(current, first) );
+
+			current = first;
 		}
 
 		//Get next instruction
