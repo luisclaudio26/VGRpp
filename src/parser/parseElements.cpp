@@ -81,7 +81,7 @@ RawShape* ParseElement::parsePath(std::string data)
 
 	//Read until we find a closing element Z
 	ss>>buffer;
-	while( buffer.compare("Z") )
+	while( !ss.eof() )
 	{
 		if(!buffer.compare("M"))
 		{
@@ -133,13 +133,15 @@ RawShape* ParseElement::parsePath(std::string data)
 
 			current = p2;
 		}
+		else if(!buffer.compare("Z"))
+		{
+			//Close contour
+			out->push_primitive( new RawLine(current, first) );
+		}
 
 		//Get next instruction
 		ss>>buffer;
 	}
-
-	//Close contour
-	out->push_primitive( new RawLine(current, first) );
 
 	return out;
 }
