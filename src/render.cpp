@@ -234,6 +234,9 @@ void Render::run()
 	//get events, skip if user quitted
 	while( !this->handle_input() );
 
+	//save image to file
+	SDL_SaveBMP( window, "out.bmp");
+
 	//clean everything
 	SDL_Quit();
 }
