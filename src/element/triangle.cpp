@@ -12,18 +12,9 @@
 //---------------------------------------
 void compute_implicit_line(const Vec2& p0, const Vec2& p1, double* coef)
 {
-	// Aqui você calcula a, b e c para a equação de forma
-	// ax+by+c = 0 que passa por p0 e p1.
-
-	//Vetor que vai de p0 até p1
-	Vec2 v = p1 - p0;
-
-	//Vetor ortogonal a v
-	Vec2 v_ort( -v.y(), v.x() );
-
-	double a = v_ort.x();
-	double b = v_ort.y();
-	double c = -v_ort.dot(p0);
+	double a = p1.y() - p0.y();
+	double b = p0.x() - p1.x();
+	double c = - a*p0.x() - b*p0.y();
 
 	coef[0] = a;
 	coef[1] = b;
@@ -54,13 +45,15 @@ bool Triangle::is_inside(double x, double y)
 	// (definindo onde o segmento reta "começa" e "termina")
 	// em sentido horário/anti-horário, o ponto vai estar à
 	// à direita ou à esquerda de todas as retas ao mesmo tempo.
+	//Bounding box test
+	if( y >= max.y() || y < min.y() ) return false;
+	if( x <= min.x() || x > max.x() ) return false;
 
 	double line1 = edge[0]*x + edge[1]*y + edge[2];
 	double line2 = edge[3]*x + edge[4]*y + edge[5];
 	double line3 = edge[6]*x + edge[7]*y + edge[8];
 
-	return Numeric::sign(line1) == Numeric::sign(line2) &&
-			Numeric::sign(line2) == Numeric::sign(line3);
+	return (Numeric::d_equal(line1,0.0) || Numeric::sign(line1) == Numeric::sign(line2)) && Numeric::sign(line2) == Numeric::sign(line3);
 }
 
 void Triangle::set_modelxf(const Matrix3& model_xf)
@@ -113,4 +106,11 @@ void Triangle::implicitize()
 	compute_implicit_line(p0_t, p1_t, edge);
 	compute_implicit_line(p1_t, p2_t, &edge[3]);
 	compute_implicit_line(p2_t, p0_t, &edge[6]);
+
+	// Compute também a caixa envoltória
+	this->min.setX( std::min( p0_t.x(), std::min(p1_t.x(), p2_t.x()) ) );
+	this->min.setY( std::min( p0_t.y(), std::min(p1_t.y(), p2_t.y()) ) );
+
+	this->max.setX( std::max( p0_t.x(), std::max(p1_t.x(), p2_t.x()) ) );
+	this->max.setY( std::max( p0_t.y(), std::max(p1_t.y(), p2_t.y()) ) );
 }

@@ -17,6 +17,9 @@ private:
 	double edge[9];
 	void implicitize();
 
+	//bounding box
+	Vec2 min, max;
+
 public:
 	Triangle() { }
 	Triangle(const Vec2& p0, const Vec2& p1, const Vec2& p2);
