@@ -12,13 +12,16 @@ private:
 	Vec2 p0, p1, p2;
 	Matrix3 model_xf;
 
-	//Implicit equation coef for each edge. A 3x3 matrix
-	//stored in a 9-element vector
-	double edge[9];
-	void implicitize();
+	//these points have always the same value
+	Vec2 _p0, _p1, _p2;
 
 	//bounding box
 	Vec2 min, max;
+
+	//orientation
+	bool clockwise;
+	
+	void transform_vertices();
 
 public:
 	Triangle() { }

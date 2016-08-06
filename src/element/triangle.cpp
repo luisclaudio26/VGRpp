@@ -3,35 +3,18 @@
 
 #include <iostream>
 
-// Lembre-se que podemos desenhar o triângulo com os pontos
-// "existindo" no espaço da tela, i.e. aplicando xf e depois scene_xf
-// aos vértices e depois desenhando.
-
-//---------------------------------------
-//-------------- INTERNAL ---------------
-//---------------------------------------
-void compute_implicit_line(const Vec2& p0, const Vec2& p1, double* coef)
-{
-	double a = p1.y() - p0.y();
-	double b = p0.x() - p1.x();
-	double c = - a*p0.x() - b*p0.y();
-
-	coef[0] = a;
-	coef[1] = b;
-	coef[2] = c;
-}
-
 //----------------------------------------------
 //-------------- FROM TRIANGLE.h ---------------
 //----------------------------------------------
 Triangle::Triangle(const Vec2& p0, const Vec2& p1, const Vec2& p2)
 {
-	this->p0 = p0;
-	this->p1 = p1;
-	this->p2 = p2;
+	this->_p0 = p0;
+	this->_p1 = p1;
+	this->_p2 = p2;
 
-	//Compute implicit equation for each edge
-	implicitize();
+	this->clockwise = false;
+
+	this->transform_vertices();
 }
 
 bool Triangle::is_inside(double x, double y)
@@ -46,14 +29,17 @@ bool Triangle::is_inside(double x, double y)
 	// em sentido horário/anti-horário, o ponto vai estar à
 	// à direita ou à esquerda de todas as retas ao mesmo tempo.
 	//Bounding box test
-	if( y >= max.y() || y < min.y() ) return false;
-	if( x <= min.x() || x > max.x() ) return false;
+	//if( y >= max.y() || y < min.y() ) return false;
+	//if( x <= min.x() || x > max.x() ) return false;
 
-	double line1 = edge[0]*x + edge[1]*y + edge[2];
-	double line2 = edge[3]*x + edge[4]*y + edge[5];
-	double line3 = edge[6]*x + edge[7]*y + edge[8];
+	double d = (p1.y()-p2.y())*(p0.x()-p2.x()) + (p2.x()-p1.x())*(p0.y()-p2.y());
+	
+	double l1 = (p1.y()-p2.y())*(x-p2.x()) + (p2.x()-p1.x())*(y-p2.y()); l1 /= d;
+	double l2 = (p2.y()-p0.y())*(x-p2.x()) + (p0.x()-p2.x())*(y-p2.y()); l2 /= d;
+	
+	double l3 = 1 - l1 - l2;
 
-	return (Numeric::d_equal(line1,0.0) || Numeric::sign(line1) == Numeric::sign(line2)) && Numeric::sign(line2) == Numeric::sign(line3);
+	return clockwise ? (l1 > 0 && l2 > 0 && l3 > 0) : (l1 >= 0 && l2 >= 0 && l3 >= 0);
 }
 
 void Triangle::set_modelxf(const Matrix3& model_xf)
@@ -61,7 +47,7 @@ void Triangle::set_modelxf(const Matrix3& model_xf)
 	//Cada vez que a gente muda a transformação do MODELO, temos que
 	//recalcular onde os pontos estarão na tela.
 	this->model_xf = model_xf;
-	implicitize();
+	this->transform_vertices();
 }
 
 void Triangle::set_scenexf(const Matrix3& scene_xf)
@@ -69,48 +55,29 @@ void Triangle::set_scenexf(const Matrix3& scene_xf)
 	//Cada vez que a gente muda a transformação da CENA, temos
 	//que recalcular onde os pontos estarão na tela.
 	this->scene_xf = scene_xf;
-	implicitize();
+	this->transform_vertices();
 }
 
-void Triangle::implicitize()
+void Triangle::transform_vertices()
 {
-	// Para o primeiro laboratório, ignore o texto abaixo e pule direto
-	// para a função compute_implicit_line().
-	//
-	// ---------------------------------------------------------------
-	//
-	// Aqui você deve aplicar a transformação do modelo
-	// aos vértices, depois a transformação da cena
-	//
-	// Não esqueça que as transformações são matrizes 3x3
-	// e portanto devem ser aplicados a pontos HOMOGÊNEOS,
-	// que depois são "convertidos" de volta para pontos euclidianos.
-	//
-	// Lembre-se de não transformar os pontos p0, p1, p2 diretamente,
-	// pois se mudamos a transformação scene_xf ou model_xf precisaremos
-	// "lembrar" onde os pontos estavam originalmente (isto é, precisamos
-	// saber as coordenadas dos pontos tal como foram definidos no arquivo .2d)
-	
 	Matrix3 T = scene_xf * model_xf;
 
-	Vec2 p0_t = T.apply( p0.homogeneous() ).euclidean();
-	Vec2 p1_t = T.apply( p1.homogeneous() ).euclidean();
-	Vec2 p2_t = T.apply( p2.homogeneous() ).euclidean();
-
-	// Uma vez que os pontos foram transformados, podemos
-	// calcular a equação implícita para cada uma das arestas.
-	// No cabeçalho triangle.h nós definimos um vetor double edge[9],
-	// que deverá armazenar os três parâmetros (a, b, c, de ax + by + c = 0)
-	// de cada uma das três arestas.
-
-	compute_implicit_line(p0_t, p1_t, edge);
-	compute_implicit_line(p1_t, p2_t, &edge[3]);
-	compute_implicit_line(p2_t, p0_t, &edge[6]);
+	this->p0 = T.apply( this->_p0.homogeneous() ).euclidean();
+	this->p1 = T.apply( this->_p1.homogeneous() ).euclidean();
+	this->p2 = T.apply( this->_p2.homogeneous() ).euclidean();
 
 	// Compute também a caixa envoltória
-	this->min.setX( std::min( p0_t.x(), std::min(p1_t.x(), p2_t.x()) ) );
-	this->min.setY( std::min( p0_t.y(), std::min(p1_t.y(), p2_t.y()) ) );
+	this->min.setX( std::min( p0.x(), std::min(p1.x(), p2.x()) ) );
+	this->min.setY( std::min( p0.y(), std::min(p1.y(), p2.y()) ) );
 
-	this->max.setX( std::max( p0_t.x(), std::max(p1_t.x(), p2_t.x()) ) );
-	this->max.setY( std::max( p0_t.y(), std::max(p1_t.y(), p2_t.y()) ) );
+	this->max.setX( std::max( p0.x(), std::max(p1.x(), p2.x()) ) );
+	this->max.setY( std::max( p0.y(), std::max(p1.y(), p2.y()) ) );
+
+	// verifique se o triângulo está no sentido horário ou anti-horário
+	double e[] = {	1, p0.x(), p0.y(), 
+					1, p1.x(), p1.y(), 
+					1, p2.x(), p2.y()	};
+	double det = Matrix3(e).det();
+
+	this->clockwise = det < 0;
 }
