@@ -103,6 +103,14 @@ Matrix3 Matrix3::inv() const {
 	return Matrix3(out);
 }
 
+double Matrix3::det() const {
+	double sd1 = e_[4]*e_[8] - e_[7]*e_[5];
+	double sd2 = e_[3]*e_[8] - e_[5]*e_[6];
+	double sd3 = e_[3]*e_[7] - e_[4]*e_[6];
+
+	return e_[0]*sd1 - e_[1]*sd2 + e_[2]*sd3;
+}
+
 Matrix3 Matrix3::transpose() const {
 	double out[] = {e_[0], e_[3], e_[6],
 					e_[1], e_[4], e_[7],

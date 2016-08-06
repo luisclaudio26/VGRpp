@@ -28,6 +28,7 @@ public:
 	Matrix3 operator*(double s) const;
 	Matrix3 inv() const;
 	Matrix3 transpose() const;
+	double det() const;
 
 	//---------------------------------------------
 	//----------- Matrix constructors -------------
